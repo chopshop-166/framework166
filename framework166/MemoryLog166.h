@@ -12,8 +12,8 @@
 
 #if !defined(_MEMORYLOG166_H)
 #define _MEMORYLOG166_H
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 
 //
 // This class defines an interface to logging to memory and then into

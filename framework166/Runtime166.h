@@ -34,22 +34,22 @@ class Runtime166 {
 	vector<float> loop_times;
 	//! How many times to keep track of
 	int limit;
+	char* r;
 	
 public:
-	Runtime166();
 	/**
 	 * Makes a new instance of Runtime166.
 	 * @param limit How many loop times to keep track of before unshifting the old ones
 	 */
-	Runtime166(int limit);
-	/**
-	 * Starts tracking time.
-	 */
-	void Stop();
+	Runtime166(int limit = 50);
 	/**
 	 * Starts tracking time.
 	 */
 	void Start();
+	/**
+	 * Starts tracking time.
+	 */
+	void Stop();
 	/**
 	 * Generates statistics based on the times designed by stop and start.
 	 */

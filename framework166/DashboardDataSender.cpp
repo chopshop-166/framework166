@@ -170,7 +170,7 @@ void DashboardDataSender::sendIOPortData(void) {
 		}
 		dash.FinalizeCluster();
 
-		// Can't read solenoids without an instance of the object
+		// Get the solenoids as an 8-bit int
 		dash.AddCluster();
 		{
 			solBuf = 0;
@@ -180,14 +180,7 @@ void DashboardDataSender::sendIOPortData(void) {
 			dash.AddU8(solBuf);
 		}
 		dash.FinalizeCluster();
-		dash.AddFloat(proxy->GetPressure());
-		dash.AddI32(proxy->GetInclinometer());
-		dash.AddFloat(proxy->GetBallControlSpeed());
-		dash.AddFloat(proxy->GetSonarDistance());
-		dash.AddBoolean(proxy->GetBanner());
-		dash.AddFloat(proxy->GetCurrent(T166_LEFT_MOTOR_CAN));
-		dash.AddFloat(proxy->GetCurrent(T166_RIGHT_MOTOR_CAN));
-		dash.AddFloat(proxy->GetCurrent(T166_LIFT_MOTOR_CAN));
+		// Add anything specific you want to send, like stuff from the proxy, here 
 	}
 	dash.FinalizeCluster();
 	dash.Finalize();

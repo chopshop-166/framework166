@@ -13,9 +13,9 @@
 #if !defined(_TEAM166TASK_H)
 #define _TEAM166TASK_H
 #include "WPILib.h"
-#include <math.h>
+#include <cmath>
 #include <sysLib.h>
-#include "T166Defines.h"
+#include "Defines.h"
 
 //
 // task (as in kernel task)

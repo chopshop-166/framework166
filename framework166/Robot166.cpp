@@ -14,20 +14,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdio.h>
+#include <cstdio>
 #include "WPILib.h"
-#include "Team166Task.h"
-#include "Kicker166.h"
-#include "LiftCan166.h"
-#include "Banner166.h"
-#include "Sonar166.h"
-#include "RobotCamera166.h"
-#include "CANDrive166.h"
-#include "HealthMon166.h"
-#include "Inclinometer.h"
-#include "Pneumatics166.h"
-#include "BallControl.h"
-#include "DashboardDataSender.h"
+#include "Autonomous166.h"
+#include "Robot166.h"
+#include "Includes.h"
 
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
@@ -35,22 +26,10 @@
 // List of tasks that have requested to come up
 Team166Task *Team166Task::ActiveTasks[T166_MAXTASK + 1] = {0};
 
+// This task has to always be started first or the system will crash
+Proxy166 Team166ProxyObject;
 // Declare external tasks
-Proxy166 Team166ProxyObject; // This task has to always be started first or it'll error
-#if (!UsingSuitcase)
-	#if UsingCan
-		Team166CANDrive Team166CANDriveObject;
-		Team166LiftCan Team166LiftCanObject;
-		Team166BallControl Team166BallControlObject;
-	#endif
-	Team166Kicker Team166KickerObject;
-	Team166Banner Team166BannerObject;
-	Team166Inclinometer Team166InclinometerObject;
-	Pneumatics166 Team166PneumaticsObject;
-#endif
-#if UsingCamera
-	Team166Vision Team166VisionObject;
-#endif
+
 
 // This links to the single instance of the Robot task
 class Robot166;
@@ -158,8 +137,6 @@ void Robot166::Disabled(void)
 void Robot166::OperatorControl(void)
 {
 	int has_been_disabled = 0;
-	int joystickImageCount = 0;
-	char imageName[80]; 
 	
 	Timer debugTimer;
 	debugTimer.Start();
@@ -177,7 +154,7 @@ void Robot166::OperatorControl(void)
 		// Are we being disabled?
 		if (IsDisabled()) {
 			if (!has_been_disabled) {
-				has_been_disabled = 1;
+				has_been_disabled = true;
 				DriverStationDisplay("Dumping Memory Log...");
 			    printf("Dumping log files...\n");
 			    DumpLoggers(maxLogId);
@@ -186,23 +163,14 @@ void Robot166::OperatorControl(void)
 			}
 			Wait (ROBOT_WAIT_TIME);
 			continue;
+		} else {
+			has_been_disabled = false;
 		}
 		
 		// Each task needs to update for us to feed the watch dog.
 		if (Team166Task::FeedWatchDog())
 		    GetWatchdog().Feed();
 		
-		// take a picture 
-		if (Team166ProxyObject.GetButton(T166_DRIVER_STICK_LEFT,T166_CAMERA_BUTTON1) 
-				or Team166ProxyObject.GetButton(T166_DRIVER_STICK_LEFT,T166_CAMERA_BUTTON2)
-			    or Team166ProxyObject.GetButton(T166_DRIVER_STICK_RIGHT,T166_CAMERA_BUTTON1) 
-			    or Team166ProxyObject.GetButton(T166_DRIVER_STICK_RIGHT,T166_CAMERA_BUTTON2)
-			    or Team166ProxyObject.GetButton(T166_COPILOT_STICK,T166_CAMERA_BUTTON1) 
-			    or Team166ProxyObject.GetButton(T166_COPILOT_STICK,T166_CAMERA_BUTTON2))
-		{
-			sprintf(imageName, "166_joystick_img_%03i.png", ++joystickImageCount);
-			TakeSnapshot(imageName);
-		}
 		sender->sendIOPortData();
 		Wait (ROBOT_WAIT_TIME);
 		dsHandleLCD->UpdateLCD();
@@ -263,91 +231,51 @@ int Robot166::DriverStationDisplay(char* dsTextString)
 	static char *string2;
 	static char *string3;
 	static char *string4;
+	static char *string5;
+	static char *string6;
 	static bool init=true;
 	if(init) {
 		//Initializes it first call.
+#define DASHBOARD_BLANK_SPACES ("                                           ")
 		string1=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string1,"                                           ",DASHBOARD_BUFFER_MAX);
+		strncpy(string1, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
 		string2=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string2,"                                           ",DASHBOARD_BUFFER_MAX);
+		strncpy(string2, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
 		string3=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string3,"                                           ",DASHBOARD_BUFFER_MAX);
+		strncpy(string3, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
 		string4=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string4,"                                           ",DASHBOARD_BUFFER_MAX);
+		strncpy(string4, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
+		string5=new char [DASHBOARD_BUFFER_MAX];
+		strncpy(string5, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
+		string6=new char [DASHBOARD_BUFFER_MAX];
+		strncpy(string6, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
 		init=false;
+#undef DASHBOARD_BLANK_SPACES
 	}
 	
 	//Clears the current values on the Dashboard.
-	
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,"                     ");
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,"                     ");
 	dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,"                     ");
 	dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,"                     ");
 	dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,"                     ");
 	dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,"                     ");
 
 	//Clears line to make room for next output.
+	strncpy(string6,string5,DASHBOARD_BUFFER_MAX);
+	strncpy(string5,string4,DASHBOARD_BUFFER_MAX);
 	strncpy(string4,string3,DASHBOARD_BUFFER_MAX);
 	strncpy(string3,string2,DASHBOARD_BUFFER_MAX);
 	strncpy(string2,string1,DASHBOARD_BUFFER_MAX);
 	strncpy(string1,dsTextString,DASHBOARD_BUFFER_MAX);
 	
 	//Outputs each line back onto the station.
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,string1);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,string2);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,string3);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,string4);
-	dsHandleLCD->UpdateLCD();
-	return 0;
-}
-
-/**
- * Send text to DS LCD display
- */
-int Robot166::DriverStationDisplayHS(char* dsTextString)
-{ 
-	static char *string1;
-	static bool init=true;
-	if(init) {
-		//Initializes it first call.
-		string1=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string1,"                                           ",DASHBOARD_BUFFER_MAX);
-		init=false;
-	}
-	
-	//Clears the current values on the Dashboard.
-	
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,"                     ");
-
-	//Clears line to make room for next output.
-	strncpy(string1,dsTextString,DASHBOARD_BUFFER_MAX);
-	
-	//Outputs each line back onto the station.	
 	dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,string1);
-	dsHandleLCD->UpdateLCD();
-	return 0;
-}
-
-/**
- * Send text to DS LCD display
- */
-int Robot166::DriverStationDisplayHSData(char* dsTextString)
-{ 
-	static char *str;
-	static bool init=true;
-	if(init) {
-		//Initializes it first call.
-		str=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(str,"                                           ",DASHBOARD_BUFFER_MAX);
-		init=false;
-	}
-	
-	//Clears the current values on the Dashboard.
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,"                     ");
-
-	//Puts new values into the string
-	strncpy(str,dsTextString,DASHBOARD_BUFFER_MAX);
-	
-	//Outputs each line back onto the station.	
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,str);
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,string2);
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,string3);
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,string4);
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,string5);
+	dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,string6);
 	dsHandleLCD->UpdateLCD();
 	return 0;
 }

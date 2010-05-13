@@ -11,8 +11,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "WPILib.h"
-#include "Team166Task.h"
-#include "Proxy166.h"
 #include "TaskTemplate.h"
 
 // To locally enable debug printing: set true, to disable false
@@ -69,7 +67,8 @@ unsigned int TemplateLog::DumpBuffer(char *nptr, FILE *ofile)
 	fprintf(ofile, "%u,%u,%4.5f\n",
 			ab->tp.tv_sec, ab->tp.tv_nsec,
 			((ab->tp.tv_sec - starttime.tv_sec) + ((ab->tp.tv_nsec-starttime.tv_nsec)/1000000000.))
-	); // Add values here
+			// Add values here
+	);
 	
 	// Done
 	return (sizeof(struct abuf166));
@@ -80,6 +79,7 @@ unsigned int TemplateLog::DumpBuffer(char *nptr, FILE *ofile)
 Template166::Template166(void)
 {
 	Start((char *)"166TemplateTask", TEMPLATE_CYCLE_TIME);
+	// ^^^ Rename those ^^^
 	return;
 };
 	

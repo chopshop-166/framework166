@@ -9,17 +9,17 @@
 /*----------------------------------------------------------------------------*/
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
+#ifndef _PROXY166_H
+#define _PROXY166_H
+
+#include "WPILib.h"
 #include "Utility.h"
 #include "Team166Task.h"
 #include "Vision/AxisCamera.h"
-
 #include "AxisCamera.h" 
 #include "FrcError.h"
 #include "PCVideoServer.h"
 #include "nivision.h" 
-
-#ifndef _PROXY166_H
-#define _PROXY166_H
 
 #define NUMBER_OF_JOYSTICKS (4)
 #define NUMBER_OF_SWITCHES (10)
@@ -97,35 +97,7 @@ class Proxy166 : public Team166Task {
 		void SetImage(ColorImage *);
 		void DeleteImage(void);
 
-		// Set/Get methods for sonar distance
-		void SetSonarDistance(float);
-		float GetSonarDistance(void);
-		
-		// Proxy access for Ball captured
-		void SetBallCap(bool);
-		bool GetBallCap();
-		
-		// Proxy access for banner sensor
-		void SetBanner(bool);
-		bool GetBanner(void);
-		
-		// Proxy access for inclinometer
-		void SetInclinometer(int);
-		int GetInclinometer(void);
-
-		// Set/Get methods for pneumatic pressure
-		void SetPressure(float);
-		float GetPressure(void);
-		
-		// Proxy access for Jaguar current
-		void SetCurrent(int, float);
-		float GetCurrent(int);
-		
-		// Proxy access for ball control speed
-		void SetBallControlSpeed(float);
-		float GetBallControlSpeed(void);
-		
-		// Proxy access for ball control speed
+		// Proxy access for battery voltage
 		void SetBattery(float);
 		float GetBattery(void);
 

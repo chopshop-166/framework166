@@ -11,16 +11,17 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Runtime166.h"
-#include <math.h>
+#include <cmath>
 #include <string>
 using namespace std;
 
-Runtime166::Runtime166() {
-	limit = 50; // Default to 50.
-}
-
 Runtime166::Runtime166(int lim) {
 	limit = lim;
+	r = new char[500]; // Returned string
+}
+
+void Runtime166::Start() {
+	t.Start();
 }
 
 void Runtime166::Stop() {
@@ -34,18 +35,14 @@ void Runtime166::Stop() {
 	}
 }
 
-void Runtime166::Start() {
-	t.Start();
-}
-
 unsigned int Runtime166::Loops() {
 	return loop_times.size();
 }
 
 char* Runtime166::GetStats() {
-	if(loop_times.size() == 0)
+	if(loop_times.size() == 0) {
 		return "";
-	char* r = new char[500]; // Returned string
+	}
 	
 	vector<float>::iterator it = loop_times.begin(); 
 	float max = *it;
@@ -76,5 +73,5 @@ char* Runtime166::GetStats() {
 }
 
 void Runtime166::Reset() {
-	loop_times.erase(loop_times.begin(), loop_times.end());
+	loop_times.clear();
 }

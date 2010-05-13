@@ -12,91 +12,13 @@
 
 #include <semLib.h>
 #include "wpilib.h"
-#include "Proxy166.h"
 #include "Robot166.h"
-#include "Runtime166.h"
 
 // Enable proxy logging?
 #define LoggingProxy (0)
 
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
-
-#if LoggingProxy
-// Sample in memory buffer
-struct abuf166
-{
-	struct timespec tp;					// Time of snapshot
-	ProxyJoystick joy[3];				// current value
-	float battery;						// Battery value
-};
-
-//  Memory Log
-class ProxyLog : public MemoryLog166
-{
-public:
-	ProxyLog() : MemoryLog166(
-			sizeof(struct abuf166), PROXY_CYCLE_TIME, "proxy",
-			"Seconds,Nanoseconds,Elapsed Time,"
-			"Battery,"
-			"Joy1 X,Joy1 Y,Joy1 Z,Joy1 Throttle,"
-			"Joy1 Trigger,Joy1 Button 2,Joy1 Button 3,Joy1 Button 4,Joy1 Button 5,Joy1 Button 6,"
-			"Joy1 Button 7,Joy1 Button 8,Joy1 Button 9,Joy1 Button 10,Joy1 Button 11,Joy1 Button 12,"
-			"Joy2 X,Joy2 Y,Joy2 Z,Joy2 Throttle,"
-			"Joy2 Trigger,Joy2 Button 2,Joy2 Button 3,Joy2 Button 4,Joy2 Button 5,Joy2 Button 6,"
-			"Joy2 Button 7,Joy2 Button 8,Joy2 Button 9,Joy2 Button 10,Joy2 Button 11,Joy2 Button 12,"
-			"Joy3 X,Joy3 Y,Joy3 Z,Joy3 Throttle,"
-			"Joy3 Trigger,Joy3 Button 2,Joy3 Button 3,Joy3 Button 4,Joy3 Button 5,Joy3 Button 6,"
-			"Joy3 Button 7,Joy3 Button 8,Joy3 Button 9,Joy3 Button 10,Joy3 Button 11,Joy3 Button 12\n"
-			) {
-		return;
-	};
-	~ProxyLog() {return;};
-	unsigned int DumpBuffer(          // Dump the next buffer into the file
-			char *nptr,               // Buffer that needs to be formatted
-			FILE *outputFile);        // and then stored in this file
-	unsigned int PutOne(float battery, ProxyJoystick joy1, ProxyJoystick joy2, ProxyJoystick joy3);     // Log values
-};
-
-// Write one buffer into memory
-unsigned int ProxyLog::PutOne(float battery, ProxyJoystick joy1, ProxyJoystick joy2, ProxyJoystick joy3)
-{
-	struct abuf166 *ob;               // Output buffer
-	
-	// Get output buffer
-	if ((ob = (struct abuf166 *)GetNextBuffer(sizeof(struct abuf166)))) {
-		// Fill it in.
-		clock_gettime(CLOCK_REALTIME, &ob->tp);
-		ob->battery = battery;
-		ob->joy[1] = joy1;
-		ob->joy[2] = joy2;
-		ob->joy[3] = joy3;
-		return (sizeof(struct abuf166));
-	}	
-	// Did not get a buffer. Return a zero length
-	return (0);
-}
-
-// Format the next buffer for file output
-unsigned int ProxyLog::DumpBuffer(char *nptr, FILE *ofile)
-{
-	struct abuf166 *ab = (struct abuf166 *)nptr;	
-	// Output the data into the file
-	fprintf(ofile, "%u,%u,%4.5f,%2.2f",
-			ab->tp.tv_sec, ab->tp.tv_nsec,
-			((ab->tp.tv_sec - starttime.tv_sec) + ((ab->tp.tv_nsec-starttime.tv_nsec)/1000000000.)),
-			ab->battery);
-	for(int i=0;i<3;i++) {
-		fprintf(ofile, ",%f,%f,%f,%f",
-				ab->joy[i].X, ab->joy[i].Y, ab->joy[i].Z, ab->joy[i].throttle);
-		for(int j=0;j<NUMBER_OF_JOY_BUTTONS;j++) {
-			fprintf(ofile, ",%u", ab->joy[i].button[j]);
-		}
-	}
-	fprintf(ofile, "\n");
-	return (sizeof(struct abuf166));
-}
-#endif
 
 /**
  * @brief Initializes the joystick axes to 0 and the buttons to unset.
@@ -212,9 +134,6 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 			}
 		}
 		SetBattery(lHandle->GetBatteryVoltage());
-#if LoggingProxy
-		sl.PutOne(Battery, GetJoystick(1), GetJoystick(2), GetJoystick(3));
-#endif
 		// The task ends if it's not initialized
 		WaitForNextLoop();
 	}
@@ -423,53 +342,6 @@ float Proxy166::GetThrottle(int joy_id) {
 	//semGive(JoystickLocks[switch_id]);
 }
 
-
-/**
- * @brief Set distance from sonar object in front of it
- * @param Distance in inches
- */
-void Proxy166::SetSonarDistance(float dist) {
-	SonarDistance = dist;
-}
-
-/**
- * @brief Obtain distance seen by the sonar task
- */
-float Proxy166::GetSonarDistance(void) {
-	return SonarDistance;
-}
-
-
-/**
- * @brief Set distance from sonar object in front of it
- * @param Distance in inches
- */
-void Proxy166::SetBattery(float battery) {
-	Battery = battery;
-}
-
-/**
- * @brief Obtain distance seen by the sonar task
- */
-float Proxy166::GetBattery(void) {
-	return Battery;
-}
-
-/** 
- *@brief Set Whether ball is captured
- *@param ballcap is ball captured
- */
-void Proxy166::SetBallCap(bool ballcap)
-{
-	BallCaptured = ballcap;
-}
-/**
- *@brief Get whether or not ball is captured
- */
-bool Proxy166::GetBallCap()
-{
-	return BallCaptured;
-}
 /**
  * @brief Sets the cache value of the trigger (button 1) on a joystick.
  * @param joy_id Which joystick to set the trigger status for.
@@ -493,84 +365,6 @@ bool Proxy166::GetTrigger(int joy_id, bool reset) {
 		SetButton(joy_id, 1, 0);
 	}
 	return bid;
-}
-
-/**
- * @brief Sets the cache value of the banner sensor.
- * @param newval What to set the value to.
- */
-void Proxy166::SetBanner(bool newval) { 
-	Banner = newval; 
-}
-/**
- * @brief Gets the cache value of the banner sensor. 
- * @return The last value set by the banner sensor task
- */
-bool Proxy166::GetBanner() { 
-	return Banner; 
-}
-/**
- * @brief Initializes semaphores for joysticks and switches, and starts the Proxy166 task.
- */
-void Proxy166::SetInclinometer(int newval) { 
-	Inclinometer = newval; 
-}
-/**
- * @brief Gets the cache value of the Inclinometer.
- * @return The last value set by the Inclinometer task.
- */
-int Proxy166::GetInclinometer() { 
-	return Inclinometer; 
-}
-
-/**
- * @brief Set pneumatic air pressure
- * @param pressure Pressure
- */
-void Proxy166::SetPressure(float pressure) {
-	PneumaticPressure = pressure;
-}
-
-/**
- * @brief Obtain pneumatic pressure
- */
-float Proxy166::GetPressure(void) {
-	return PneumaticPressure;
-}
-
-/**
- * @brief Sets Jaguar Current
- * @param Jaguar id
- * @param Jaguar output voltage
- */
-void Proxy166::SetCurrent(int id, float current)
-{
-	Current[id] = current;
-}
-/**
- * @brief Gets Jaguar Current
- * @param Jaguar id
- */
-float Proxy166::GetCurrent(int id)
-{
-	return Current[id];
-}
-
-/**
- * @brief Sets Ball Control speed
- * @param speed
- */
-void Proxy166::SetBallControlSpeed(float speed)
-{
-	BallControlSpeed = speed;
-}
-
-/**
- * @brief Gets Ball Control speed
- */
-float Proxy166::GetBallControlSpeed(void)
-{
-	return BallControlSpeed;
 }
 
 /**

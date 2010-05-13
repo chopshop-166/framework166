@@ -1,4 +1,3 @@
-
 /********************************************************************************
 *  Project   		: Chopshop 2009
 *  File Name  		: Team166Task.h          
@@ -6,7 +5,10 @@
 *  Creation Date 	: February 6, 2008
 *  Revision History	: Source code & revision history maintained at code.google.com    
 *  File Description	: This file defines the high level and shared context for a Team 166
-*/
+*******************************************************************************/ 
+/*----------------------------------------------------------------------------*/
+/*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
+/*----------------------------------------------------------------------------*/
 
 #include "WPILib.h"
 #include "Robot166.h"
