@@ -246,7 +246,7 @@ int Team166Task::IfUp(void)
 };
 
 /**
- * @brief Prints out which tasks aer not feeding the watchdog.
+ * @brief Prints out which tasks are not feeding the watchdog.
  */
 void Team166Task::PrintStats(void) {
 	int last_id = 0;
@@ -271,7 +271,7 @@ void Team166Task::PrintStats(void) {
 		printf("\n");
 }
 /**
- * Prints out a list of tasks that have no tinitialized.
+ * Prints out a list of tasks that have not initialized.
  */
 void Team166Task::PrintInactive(void) {
 	int last_id = 0;

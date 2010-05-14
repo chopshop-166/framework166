@@ -153,20 +153,9 @@ class Proxy166 : public Team166Task {
 		Joystick driveStickLeft;      // joy stick for driving
 		Joystick driveStickCopilot;	  // Camera / copilot joy stick
 		
-		// proxy storage for banner sensor value
-		bool Banner;
-		
-		//proxy storage for inclinometer value
-		int Inclinometer;
-
-		// Distance in inches to the object in front of the sonar
-		float SonarDistance;
-		
 		// Battery level
 		float Battery;
 		
-		//proxy storage for Ball captured
-		bool BallCaptured;
 		
 		// Proxy storage for jaguar output current
 		float Current[T166_NUM_JAGS];
@@ -176,14 +165,9 @@ class Proxy166 : public Team166Task {
 
 		float CameraScoreX;
 		bool VisionStatus;
-
-		// Proxy storage for the pneumatic pressure
-		float PneumaticPressure;
 		
 		bool areSettingJoysticks;
 		
-		// Ball Control Speed (changed via the throttle)
-		float BallControlSpeed;
 };
 
 #endif

@@ -47,10 +47,7 @@ Proxy166 *Proxy166::ProxyHandle = 0;
 Proxy166::Proxy166(void):
 	driveStickRight(T166_DRIVER_STICK_LEFT),        // USB port for 1st stick
 	driveStickLeft(T166_DRIVER_STICK_RIGHT),        // USB port for 2nd stick
-	driveStickCopilot(T166_COPILOT_STICK),
-	Banner(0),
-	Inclinometer(0),
-	SonarDistance(0.0),
+	driveStickCopilot(T166_COPILOT_STICK),			// USB port for 3rd stick
 	CameraBearing(90),
 	areSettingJoysticks(true)
 {

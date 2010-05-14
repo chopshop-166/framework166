@@ -12,11 +12,6 @@
 
 #include "Robot166.h"
 
-#define AUTONOMOUS_TILT (10)
-#define AUTONOMOUS_MOTOR_TOLERENCE (10)
-#define AUTONOMOUS_SPEED (-0.50)
-#define AUTONOMOUS_MOTOR_FLAG_LIMIT (5)
-
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
 

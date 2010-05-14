@@ -50,8 +50,6 @@ private:
 	float JoyX;                               // Joystick X position
 	float JoyY;                               // Joystick Y position
     SEM_ID DSLock;                            // Coordination of drive station interface
-    SEM_ID LiftLock;                          // LIft lock
-    SEM_ID KickLock;                          // Kicker lock
     DriverStation *dsHandle;                  // Driver Station handle
     DriverStationLCD *dsHandleLCD;            // Driver Station display handle
     MemoryLog166 *mlHead;                     // Memory log head

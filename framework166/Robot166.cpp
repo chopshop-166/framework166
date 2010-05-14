@@ -52,8 +52,6 @@ Robot166::Robot166(void)
 	RobotMode = T166_CONSTRUCTOR;
 	JoyLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	LiftLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	KickLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	JoyX = JoyY = 0.0;
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
