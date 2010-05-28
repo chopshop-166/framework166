@@ -394,6 +394,14 @@ void Proxy166::SetCameraScoreToTargetX(float x) {
 float Proxy166::GetCameraScoreToTargetX() {
 	return CameraScoreX;
 }
+
+void Proxy166::SetBattery(float x) {
+	Battery = x;
+}
+float Proxy166::GetBattery() {
+	return Battery;
+}
+
 /**
  * @brief Gets the singleton instance of Proxy166.
  * @return The instance of Proxy166

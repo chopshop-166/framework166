@@ -156,7 +156,6 @@ class Proxy166 : public Team166Task {
 		// Battery level
 		float Battery;
 		
-		
 		// Proxy storage for jaguar output current
 		float Current[T166_NUM_JAGS];
 		
