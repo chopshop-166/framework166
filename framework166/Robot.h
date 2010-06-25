@@ -1,6 +1,6 @@
 /*******************************************************************************
 *  Project   		: chopshop10 - 2010 Chopshop Robot Controller Code
-*  File Name  		: Robot166.h     
+*  File Name  		: Robot.h     
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
 *  Revision History	: From Explorer with TortoiseSVN, Use "Show log" menu item
@@ -50,6 +50,8 @@ private:
 	float JoyX;                               // Joystick X position
 	float JoyY;                               // Joystick Y position
     SEM_ID DSLock;                            // Coordination of drive station interface
+    SEM_ID LiftLock;                          // LIft lock
+    SEM_ID KickLock;                          // Kicker lock
     DriverStation *dsHandle;                  // Driver Station handle
     DriverStationLCD *dsHandleLCD;            // Driver Station display handle
     MemoryLog166 *mlHead;                     // Memory log head

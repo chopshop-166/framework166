@@ -12,11 +12,10 @@
 
 #ifndef _AUTONOMOUS_H
 #define _AUTONOMOUS_H
-#include "Robot166.h"
+#include "Robot.h"
 #include "MemoryLog166.h"
 #include "WPILib.h"
 #include "BaeUtilities.h"
-#include "Robot166.h"
 #include <cmath>
 
 #define AUTONOMOUS_WAIT_TIME (0.050)

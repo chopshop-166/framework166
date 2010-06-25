@@ -12,7 +12,7 @@
 
 #include <semLib.h>
 #include "wpilib.h"
-#include "Robot166.h"
+#include "Robot.h"
 
 // Enable proxy logging?
 #define LoggingProxy (0)
@@ -47,7 +47,10 @@ Proxy166 *Proxy166::ProxyHandle = 0;
 Proxy166::Proxy166(void):
 	driveStickRight(T166_DRIVER_STICK_LEFT),        // USB port for 1st stick
 	driveStickLeft(T166_DRIVER_STICK_RIGHT),        // USB port for 2nd stick
-	driveStickCopilot(T166_COPILOT_STICK),			// USB port for 3rd stick
+	driveStickCopilot(T166_COPILOT_STICK),
+	Banner(0),
+	Inclinometer(0),
+	SonarDistance(0.0),
 	CameraBearing(90),
 	areSettingJoysticks(true)
 {
@@ -130,7 +133,6 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 				// Debug info
 			}
 		}
-		SetBattery(lHandle->GetBatteryVoltage());
 		// The task ends if it's not initialized
 		WaitForNextLoop();
 	}
@@ -394,14 +396,6 @@ void Proxy166::SetCameraScoreToTargetX(float x) {
 float Proxy166::GetCameraScoreToTargetX() {
 	return CameraScoreX;
 }
-
-void Proxy166::SetBattery(float x) {
-	Battery = x;
-}
-float Proxy166::GetBattery() {
-	return Battery;
-}
-
 /**
  * @brief Gets the singleton instance of Proxy166.
  * @return The instance of Proxy166

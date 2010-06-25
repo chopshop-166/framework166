@@ -17,7 +17,7 @@
 // Place any #defines for things you want to enable in multiple tasks, simply, here
 
 // Code version number
-#define T166_CODE_VERSION ("CODE: Version 1")
+#define T166_CODE_VERSION ("CODE: BATTLECRY-05")
 
 //
 // Analog Pin layout
@@ -47,21 +47,28 @@
 //
 // Relay Layout
 //
-/** Place #defines for Relays here
+/** Channels for Compressor */
+#define T166_COMPRESSOR_RELAY_CHANNEL (1)
 
 
 //
 // Pneumatics */
 //
-/** Put any Pneumatic related stuff here **/
+/** Low pressure limit */
+#define T166_PNEU_LOW (110.0)
+/** High pressure limit */
+#define T166_PNEU_HIGH (120.0)
+/** Minimum kicking pressure */
+#define T166_PNEU_KICK_MIN (50.0)
 
 //
 // CAN bus layout
 //
-/** place #defines for Can ID's, if needed, here**/
 /** Maximum Jaguar number plus one */
-
-#define T166_NUM_JAGS (0)
+#define T166_NUM_JAGS (11)
+#define T166_LEFT_MOTOR_CAN (7)
+/** channel for the Right Motor */
+#define T166_RIGHT_MOTOR_CAN (10)
 
 
 //

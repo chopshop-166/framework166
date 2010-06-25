@@ -17,7 +17,7 @@
 #include <cstdio>
 #include "WPILib.h"
 #include "Autonomous166.h"
-#include "Robot166.h"
+#include "Robot.h"
 #include "Includes.h"
 
 // To locally enable debug printing: set true, to disable false
@@ -52,6 +52,8 @@ Robot166::Robot166(void)
 	RobotMode = T166_CONSTRUCTOR;
 	JoyLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
+	LiftLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
+	KickLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	JoyX = JoyY = 0.0;
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
@@ -247,6 +249,16 @@ int Robot166::DriverStationDisplay(char* dsTextString)
 		strncpy(string5, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
 		string6=new char [DASHBOARD_BUFFER_MAX];
 		strncpy(string6, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
+		
+		//Outputs each line back onto the station.
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,string1);
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,string2);
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,string3);
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,string4);
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,string5);
+		dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,string6);
+		dsHandleLCD->UpdateLCD();
+		
 		init=false;
 #undef DASHBOARD_BLANK_SPACES
 	}

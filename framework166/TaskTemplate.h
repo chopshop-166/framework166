@@ -13,7 +13,7 @@
 #if !defined(_TASK_TEMPLATE_H)
 #define _TASK_TEMPLATE_H
 #include "WPILib.h"
-#include "Robot166.h"
+#include "Robot.h"
 
 //
 // This constant defines how often we want this task to run in the form

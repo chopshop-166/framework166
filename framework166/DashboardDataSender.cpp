@@ -1,6 +1,6 @@
 #include "DashboardDataSender.h"
 #include "Timer.h"
-#include "Robot166.h"
+#include "Robot.h"
 
 DashboardDataSender *DashboardDataSender::getInstance() {
 	if(instance == NULL)
