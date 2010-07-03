@@ -46,10 +46,7 @@ class Robot : public SimpleRobot
 public:
     t_RobotMode RobotMode;                    // Robot mode
 private:
-	SEM_ID JoyLock;                           // Coordination of Joystick parameters
     SEM_ID DSLock;                            // Coordination of drive station interface
-    SEM_ID LiftLock;                          // LIft lock
-    SEM_ID KickLock;                          // Kicker lock
     DriverStation *dsHandle;                  // Driver Station handle
     DriverStationLCD *dsHandleLCD;            // Driver Station display handle
     MemoryLog166 *mlHead;                     // Memory log head

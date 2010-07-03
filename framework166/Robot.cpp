@@ -50,10 +50,7 @@ Robot::Robot(void)
 	DPRINTF(LOG_DEBUG, "Constructor\n");
 	
 	RobotMode = T166_CONSTRUCTOR;
-	JoyLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	LiftLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	KickLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
 	sender = DashboardDataSender::getInstance();
