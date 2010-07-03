@@ -75,33 +75,6 @@ Robot::Robot(void)
 }
 
 /**
- * Obtain battery voltage. Wrapper here ensures we do not collide with
- * other tasks touching the drive station.
- */
-float Robot::GetBatteryVoltage(void)
-{
-	static unsigned int ds_a = 0;
-	unsigned int prev_a = ds_a;
-	semTake(DSLock, WAIT_FOREVER);
-	float bv = dsHandle->GetBatteryVoltage();
-	for (int i=0; i<8; i++)
-		ds_a = (ds_a & ~(1<<i)) | dsHandle->GetDigitalIn(i+1)<<i;
-	semGive(DSLock);
-	if (prev_a != ds_a) {
-		for (int i=0; i<8; i++) {
-			if ((prev_a & 1<<i) != (ds_a & 1<<i)) {
-				if (ds_a & 1<<i) {
-					DPRINTF(LOG_INFO, "Digital port %d is ON\n", i);
-				} else {
-					DPRINTF(LOG_INFO, "Digital port %d is OFF\n", i);
-				}
-			}
-		}
-	}
-	return (bv);	
-}
-
-/**
  * Run autonomous class if jumper is in, otherwise wait for Teleop
  */
 void Robot::Autonomous(void)

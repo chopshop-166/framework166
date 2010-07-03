@@ -15,7 +15,6 @@
 
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
-
 // Constructor
 Team166Task::Team166Task(int IsEssential)
 {	

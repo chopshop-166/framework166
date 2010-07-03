@@ -58,8 +58,6 @@ public:
 	void OperatorControl(void);               // Method called by WPI when we're in operator control mode
 	void Disabled(void);                    // Method called by WPI when we're disabled
 	static Robot *getInstance(void);       // Get pointer to our Robot166 instance
-	float GetBatteryVoltage(void);            // Get voltage of battery on robot
-			
 	void RegisterLogger(MemoryLog166 *ml);    // Register memory logger
 	void DumpLoggers(int dnum);               // Dump all logs
 	int DriverStationDisplay (char*);		  // Display text on DS
