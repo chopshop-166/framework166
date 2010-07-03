@@ -94,7 +94,7 @@ int Template166::Main(int a2, int a3, int a4, int a5,
 			int a6, int a7, int a8, int a9, int a10)
 {
 	Proxy166 *proxy;				// Handle to proxy
-	Robot166 *lHandle;            // Local handle
+	Robot *lHandle;            // Local handle
 	TemplateLog sl;                   // log
 	
 	// Let the world know we're in
@@ -104,7 +104,7 @@ int Template166::Main(int a2, int a3, int a4, int a5,
 	WaitForGoAhead();
 	
 	// Register our logger
-	lHandle = Robot166::getInstance();
+	lHandle = Robot::getInstance();
 	lHandle->RegisterLogger(&sl);
 	
 	// Register the proxy

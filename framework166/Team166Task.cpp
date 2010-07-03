@@ -109,9 +109,9 @@ void Team166Task::WaitForGoAhead(void)
 	MyTaskInitialized = 1;
 			
 	// Ensure we get into Autononmous or Tele Operated mode
-	while (!Robot166::getInstance() ||
-		       ((Robot166::getInstance()->RobotMode != T166_AUTONOMOUS) &&
-		    	(Robot166::getInstance()->RobotMode != T166_OPERATOR))) {
+	while (!Robot::getInstance() ||
+		       ((Robot::getInstance()->RobotMode != T166_AUTONOMOUS) &&
+		    	(Robot::getInstance()->RobotMode != T166_OPERATOR))) {
 		Wait (T166_TA_WAIT_LENGTH);
 	}
 	MyTaskInitialized = 2;

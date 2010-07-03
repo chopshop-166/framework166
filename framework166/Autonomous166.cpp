@@ -22,11 +22,11 @@
 
 Autonomous166::Autonomous166() {
 	// Create handles for proxy and robot
-	Robot166 *lHandle;
+	Robot *lHandle;
 	Proxy166 *proxy;
 	
 	// Register robot handle
-	while( !(lHandle = Robot166::getInstance()) && !( lHandle->IsAutonomous() ) ) {
+	while( !(lHandle = Robot::getInstance()) && !( lHandle->IsAutonomous() ) ) {
 		Wait(AUTONOMOUS_WAIT_TIME);
 	}
 	

@@ -32,8 +32,8 @@ Proxy166 Team166ProxyObject;
 
 
 // This links to the single instance of the Robot task
-class Robot166;
-static Robot166 *RobotHandle = 0;
+class Robot;
+static Robot *RobotHandle = 0;
 
 /**
  * This is a demo program showing the use of the RobotBase class.
@@ -41,7 +41,7 @@ static Robot166 *RobotHandle = 0;
  * Autonomous and OperatorControl methods at the right time as controlled by the switches on
  * the driver station or the field controls.
  */ 
-Robot166::Robot166(void)  
+Robot::Robot(void)  
 {
 	/* set up debug output: 
 	 * DEBUG_OFF, DEBUG_MOSTLY_OFF, DEBUG_SCREEN_ONLY, DEBUG_FILE_ONLY, DEBUG_SCREEN_AND_FILE  */
@@ -54,7 +54,6 @@ Robot166::Robot166(void)
 	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	LiftLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	KickLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	JoyX = JoyY = 0.0;
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
 	sender = DashboardDataSender::getInstance();
@@ -82,7 +81,7 @@ Robot166::Robot166(void)
  * Obtain battery voltage. Wrapper here ensures we do not collide with
  * other tasks touching the drive station.
  */
-float Robot166::GetBatteryVoltage(void)
+float Robot::GetBatteryVoltage(void)
 {
 	static unsigned int ds_a = 0;
 	unsigned int prev_a = ds_a;
@@ -108,7 +107,7 @@ float Robot166::GetBatteryVoltage(void)
 /**
  * Run autonomous class if jumper is in, otherwise wait for Teleop
  */
-void Robot166::Autonomous(void)
+void Robot::Autonomous(void)
 {
 	GetWatchdog().SetEnabled(false);
 	RobotMode = T166_AUTONOMOUS;
@@ -125,7 +124,7 @@ void Robot166::Autonomous(void)
 /**
  * Print a message detailing the robot code version-run once, when disabled
  */
-void Robot166::Disabled(void)
+void Robot::Disabled(void)
 {
 	DriverStationDisplay(T166_CODE_VERSION);
 	printf("%s\n", T166_CODE_VERSION);
@@ -134,7 +133,7 @@ void Robot166::Disabled(void)
 /** 
  * Runs the motors with arcade steering. 
  */
-void Robot166::OperatorControl(void)
+void Robot::OperatorControl(void)
 {
 	int has_been_disabled = 0;
 	
@@ -181,7 +180,7 @@ void Robot166::OperatorControl(void)
 /**
  * Return a pointer to myself
  */
-Robot166 *Robot166::getInstance(void)
+Robot *Robot::getInstance(void)
 {
 	return (RobotHandle);
 }
@@ -189,7 +188,7 @@ Robot166 *Robot166::getInstance(void)
 /**
  * Register a log object
  */
-void Robot166::RegisterLogger(MemoryLog166 *ml)
+void Robot::RegisterLogger(MemoryLog166 *ml)
 {
 	
 	// Has this handler been registered already?
@@ -206,7 +205,7 @@ void Robot166::RegisterLogger(MemoryLog166 *ml)
 /**
  * Dump log objects
  */
-void Robot166::DumpLoggers(int dnum)
+void Robot::DumpLoggers(int dnum)
 {
 	MemoryLog166 *ml;
 	
@@ -225,7 +224,7 @@ void Robot166::DumpLoggers(int dnum)
 /**
  * Send text to DS LCD display
  */
-int Robot166::DriverStationDisplay(char* dsTextString)
+int Robot::DriverStationDisplay(char* dsTextString)
 {
 	static char *string1;
 	static char *string2;
@@ -290,5 +289,5 @@ int Robot166::DriverStationDisplay(char* dsTextString)
 	return 0;
 }
 
-START_ROBOT_CLASS(Robot166);
+START_ROBOT_CLASS(Robot);
 
