@@ -44,25 +44,26 @@ typedef enum {T166_UNKNOWN=0, T166_CONSTRUCTOR, T166_AUTONOMOUS, T166_OPERATOR, 
 class Robot : public SimpleRobot
 {
 public:
-    t_RobotMode RobotMode;                    // Robot mode
+    t_RobotMode RobotMode;						// Robot mode
 private:
-    SEM_ID DSLock;                            // Coordination of drive station interface
-    DriverStation *dsHandle;                  // Driver Station handle
-    DriverStationLCD *dsHandleLCD;            // Driver Station display handle
-    MemoryLog166 *mlHead;                     // Memory log head
-    int maxLogId;                             // Max log file id
-    DashboardDataSender *sender;				  // Dashboard sender
+    SEM_ID DSLock;								// Coordination of drive station interface
+    DriverStation *dsHandle;					// Driver Station handle
+    DriverStationLCD *dsHandleLCD;				// Driver Station display handle
+    MemoryLog166 *mlHead;						// Memory log head
+    int maxLogId;								// Max log file id
+    DashboardDataSender *sender;				// Dashboard sender
+    static Robot* RobotHandle;					// Singleton instance reference
 public:
-	Robot(void);                           // Constructor
-	void Autonomous(void);                    // Method called by WPI when we're in autonomous mode
-	void OperatorControl(void);               // Method called by WPI when we're in operator control mode
-	void Disabled(void);                    // Method called by WPI when we're disabled
-	static Robot *getInstance(void);       // Get pointer to our Robot166 instance
-	float GetBatteryVoltage(void);            // Get voltage of battery on robot
+	Robot(void);								// Constructor
+	void Autonomous(void);						// Method called by WPI when we're in autonomous mode
+	void OperatorControl(void);					// Method called by WPI when we're in operator control mode
+	void Disabled(void);						// Method called by WPI when we're disabled
+	static Robot *getInstance(void);			// Get pointer to our Robot166 instance
+	float GetBatteryVoltage(void);				// Get voltage of battery on robot
 			
-	void RegisterLogger(MemoryLog166 *ml);    // Register memory logger
-	void DumpLoggers(int dnum);               // Dump all logs
-	int DriverStationDisplay (char*);		  // Display text on DS
+	void RegisterLogger(MemoryLog166 *ml);		// Register memory logger
+	void DumpLoggers(int dnum);					// Dump all logs
+	int DriverStationDisplay (char*);			// Display text on DS
 };
 
 #endif // !defined(_ROBOT166_H)

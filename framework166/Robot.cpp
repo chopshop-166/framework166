@@ -26,14 +26,13 @@
 // List of tasks that have requested to come up
 Team166Task *Team166Task::ActiveTasks[T166_MAXTASK + 1] = {0};
 
+// Create the robot handle that's used by all the other classes
+Robot *Robot::RobotHandle = NULL;
+
 // This task has to always be started first or the system will crash
 Proxy166 Team166ProxyObject;
-// Declare external tasks
-
-
-// This links to the single instance of the Robot task
-class Robot;
-static Robot *RobotHandle = 0;
+// Declare external tasks inside Tasks.h
+#include "Tasks.h"
 
 /**
  * This is a demo program showing the use of the RobotBase class.
@@ -54,7 +53,9 @@ Robot::Robot(void)
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
 	sender = DashboardDataSender::getInstance();
-	RobotHandle = this;
+	if(RobotHandle != NULL) {
+		RobotHandle = this;
+	}
 	mlHead = 0;
 
 	// update DS
