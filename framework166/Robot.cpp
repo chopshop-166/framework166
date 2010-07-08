@@ -19,6 +19,7 @@
 #include "Autonomous166.h"
 #include "Robot.h"
 #include "Includes.h"
+#include <stdarg.h>
 
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
@@ -195,67 +196,32 @@ void Robot::DumpLoggers(int dnum)
 /**
  * Send text to DS LCD display
  */
-int Robot::DriverStationDisplay(char* dsTextString)
+int Robot::DriverStationDisplay(const char* format, ...)
 {
-	static char *string1;
-	static char *string2;
-	static char *string3;
-	static char *string4;
-	static char *string5;
-	static char *string6;
+	va_list args;
+	string dash_string[6];
 	static bool init=true;
+	char formatted_string[21];
 	if(init) {
 		//Initializes it first call.
-#define DASHBOARD_BLANK_SPACES ("                                           ")
-		string1=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string1, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		string2=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string2, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		string3=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string3, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		string4=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string4, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		string5=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string5, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		string6=new char [DASHBOARD_BUFFER_MAX];
-		strncpy(string6, DASHBOARD_BLANK_SPACES, DASHBOARD_BUFFER_MAX);
-		
-		//Outputs each line back onto the station.
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,string1);
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,string2);
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,string3);
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,string4);
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,string5);
-		dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,string6);
-		dsHandleLCD->UpdateLCD();
-		
+		for(int i=0;i<6;i++) {
+			dash_string[i] = "                     ";
+		}
 		init=false;
-#undef DASHBOARD_BLANK_SPACES
 	}
+	va_start( args, format );
+	vsprintf(formatted_string, format, args);
+	va_end(args);
 	
-	//Clears the current values on the Dashboard.
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,"                     ");
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,"                     ");
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,"                     ");
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,"                     ");
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,"                     ");
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,"                     ");
+	//Move lines up to make room for the newline 
+	for(int i=5; i>=1; i--) {
+		dash_string[i] = dash_string[i-1];
+	}
+	dash_string[0] = formatted_string;
 
-	//Clears line to make room for next output.
-	strncpy(string6,string5,DASHBOARD_BUFFER_MAX);
-	strncpy(string5,string4,DASHBOARD_BUFFER_MAX);
-	strncpy(string4,string3,DASHBOARD_BUFFER_MAX);
-	strncpy(string3,string2,DASHBOARD_BUFFER_MAX);
-	strncpy(string2,string1,DASHBOARD_BUFFER_MAX);
-	strncpy(string1,dsTextString,DASHBOARD_BUFFER_MAX);
-	
-	//Outputs each line back onto the station.
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line1,1,string1);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line2,1,string2);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line3,1,string3);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line4,1,string4);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line5,1,string5);
-	dsHandleLCD->Printf(DriverStationLCD::kUser_Line6,1,string6);
+	for(int i=0; i<6; i++) {
+		dsHandleLCD->Printf((DriverStationLCD::Line)i, 1, dash_string[i].c_str());
+	}
 	dsHandleLCD->UpdateLCD();
 	return 0;
 }
