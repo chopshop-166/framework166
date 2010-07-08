@@ -60,7 +60,7 @@ Robot::Robot(void)
 	mlHead = 0;
 
 	// update DS
-	DriverStationDisplay("Starting 166 Robot");
+	DriverStationDisplay("Starting Robot");
 	
 	// Setup expiration for task watchdog.
 	GetWatchdog().SetExpiration(5.0); // 5 seconds
@@ -98,8 +98,8 @@ void Robot::Autonomous(void)
  */
 void Robot::Disabled(void)
 {
-	DriverStationDisplay(T166_CODE_VERSION);
-	printf("%s\n", T166_CODE_VERSION);
+	DriverStationDisplay(CODE_VERSION);
+	printf("%s\n", CODE_VERSION);
 }
 
 /** 
@@ -199,7 +199,7 @@ void Robot::DumpLoggers(int dnum)
 int Robot::DriverStationDisplay(const char* format, ...)
 {
 	va_list args;
-	string dash_string[6];
+	static string dash_string[6];
 	static bool init=true;
 	char formatted_string[21];
 	if(init) {
@@ -210,7 +210,7 @@ int Robot::DriverStationDisplay(const char* format, ...)
 		init=false;
 	}
 	va_start( args, format );
-	vsprintf(formatted_string, format, args);
+	vsnprintf(formatted_string, DASHBOARD_BUFFER_MAX, format, args);
 	va_end(args);
 	
 	//Move lines up to make room for the newline 
@@ -220,7 +220,7 @@ int Robot::DriverStationDisplay(const char* format, ...)
 	dash_string[0] = formatted_string;
 
 	for(int i=0; i<6; i++) {
-		dsHandleLCD->Printf((DriverStationLCD::Line)i, 1, dash_string[i].c_str());
+		dsHandleLCD->PrintfLine((DriverStationLCD::Line)i, dash_string[i].c_str());
 	}
 	dsHandleLCD->UpdateLCD();
 	return 0;

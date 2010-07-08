@@ -17,7 +17,7 @@
 // Place any #defines for things you want to enable in multiple tasks, simply, here
 
 // Code version number
-#define T166_CODE_VERSION ("Framework166")
+#define CODE_VERSION ("Framework166")
 
 //
 // Analog Pin layout
