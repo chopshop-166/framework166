@@ -54,7 +54,7 @@ Robot::Robot(void)
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
 	sender = DashboardDataSender::getInstance();
-	if(RobotHandle != NULL) {
+	if(RobotHandle == NULL) {
 		RobotHandle = this;
 	}
 	mlHead = 0;
