@@ -48,7 +48,6 @@ Proxy166::Proxy166(void):
 	driveStickRight(T166_DRIVER_STICK_LEFT),        // USB port for 1st stick
 	driveStickLeft(T166_DRIVER_STICK_RIGHT),        // USB port for 2nd stick
 	driveStickCopilot(T166_COPILOT_STICK),
-	CameraBearing(90),
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
@@ -362,37 +361,6 @@ bool Proxy166::GetTrigger(int joy_id, bool reset) {
 	}
 	return bid;
 }
-
-/**
- * @brief Sets the Camera Bearing
- * @param down current camera bearing
- */
-void Proxy166::SetCameraBearing(float bearing) {
-	CameraBearing = bearing;
-}
-
-/**
- * @brief Gets the state of the CameraBearing
- * @return The current camera bearing
- */
-float Proxy166::GetCameraBearing() {
-	return CameraBearing;
-}
-
-void Proxy166::SetVisionStatus(bool status) {
-	VisionStatus = status;
-}
-
-bool Proxy166::GetVisionStatus() {
-	return VisionStatus;
-}
-
-void Proxy166::SetCameraScoreToTargetX(float x) {
-	CameraScoreX = x;
-}
-float Proxy166::GetCameraScoreToTargetX() {
-	return CameraScoreX;
-}
 /**
  * @brief Gets the singleton instance of Proxy166.
  * @return The instance of Proxy166
@@ -401,30 +369,6 @@ Proxy166 *Proxy166::getInstance(void)
 {
 	return ProxyHandle;
 }
-
-/**
- * @brief Gets the cached image.
- * @return The cached image.
- */
-ColorImage *Proxy166::GetImage() {
-	return image;
-}
-
-/**
- * @brief Sets the cached image.
- */
-void Proxy166::SetImage(ColorImage *img) {
-	image = img;
-}
-
-
-/**
- * @brief Deletes the cached image.
- */
-void Proxy166::DeleteImage() {
-	delete image;
-}
-
 
 
 /**

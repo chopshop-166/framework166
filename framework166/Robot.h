@@ -14,14 +14,10 @@
 #define _ROBOT166_H
 #include "WPILib.h"
 #include "BaeUtilities.h"
-#include "CANJaguar.h"
 #include "Team166Task.h"
-#include "Target.h"
 #include "Autonomous166.h"
 #include "MemoryLog166.h"
 #include "Proxy166.h"
-class DashboardDataSender;
-#include "DashboardDataSender.h"
 #include "Defines.h"
 
 // Maximum dashboard buffer size
@@ -51,7 +47,6 @@ private:
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
     MemoryLog166 *mlHead;						// Memory log head
     int maxLogId;								// Max log file id
-    DashboardDataSender *sender;				// Dashboard sender
     static Robot* RobotHandle;					// Singleton instance reference
 public:
 	Robot(void);								// Constructor

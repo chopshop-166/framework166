@@ -53,7 +53,6 @@ Robot::Robot(void)
 	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
-	sender = DashboardDataSender::getInstance();
 	if(RobotHandle == NULL) {
 		RobotHandle = this;
 	}
@@ -139,10 +138,10 @@ void Robot::OperatorControl(void)
 		}
 		
 		// Each task needs to update for us to feed the watch dog.
-		if (Team166Task::FeedWatchDog())
+		if (Team166Task::FeedWatchDog()) {
 		    GetWatchdog().Feed();
+		}
 		
-		sender->sendIOPortData();
 		Wait (ROBOT_WAIT_TIME);
 		dsHandleLCD->UpdateLCD();
 	}

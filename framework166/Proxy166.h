@@ -15,11 +15,7 @@
 #include "WPILib.h"
 #include "Utility.h"
 #include "Team166Task.h"
-#include "Vision/AxisCamera.h"
-#include "AxisCamera.h" 
 #include "FrcError.h"
-#include "PCVideoServer.h"
-#include "nivision.h" 
 
 #define NUMBER_OF_JOYSTICKS (4)
 #define NUMBER_OF_SWITCHES (10)
@@ -91,21 +87,6 @@ class Proxy166 : public Team166Task {
 
 		// internal representation of joystick as a whole
 		ProxyJoystick GetJoystick(int);
-
-		// Proxy access for camera image
-		ColorImage* GetImage(void);
-		void SetImage(ColorImage *);
-		void DeleteImage(void);
-
-		// Proxy access for camera bearing
-		void SetCameraBearing(float);
-		float GetCameraBearing(void);
-		
-		void SetVisionStatus(bool);
-		bool GetVisionStatus();
-		
-		float GetCameraScoreToTargetX();
-		void SetCameraScoreToTargetX(float);
 		
 		Proxy166(void);
 		~Proxy166(void);
@@ -125,9 +106,6 @@ class Proxy166 : public Team166Task {
 		
 		// internal method to get values from real joystick
 		void SetJoystick(int,Joystick&);
-		
-		// proxy storage for camera image
-		ColorImage *image;
 
 		// proxy storage for driver station switches
 		int Switches[NUMBER_OF_SWITCHES];
@@ -137,13 +115,13 @@ class Proxy166 : public Team166Task {
 		
 		SEM_ID JoystickLocks[NUMBER_OF_JOYSTICKS];
 		SEM_ID SwitchLocks[NUMBER_OF_SWITCHES];
-		
 		/**
 		 * A tuple of ints. For every tracked button, there is three
 		 * ints in this tuple: first, the joystick number, second, the button number,
 		 * and third, the number of times it has been pressed.
-		 */
+		*/
 		vector<int> tracker;
+
 
 		Joystick driveStickRight;     // joy stick for driving
 		Joystick driveStickLeft;      // joy stick for driving
@@ -154,12 +132,6 @@ class Proxy166 : public Team166Task {
 		
 		// Proxy storage for jaguar output current
 		float Current[T166_NUM_JAGS];
-		
-		// Proxy storage for camera bearing
-		float CameraBearing;
-
-		float CameraScoreX;
-		bool VisionStatus;
 		
 		bool areSettingJoysticks;
 };
