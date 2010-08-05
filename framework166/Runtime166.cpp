@@ -14,9 +14,12 @@
 #include <string>
 using namespace std;
 
+// 512 is arbitrary
+#define RUNTIME_BUFFER_LIMIT (512)
+
 Runtime166::Runtime166(int lim) {
 	limit = lim;
-	r = new char[500]; // Returned string
+	r = new char[RUNTIME_BUFFER_LIMIT]; // Returned string
 }
 
 void Runtime166::Start() {

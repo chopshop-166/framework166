@@ -33,13 +33,6 @@ ProxyJoystick::ProxyJoystick(void)
 Proxy166 *Proxy166::ProxyHandle = 0;
 
 /**
- * @brief Sets the cached X axis value of a joystick.
- * @param joy_id Which joystick to set the cached X axis value for.
- * @param value What to set the cached value as.
- */
-
-
-/**
  * @brief Starts the Proxy166 task.
  */
 Proxy166::Proxy166(void):
@@ -49,6 +42,7 @@ Proxy166::Proxy166(void):
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
+		Switches[i] = 0;
 	
 	// Start the actual task
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
