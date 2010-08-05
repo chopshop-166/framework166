@@ -270,7 +270,7 @@ void Team166Task::PrintStats(void) {
 		printf("\n");
 }
 /**
- * Prints out a list of tasks that have no tinitialized.
+ * Prints out a list of tasks that have not initialized.
  */
 void Team166Task::PrintInactive(void) {
 	int last_id = 0;
@@ -303,11 +303,17 @@ int Team166Task::FeedWatchDog(void)
 				
 			// Yes. Has this task set its watchdog?
 			if (!ActiveTasks[l]->MyWatchDog) {
-					
-				// No. Tell caller at least one task is not ready
-				if (ActiveTasks[l]->MissedWatchDog++ > T166_WATCHDOG_MIN)
-					//DPRINTF(LOG_DEBUG,"Task '%s' has not reported its watchdog %d times in a row.\n", ActiveTasks[l]->MyName ? ActiveTasks[l]->MyName : "unknown", T166_WATCHDOG_MIN);
-					printf("Task '%s' has not reported its watchdog %d times in a row.\n", ActiveTasks[l]->MyName ? ActiveTasks[l]->MyName : "unknown", T166_WATCHDOG_MIN);
+				// No. Tell caller at least one task is not ready.
+				
+				// Increase the number of times it's missed
+				ActiveTasks[l]->MissedWatchDog++;
+				
+				// Has the task missed the watchdog too many times?
+				if (ActiveTasks[l]->MissedWatchDog > T166_WATCHDOG_MIN) {
+					printf("Task '%s' has not reported its watchdog %d times in a row.\n",
+						ActiveTasks[l]->MyName ? ActiveTasks[l]->MyName : "unknown",
+						T166_WATCHDOG_MIN);
+				}
 				return (0);
 			}
 		}

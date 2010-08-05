@@ -10,7 +10,7 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-#if !defined(_TEAM166TASK_H)
+#ifndef _TEAM166TASK_H
 #define _TEAM166TASK_H
 #include "WPILib.h"
 #include <cmath>

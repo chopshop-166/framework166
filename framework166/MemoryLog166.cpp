@@ -60,7 +60,8 @@ MemoryLog166::MemoryLog166(unsigned int msize, unsigned int ltime, char *f, char
 // Destructor
 MemoryLog166::~MemoryLog166(void)
 {
-	
+	free(Titles);
+	free(FileName);
 	// Done
 	return;
 }
