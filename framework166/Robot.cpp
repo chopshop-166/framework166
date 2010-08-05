@@ -35,10 +35,7 @@ Proxy166 Team166ProxyObject;
 #include "Tasks.h"
 
 /**
- * This is a demo program showing the use of the RobotBase class.
- * The SimpleRobot class is the base of a robot application that will automatically call your
- * Autonomous and OperatorControl methods at the right time as controlled by the switches on
- * the driver station or the field controls.
+ * The constructor for the main robot tastk that initializes various components of the robot code
  */ 
 Robot::Robot(void)  
 {
@@ -49,7 +46,6 @@ Robot::Robot(void)
 	DPRINTF(LOG_DEBUG, "Constructor\n");
 	
 	RobotMode = T166_CONSTRUCTOR;
-	DSLock = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
 	dsHandle = DriverStation::GetInstance();
 	dsHandleLCD = DriverStationLCD::GetInstance();
 	if(RobotHandle == NULL) {
@@ -75,7 +71,7 @@ Robot::Robot(void)
 }
 
 /**
- * Run autonomous class if jumper is in, otherwise wait for Teleop
+ * Run autonomous class
  */
 void Robot::Autonomous(void)
 {
@@ -93,7 +89,7 @@ void Robot::Disabled(void)
 }
 
 /** 
- * Runs the motors with arcade steering. 
+ * Run tasks under operator control
  */
 void Robot::OperatorControl(void)
 {

@@ -112,8 +112,6 @@ class Proxy166 : public Team166Task {
 		// proxy storage for driver station joysticks
 		ProxyJoystick Joysticks[NUMBER_OF_JOYSTICKS];
 		
-		SEM_ID JoystickLocks[NUMBER_OF_JOYSTICKS];
-		SEM_ID SwitchLocks[NUMBER_OF_SWITCHES];
 		/**
 		 * A tuple of ints. For every tracked button, there is three
 		 * ints in this tuple: first, the joystick number, second, the button number,

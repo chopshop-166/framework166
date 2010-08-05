@@ -41,7 +41,6 @@ class Robot : public SimpleRobot
 public:
     t_RobotMode RobotMode;						// Robot mode
 private:
-    SEM_ID DSLock;								// Coordination of drive station interface
     DriverStation *dsHandle;					// Driver Station handle
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
     MemoryLog166 *mlHead;						// Memory log head
