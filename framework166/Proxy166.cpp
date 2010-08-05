@@ -42,7 +42,9 @@ Proxy166::Proxy166(void):
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
+	for(unsigned i=0;i<NUMBER_OF_SWITCHES;i++) {
 		Switches[i] = 0;
+	}
 	
 	// Start the actual task
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
