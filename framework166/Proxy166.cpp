@@ -9,7 +9,6 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-#include <semLib.h>
 #include "wpilib.h"
 #include "Robot.h"
 
@@ -41,7 +40,7 @@ Proxy166 *Proxy166::ProxyHandle = 0;
 
 
 /**
- * @brief Initializes semaphors for joysticks and switches, and starts the Proxy166 task.
+ * @brief Starts the Proxy166 task.
  */
 Proxy166::Proxy166(void):
 	driveStickRight(T166_DRIVER_STICK_LEFT),        // USB port for 1st stick
@@ -50,21 +49,6 @@ Proxy166::Proxy166(void):
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
-	// initialize memory for banner
-	// note use of semaphores are commented out for now
-	// they are not required for atomic actions 
-	// and they appeared to be causing tasks to crash
-	for(unsigned i=0;i<NUMBER_OF_JOYSTICKS;i++) {
-		// Initializing semaphores for joysticks
-		JoystickLocks[i] = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-		Joysticks[i] = ProxyJoystick();
-	}
-	for(unsigned i=0;i<NUMBER_OF_SWITCHES;i++) {
-		// Initializing semaphores for switches
-		SwitchLocks[i] = semBCreate(SEM_Q_PRIORITY, SEM_FULL);
-	}
-	
-	// Set the initial distance
 	
 	// Start the actual task
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
@@ -143,9 +127,7 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 
 void Proxy166::SetJoystickX(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	Joysticks[joy_id].X = value;
-	//semGive(JoystickLocks[joy_id]);
 }
 
 /**
@@ -155,9 +137,7 @@ void Proxy166::SetJoystickX(int joy_id, float value) {
  */
 void Proxy166::SetJoystickY(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	Joysticks[joy_id].Y = value;
-	//semGive(JoystickLocks[joy_id]);
 }
 
 /**
@@ -167,9 +147,7 @@ void Proxy166::SetJoystickY(int joy_id, float value) {
  */
 void Proxy166::SetJoystickZ(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	Joysticks[joy_id].Z = value;
-	//semGive(JoystickLocks[joy_id]);
 }
 
 
@@ -181,9 +159,7 @@ void Proxy166::SetJoystickZ(int joy_id, float value) {
 float Proxy166::GetJoystickX(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	value = Joysticks[joy_id].X;
-	//semGive(JoystickLocks[joy_id]);
 	return value;
 }
 
@@ -195,9 +171,7 @@ float Proxy166::GetJoystickX(int joy_id) {
 float Proxy166::GetJoystickY(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	value = Joysticks[joy_id].Y;
-	//semGive(JoystickLocks[joy_id]);
 	return value;
 }
 
@@ -209,9 +183,7 @@ float Proxy166::GetJoystickY(int joy_id) {
 float Proxy166::GetJoystickZ(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	value = Joysticks[joy_id].Z;
-	//semGive(JoystickLocks[joy_id]);
 	return value;
 }
 
@@ -223,9 +195,7 @@ float Proxy166::GetJoystickZ(int joy_id) {
  */
 void Proxy166::SetSwitch(int switch_id, int value) {
 	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
-	//semTake(SwitchLocks[switch_id], WAIT_FOREVER);
 	Switches[switch_id] = value;
-	//semGive(SwitchLocks[switch_id]);
 }
 
 /**
@@ -236,9 +206,7 @@ void Proxy166::SetSwitch(int switch_id, int value) {
 int Proxy166::GetSwitch(int switch_id) {
 	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
 	int value = 0;
-	//semTake(SwitchLocks[switch_id], WAIT_FOREVER);
 	value = Switches[switch_id];
-	//semGive(SwitchLocks[switch_id]);
 	return value;
 }
 
@@ -251,9 +219,7 @@ ProxyJoystick Proxy166::GetJoystick(int joy_id)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	ProxyJoystick value;
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	value = Joysticks[joy_id];
-	//semGive(JoystickLocks[joy_id]);
 	return value;
 }
 
@@ -265,7 +231,6 @@ ProxyJoystick Proxy166::GetJoystick(int joy_id)
 void Proxy166::SetJoystick(int joy_id, Joystick & stick)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	Joysticks[joy_id].X = stick.GetX();
 	Joysticks[joy_id].Y = stick.GetY();
 	Joysticks[joy_id].Z = stick.GetZ();
@@ -273,7 +238,6 @@ void Proxy166::SetJoystick(int joy_id, Joystick & stick)
 	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
 		Joysticks[joy_id].button[i] = stick.GetRawButton(i);
 	}
-	//semGive(JoystickLocks[joy_id]);
 }
 
 /**
@@ -285,9 +249,7 @@ void Proxy166::SetJoystick(int joy_id, Joystick & stick)
 void Proxy166::SetButton(int joy_id, int button_id, bool newval)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	Joysticks[joy_id].button[button_id] = newval;
-	//semGive(JoystickLocks[joy_id]);
 }
 
 /**
@@ -301,9 +263,7 @@ bool Proxy166::GetButton(int joy_id, int button_id, bool reset)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
 	bool button;
-	//semTake(JoystickLocks[joy_id], WAIT_FOREVER);
 	button = Joysticks[joy_id].button[button_id];
-	//semGive(JoystickLocks[joy_id]);
 	
 	// reset the button so actions are triggered only once
 	if (reset) {
@@ -319,9 +279,7 @@ bool Proxy166::GetButton(int joy_id, int button_id, bool reset)
  */
 void Proxy166::SetThrottle(int joy_id, float newval) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[switch_id], WAIT_FOREVER);
 	Joysticks[joy_id].throttle=newval;
-	//semGive(JoystickLocks[switch_id]);
 }
 
 /**
@@ -331,9 +289,7 @@ void Proxy166::SetThrottle(int joy_id, float newval) {
  */
 float Proxy166::GetThrottle(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	//semTake(JoystickLocks[switch_id], WAIT_FOREVER);
 	return Joysticks[joy_id].throttle;
-	//semGive(JoystickLocks[switch_id]);
 }
 
 /**
