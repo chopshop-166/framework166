@@ -1,9 +1,8 @@
 /*******************************************************************************
-*  Project   		: chopshop10 - 2010 Chopshop Robot Controller Code
-*  File Name  		: Autonomous166.cpp     
+*  Project   		: Framework
+*  File Name  		: Autonomous.cpp     
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
-*  Revision History	: From Explorer with TortoiseSVN, Use "Show log" menu item
 *  File Description	: Robot code to execute in autonomous mode
 *******************************************************************************/ 
 /*----------------------------------------------------------------------------*/

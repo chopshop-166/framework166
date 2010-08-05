@@ -1,9 +1,8 @@
 /*******************************************************************************
-*  Project   		: chopshop10 - 2010 Chopshop Robot Controller Code
+*  Project   		: Framework
 *  File Name  		: TaskTemplate.h     
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
-*  Revision History	: From Explorer with TortoiseSVN, Use "Show log" menu item
 *  File Description	: Template header file for tasks, with template functions
 *******************************************************************************/ 
 /*----------------------------------------------------------------------------*/

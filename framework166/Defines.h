@@ -1,10 +1,9 @@
 /*******************************************************************************
-*  Project   		: chopshop10 - 2010 Chopshop Robot Controller Code
-*  File Name  		: Vision166.h    
+*  Project   		: Framework
+*  File Name  		: Defines.h    
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
-*  Revision History	: From Explorer with TortoiseSVN, Use "Show log" menu item
-*  File Description	: Robot code header which handles vision of camera
+*  File Description	: Robot code header which contains defines for global usage
 *******************************************************************************/ 
 /*----------------------------------------------------------------------------*/
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
@@ -47,11 +46,6 @@
 // Pneumatics
 //
 
-//
-// CAN bus layout
-//
-/** Maximum Jaguar id --Replace the 2 with the highest jaguar id */
-#define T166_NUM_JAGS (2)
 
 //
 // USB port layout

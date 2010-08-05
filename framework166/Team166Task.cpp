@@ -1,9 +1,8 @@
 /********************************************************************************
-*  Project   		: Chopshop 2009
-*  File Name  		: Team166Task.h          
-*  Contributors   	: PSH
-*  Creation Date 	: February 6, 2008
-*  Revision History	: Source code & revision history maintained at code.google.com    
+*  Project   		: Framework
+*  File Name  		: Team166Task.cpp         
+*  Owner		   	: Software Group (FIRST Chopshop Team 166)
+*  Creation Date 	: January 18, 2010
 *  File Description	: This file defines the high level and shared context for a Team 166
 *******************************************************************************/ 
 /*----------------------------------------------------------------------------*/
