@@ -17,6 +17,9 @@
 #include <sysLib.h>
 #include "Defines.h"
 
+// Framework version number
+#define FRAMEWORK_VERSION ("2010-Aug-04")
+
 //
 // task (as in kernel task)
 /** Stack size 64 KB */

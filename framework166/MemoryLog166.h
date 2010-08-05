@@ -16,16 +16,16 @@
 #include <ctime>
 
 //
-// This class defines an interface to logging to memory and then into
+// This class defines an interface to logging to memory and then into a .csv file
 //
 class MemoryLog166
 {
 
 // Methods	
 public:
-	struct timespec starttime;					// Time the
-	MemoryLog166(unsigned int msize, unsigned int ltime, char *f, char *titles);// Constructor
-	virtual ~MemoryLog166(void);				// Destructor
+	struct timespec starttime;					// Time the task started at
+	MemoryLog166(unsigned int msize, unsigned int ltime, char *f, char *titles);
+	virtual ~MemoryLog166(void);
 	char *GetNextBuffer(unsigned int bsize);	// Get next buffer to write
 	int DumpToFile(void);						// Dump the data into a file
 	virtual unsigned int DumpBuffer(			// Dump the next buffer into the file
@@ -42,7 +42,7 @@ private:
 	char *MemoryBase;							// Base pointer to memory just allocated
 	char *MemoryEnd;							// End of allocated memory
 	char *MemoryNext;							// Next
-	class MemoryLog166 *Next;					// Link to next log structure
+	MemoryLog166 *Next;					// Link to next log structure
 	char *FileName;								// Filename
 	char *Titles;								// Titles at the top of the csv
 	int BuffersRequested;						// Buffers requested

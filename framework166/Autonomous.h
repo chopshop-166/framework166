@@ -20,11 +20,11 @@
 
 #define AUTONOMOUS_WAIT_TIME (0.050)
 
-class Autonomous166
+class AutonomousTask
 {
 public:
-	Autonomous166(void);
-	~Autonomous166(void);
+	AutonomousTask(void);
+	~AutonomousTask(void);
 };
 
 #endif

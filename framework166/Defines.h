@@ -16,9 +16,6 @@
 
 // Place any #defines for things you want to enable in multiple tasks, simply, here
 
-// Code version number
-#define CODE_VERSION ("Framework166")
-
 //
 // Analog Pin layout
 // _MOD refers to cRIO module (1 or 2)
@@ -36,8 +33,6 @@
 // Digital Pin layout
 //
 // Place #defines for the digital pins here
-// Autonomous Jumper Port: This enables the autonomous if it's in
-#define T166_AUTONOMOUS_JUMPER (7)
 
 //
 // PWM layout
@@ -49,7 +44,7 @@
 //
 
 //
-// Pneumatics */
+// Pneumatics
 //
 
 //

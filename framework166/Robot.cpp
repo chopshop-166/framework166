@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <cstdio>
 #include "WPILib.h"
-#include "Autonomous166.h"
+#include "Autonomous.h"
 #include "Robot.h"
 #include "Includes.h"
 #include <stdarg.h>
@@ -81,15 +81,7 @@ Robot::Robot(void)
 void Robot::Autonomous(void)
 {
 	GetWatchdog().SetEnabled(false);
-	RobotMode = T166_AUTONOMOUS;
-	if(!DigitalInput(T166_AUTONOMOUS_JUMPER).Get()) {
-		DPRINTF(LOG_DEBUG,"Entered enabled autonomous\n");
-		DriverStationDisplay("IN AUTONOMOUS");
-		Autonomous166();
-	} else {
-		DPRINTF(LOG_DEBUG,"Entered disabled autonomous\n");
-		DriverStationDisplay("NO AUTONOMOUS");
-	}
+	AutonomousTask();
 }
 
 /**
@@ -97,8 +89,8 @@ void Robot::Autonomous(void)
  */
 void Robot::Disabled(void)
 {
-	DriverStationDisplay(CODE_VERSION);
-	printf("%s\n", CODE_VERSION);
+	DriverStationDisplay(FRAMEWORK_VERSION);
+	printf("%s\n", FRAMEWORK_VERSION);
 }
 
 /** 

@@ -12,15 +12,10 @@
 
 #include "Robot.h"
 
-#define AUTONOMOUS_TILT (10)
-#define AUTONOMOUS_MOTOR_TOLERENCE (10)
-#define AUTONOMOUS_SPEED (-0.50)
-#define AUTONOMOUS_MOTOR_FLAG_LIMIT (5)
-
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
 
-Autonomous166::Autonomous166() {
+AutonomousTask::AutonomousTask() {
 	// Create handles for proxy and robot
 	Robot *lHandle;
 	Proxy166 *proxy;
@@ -36,9 +31,12 @@ Autonomous166::Autonomous166() {
 	}
 	
 	while( lHandle->IsAutonomous() ) {
-		// Fill in your own logic and functions here
+		// <<CHANGEME>>
+		// Insert your autonomous logic here
+		
+		// This wait is required, it makes sure no task uses too much memory
 		Wait(AUTONOMOUS_WAIT_TIME);
 	}
 }
 
-Autonomous166::~Autonomous166(void) { return; }
+AutonomousTask::~AutonomousTask(void) { return; }
