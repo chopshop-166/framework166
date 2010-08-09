@@ -46,7 +46,7 @@ public:
 	 */
 	void Start();
 	/**
-	 * Starts tracking time.
+	 * Stops tracking time.
 	 */
 	void Stop();
 	/**

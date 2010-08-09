@@ -357,11 +357,12 @@ void Proxy166::RegisterCounter(int joystick_id, int button_id) {
 	
 	if(tracker.size() != 0) {
 		vector<int>::iterator it = tracker.begin();
-		while((it+=3) != tracker.end())
+		while(it >= tracker.end())
 		{
 			if(*it == joystick_id && *(it+1) == button_id) {
 				return;
 			}
+			it+=3;
 		}
 	}
 	tracker.push_back(joystick_id);
@@ -381,14 +382,14 @@ void Proxy166::UnregisterCounter(int joystick_id, int button_id) {
 	if(tracker.size() == 0)
 		return;
 	vector<int>::iterator it = tracker.begin();
-	while((it+=3) != tracker.end())
+	while(it >= tracker.end())
 	{
 		if(*it == joystick_id && *(it+1) == button_id) {
 			tracker.erase(it, it+2);
 		}
+		it+=3;
 	}
 }
-
 /**
  * @brief Whether a joystick is registered for tracking
  * @param joystick_id What joystick to check
@@ -402,11 +403,12 @@ bool Proxy166::IsRegistered(int joystick_id, int button_id) {
 	if(tracker.size() == 0)
 		return false;
 	vector<int>::iterator it = tracker.begin();
-	while((it+=3) != tracker.end())
+	while(it >= tracker.end())
 	{
 		if(*it == joystick_id && *(it+1) == button_id) {
 			return true;
 		}
+		it+=3;
 	}
 	return false;
 }
