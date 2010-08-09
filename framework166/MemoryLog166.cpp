@@ -20,14 +20,15 @@
 
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
-
+#define Match_Time (135)
+#define Padding (5)
 // Memory log constructor
 MemoryLog166::MemoryLog166(unsigned int msize, unsigned int ltime, char *f, char *titles)
 {
 	unsigned int ms;  // Size of memory that we need
 	
 	// Compute the size that we need for 1 item per loop during 2m15s + 5s padding
-	ms = ((1000*((2*60) + 15 + 5)) / ltime) * msize;
+	ms = ((1000*(Match_Time + Padding)) / ltime) * msize;
 	
 	// Allocate the requested memory
 	MemoryBase = (char *)valloc(ms);

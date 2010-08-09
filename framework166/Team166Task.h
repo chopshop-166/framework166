@@ -100,7 +100,7 @@ public:
 	char *MyName;               // Name of this task
 	int MissedWatchDog;         // Missed watchdog count
 	float MyLoopInterval;       // Timing interval for loop
-	unsigned int MyLoopMs;      // Length of loop for this 
+	unsigned int MyLoopNs;      // Length of loop for this 
 	unsigned int OverRuns;      // Task over runs
 	
 private:
