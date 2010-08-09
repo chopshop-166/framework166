@@ -2,6 +2,10 @@ __all__ = ['parse_robolog', 'parse_latest']
 
 import csv, os
 
+'''
+This python script requires Matplotlib and Numpy to be installed
+'''
+
 def parse_robolog(filename):
     # Seperate the robot log into a list of dicts
     global linenum, ln, keyname
@@ -39,7 +43,10 @@ def lod2dol(lod):
     return dol
 
 def graph_robolog(dol, filename):
-    import matplotlib.pyplot as plt
+    try:
+        import matplotlib.pyplot as plt
+    except:
+        print "Error: matplotlib.pyplot failed to load.\nCheck to make sure it is installed."
     times = dol['Elapsed Time']
     del dol['Elapsed Time']
     i=0
@@ -58,16 +65,18 @@ def graph_robolog(dol, filename):
     plt.clf()
     
 def parse_latest():
+    global max_foldername, filename
+    base_foldername = raw_input("What is the base log folder name?\n==>")
+    output_foldername = raw_input("What is the output folder name?\n==>")
     # The initial timestamp of all 0s
     # All timestamps are guaranteed to be greater than this!
-    global max_foldername, filename
     max_foldername = "00000000.00.00.00"
-    for filename in os.listdir("C:\\FTP\\Logs"):
+    for filename in os.listdir(base_foldername):
         # Find the latest files
         if filename > max_foldername:
             max_foldername = filename
-    address = "C:\\FTP\\Logs\\" + max_foldername
-    pngaddress = "C:\\FTP\\PNG\\" + max_foldername
+    address = base_foldername + "\\" + max_foldername
+    pngaddress = output_foldername + "\\" + max_foldername
     try:
         os.mkdir(pngaddress)
     except:
