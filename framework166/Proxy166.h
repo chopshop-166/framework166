@@ -8,8 +8,7 @@
 /*----------------------------------------------------------------------------*/
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
-#ifndef _PROXY166_H
-#define _PROXY166_H
+#pragma once
 
 #include "WPILib.h"
 #include "Utility.h"
@@ -130,5 +129,3 @@ class Proxy166 : public Team166Task {
 		
 		bool areSettingJoysticks;
 };
-
-#endif

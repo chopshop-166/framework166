@@ -9,8 +9,8 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-#ifndef _TEAM166TASK_H
-#define _TEAM166TASK_H
+#pragma once
+
 #include "WPILib.h"
 #include <cmath>
 #include <sysLib.h>
@@ -119,4 +119,3 @@ private:
 	unsigned int loop_calls;      // Times we've been called to wait
 	
 };
-#endif // !defined(_TEAM166TASK_H)

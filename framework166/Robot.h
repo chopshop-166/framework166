@@ -9,8 +9,8 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-#if !defined(_ROBOT166_H)
-#define _ROBOT166_H
+#pragma once
+
 #include "WPILib.h"
 #include "BaeUtilities.h"
 #include "Team166Task.h"
@@ -56,5 +56,3 @@ public:
 	void DumpLoggers(int dnum);					// Dump all logs
 	int DriverStationDisplay (const char*, ...);			// Display text on DS
 };
-
-#endif // !defined(_ROBOT166_H)

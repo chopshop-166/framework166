@@ -8,11 +8,12 @@
 /*----------------------------------------------------------------------------*/
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
+#pragma once
 
-#if !defined(_MEMORYLOG166_H)
-#define _MEMORYLOG166_H
 #include <cstdio>
 #include <ctime>
+#include <string>
+using std::string;
 
 //
 // This class defines an interface to logging to memory and then into a .csv file
@@ -42,10 +43,8 @@ private:
 	char *MemoryEnd;							// End of allocated memory
 	char *MemoryNext;							// Next
 	MemoryLog166 *Next;					// Link to next log structure
-	char *FileName;								// Filename
-	char *Titles;								// Titles at the top of the csv
+	string FileName;								// Filename
+	string Titles;								// Titles at the top of the csv
 	int BuffersRequested;						// Buffers requested
 	int BuffersObtained;						// Buffers obtained
 };
-
-#endif // !defined(_MEMORYLOG166_H)

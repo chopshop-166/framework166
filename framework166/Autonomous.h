@@ -8,9 +8,8 @@
 /*----------------------------------------------------------------------------*/
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
+#pragma once
 
-#ifndef _AUTONOMOUS_H
-#define _AUTONOMOUS_H
 #include "Robot.h"
 #include "MemoryLog166.h"
 #include "WPILib.h"
@@ -25,5 +24,3 @@ public:
 	AutonomousTask(void);
 	~AutonomousTask(void);
 };
-
-#endif

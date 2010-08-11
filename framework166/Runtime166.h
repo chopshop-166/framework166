@@ -9,6 +9,8 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
+#pragma once
+
 #include "WPILib.h"
 #include <vector>
 using namespace std;

@@ -187,7 +187,7 @@ int Robot::DriverStationDisplay(const char* format, ...)
 	va_list args;
 	static string dash_string[6];
 	static bool init=true;
-	char formatted_string[21];
+	char formatted_string[DASHBOARD_BUFFER_MAX];
 	if(init) {
 		//Initializes it first call.
 		for(int i=0;i<6;i++) {

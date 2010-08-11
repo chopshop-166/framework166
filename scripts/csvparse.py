@@ -3,7 +3,8 @@ __all__ = ['parse_robolog', 'parse_latest']
 import csv, os
 
 '''
-This python script requires Matplotlib and Numpy to be installed
+This python script requires Matplotlib and Numpy to be installed.
+It is designed for Python 2.6
 '''
 
 def parse_robolog(filename):

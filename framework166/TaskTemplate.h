@@ -9,8 +9,8 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-#if !defined(_TASK_TEMPLATE_H)
-#define _TASK_TEMPLATE_H
+#pragma once
+
 #include "WPILib.h"
 #include "Robot.h"
 
@@ -39,5 +39,3 @@ public:
 private:
 	// Any variables that the task has as members go here
 };
-
-#endif // !defined(_TASK_TEMPLATE_H)
