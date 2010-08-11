@@ -37,5 +37,3 @@ AutonomousTask::AutonomousTask() {
 		Wait(AUTONOMOUS_WAIT_TIME);
 	}
 }
-
-AutonomousTask::~AutonomousTask(void) { return; }

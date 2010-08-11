@@ -1,4 +1,5 @@
-// This doesn't get include guards, it's only used once.
+// <<CHANGEME>>
+#pragma once
 // Declare your task objects here
 // Example:
 // DriveClass DriveObject;

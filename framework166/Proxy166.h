@@ -118,14 +118,17 @@ class Proxy166 : public Team166Task {
 		*/
 		vector<int> tracker;
 
-
-		Joystick driveStickRight;     // joy stick for driving
-		Joystick driveStickLeft;      // joy stick for driving
-		Joystick driveStickCopilot;	  // Camera / copilot joy stick
+		// The physical joysticks
+		Joystick stick1;
+		Joystick stick2;
+		Joystick stick3;
+		Joystick stick4;
 		
 		// Battery level
 		float Battery;
-		
-		
+				
 		bool areSettingJoysticks;
+		
+		// <<CHANGEME>>
+		// Insert your own things into the proxy here
 };

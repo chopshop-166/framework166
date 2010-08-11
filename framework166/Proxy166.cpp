@@ -36,9 +36,7 @@ Proxy166 *Proxy166::ProxyHandle = 0;
  * @brief Starts the Proxy166 task.
  */
 Proxy166::Proxy166(void):
-	driveStickRight(T166_DRIVER_STICK_LEFT),        // USB port for 1st stick
-	driveStickLeft(T166_DRIVER_STICK_RIGHT),        // USB port for 2nd stick
-	driveStickCopilot(T166_COPILOT_STICK),
+	stick1(0), stick2(1), stick3(2), stick4(3),
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
@@ -84,9 +82,10 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 			for(int x = 0;x<NUMBER_OF_JOYSTICKS;x++) {
 				old_sticks[x] = GetJoystick(x);
 			}
-			SetJoystick(1, driveStickRight);
-			SetJoystick(2, driveStickLeft);
-			SetJoystick(3, driveStickCopilot);
+			SetJoystick(1, stick1);
+			SetJoystick(2, stick2);
+			SetJoystick(3, stick3);
+			SetJoystick(4, stick4);
 			
 			if(tracker.size() > 0) {
 				vector<int>::iterator it = tracker.begin();

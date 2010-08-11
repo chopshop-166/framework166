@@ -130,7 +130,6 @@ void Robot::OperatorControl(void)
 		}
 		
 		Wait (ROBOT_WAIT_TIME);
-		dsHandleLCD->UpdateLCD();
 	}
 	
 }

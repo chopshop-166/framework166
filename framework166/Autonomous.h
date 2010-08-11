@@ -22,5 +22,6 @@ class AutonomousTask
 {
 public:
 	AutonomousTask(void);
-	~AutonomousTask(void);
+	// <<CHANGEME>>
+	// Add any extra functions your autonomous needs
 };
