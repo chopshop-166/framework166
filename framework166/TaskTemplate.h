@@ -17,10 +17,12 @@
 //
 // This constant defines how often we want this task to run in the form
 // of miliseconds. Max allowed time is 999 miliseconds.
-// You should rename this when you copy it into a new file 
+// You should rename this when you copy it into a new file
+// <<CHANGEME>>
 #define TEMPLATE_CYCLE_TIME (10) // 10ms
 
 // Rename this, too, or you'll run into collisions
+// <<CHANGEME>>
 class Template166 : public Team166Task
 {
 	
@@ -38,4 +40,5 @@ public:
 	
 private:
 	// Any variables that the task has as members go here
+	// <<CHANGEME>>
 };

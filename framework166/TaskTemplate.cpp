@@ -20,9 +20,11 @@ struct abuf166
 {
 	struct timespec tp;               // Time of snapshot
 	// Any values that need to be logged go here
+	// <<CHANGEME>>
 };
 
 //  Memory Log
+// <<CHANGEME>>
 class TemplateLog : public MemoryLog166
 {
 public:
@@ -36,10 +38,12 @@ public:
 	unsigned int DumpBuffer(          // Dump the next buffer into the file
 			char *nptr,               // Buffer that needs to be formatted
 			FILE *outputFile);        // and then stored in this file
+	// <<CHANGEME>>
 	unsigned int PutOne(void);     // Log the values needed-add in arguments
 };
 
 // Write one buffer into memory
+// <<CHANGEME>>
 unsigned int TemplateLog::PutOne(void)
 {
 	struct abuf166 *ob;               // Output buffer
@@ -50,6 +54,7 @@ unsigned int TemplateLog::PutOne(void)
 		// Fill it in.
 		clock_gettime(CLOCK_REALTIME, &ob->tp);
 		// Add any values to be logged here
+		// <<CHANGEME>>
 		return (sizeof(struct abuf166));
 	}
 	
@@ -67,6 +72,7 @@ unsigned int TemplateLog::DumpBuffer(char *nptr, FILE *ofile)
 			ab->tp.tv_sec, ab->tp.tv_nsec,
 			((ab->tp.tv_sec - starttime.tv_sec) + ((ab->tp.tv_nsec-starttime.tv_nsec)/1000000000.))
 			// Add values here
+			// <<CHANGEME>>
 	);
 	
 	// Done
@@ -79,6 +85,7 @@ Template166::Template166(void)
 {
 	Start((char *)"166TemplateTask", TEMPLATE_CYCLE_TIME);
 	// ^^^ Rename those ^^^
+	// <<CHANGEME>>
 	return;
 };
 	
@@ -113,7 +120,12 @@ int Template166::Main(int a2, int a3, int a4, int a5,
 	while ((lHandle->RobotMode == T166_AUTONOMOUS) || 
 			(lHandle->RobotMode == T166_OPERATOR)) {
 		
+		// <<CHANGEME>>
+		// Insert your own logic here
+		
         // Logging any values
+		// <<CHANGEME>>
+		// Make this match the declaraction above
 		sl.PutOne();
 		
 		// Wait for our next lap
