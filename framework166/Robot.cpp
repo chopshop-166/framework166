@@ -30,7 +30,7 @@ Team166Task *Team166Task::ActiveTasks[T166_MAXTASK + 1] = {0};
 Robot *Robot::RobotHandle = NULL;
 
 // This task has to always be started first or the system will crash
-Proxy166 Team166ProxyObject;
+Proxy Team166ProxyObject;
 // Declare external tasks inside Tasks.h
 #include "Tasks.h"
 

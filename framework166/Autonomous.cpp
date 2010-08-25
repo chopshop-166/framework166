@@ -17,7 +17,7 @@
 AutonomousTask::AutonomousTask() {
 	// Create handles for proxy and robot
 	Robot *lHandle;
-	Proxy166 *proxy;
+	Proxy *proxy;
 	
 	// Register robot handle
 	while( !(lHandle = Robot::getInstance()) && !( lHandle->IsAutonomous() ) ) {
@@ -25,7 +25,7 @@ AutonomousTask::AutonomousTask() {
 	}
 	
 	// Register proxy handle
-	while( (proxy = Proxy166::getInstance()) == NULL ) {
+	while( (proxy = Proxy::getInstance()) == NULL ) {
 		Wait(AUTONOMOUS_WAIT_TIME);
 	}
 	

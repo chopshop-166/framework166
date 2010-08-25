@@ -30,12 +30,12 @@ ProxyJoystick::ProxyJoystick(void)
 }
 
 // Initialiezs the ProxyHandle. 
-Proxy166 *Proxy166::ProxyHandle = 0;
+Proxy *Proxy::ProxyHandle = 0;
 
 /**
  * @brief Starts the Proxy166 task.
  */
-Proxy166::Proxy166(void):
+Proxy::Proxy(void):
 	stick1(0), stick2(1), stick3(2), stick4(3),
 	areSettingJoysticks(true)
 {
@@ -48,7 +48,7 @@ Proxy166::Proxy166(void):
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
 }
 
-Proxy166::~Proxy166(void)
+Proxy::~Proxy(void)
 {
 	return;
 }
@@ -58,7 +58,7 @@ Proxy166::~Proxy166(void)
  * 
  * @todo Update DS switch array
  */
-int Proxy166::Main(	int a2, int a3, int a4, int a5,
+int Proxy::Main(	int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10) {
 
 	Robot *lHandle = NULL;
@@ -114,13 +114,18 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 	return 0;
 }
 
+/*
+ * User defined functions are located in this file
+ */
+#include "ProxyFunctions.h"
+
 /**
  * @brief Sets the cached X axis value of a joystick.
  * @param joy_id Which joystick to set the cached X axis value for.
  * @param value What to set the cached value as.
  */
 
-void Proxy166::SetJoystickX(int joy_id, float value) {
+void Proxy::SetJoystickX(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	Joysticks[joy_id].X = value;
 }
@@ -130,7 +135,7 @@ void Proxy166::SetJoystickX(int joy_id, float value) {
  * @param joy_id Which joystick to set the cached Y axis value for.
  * @param value What to set the cached value as.
  */
-void Proxy166::SetJoystickY(int joy_id, float value) {
+void Proxy::SetJoystickY(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	Joysticks[joy_id].Y = value;
 }
@@ -140,7 +145,7 @@ void Proxy166::SetJoystickY(int joy_id, float value) {
  * @param joy_id Which joystick to set the cached Z axis value for.
  * @param value What to set the cached value as.
  */
-void Proxy166::SetJoystickZ(int joy_id, float value) {
+void Proxy::SetJoystickZ(int joy_id, float value) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	Joysticks[joy_id].Z = value;
 }
@@ -151,7 +156,7 @@ void Proxy166::SetJoystickZ(int joy_id, float value) {
  * @param joy_id Which joystick to get the cached X axis value for.
  * @return Float equal to the cached X axis value.
  */
-float Proxy166::GetJoystickX(int joy_id) {
+float Proxy::GetJoystickX(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
 	value = Joysticks[joy_id].X;
@@ -163,7 +168,7 @@ float Proxy166::GetJoystickX(int joy_id) {
  * @param joy_id Which joystick to get the cached Y axis value for.
  * @return Float equal to the cached Y axis value.
  */
-float Proxy166::GetJoystickY(int joy_id) {
+float Proxy::GetJoystickY(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
 	value = Joysticks[joy_id].Y;
@@ -175,7 +180,7 @@ float Proxy166::GetJoystickY(int joy_id) {
  * @param joy_id Which joystick to get the cached Z axis value for.
  * @return Float equal to the cached Z axis value.
  */
-float Proxy166::GetJoystickZ(int joy_id) {
+float Proxy::GetJoystickZ(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	float value = 0;
 	value = Joysticks[joy_id].Z;
@@ -188,7 +193,7 @@ float Proxy166::GetJoystickZ(int joy_id) {
  * @param switch_id Which switch to cache the value for.
  * @param value The value to cache.
  */
-void Proxy166::SetSwitch(int switch_id, int value) {
+void Proxy::SetSwitch(int switch_id, int value) {
 	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
 	Switches[switch_id] = value;
 }
@@ -198,7 +203,7 @@ void Proxy166::SetSwitch(int switch_id, int value) {
  * @param switch_id Which switch to retrieve the cached value of.
  * @return The int value of the cached switch value.
  */
-int Proxy166::GetSwitch(int switch_id) {
+int Proxy::GetSwitch(int switch_id) {
 	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
 	int value = 0;
 	value = Switches[switch_id];
@@ -210,7 +215,7 @@ int Proxy166::GetSwitch(int switch_id) {
  * @param joy_id Which joystick to retrieve the cached value of.
  * @return ProxyJoystick object with the joystick axes values and buttons set.
  */
-ProxyJoystick Proxy166::GetJoystick(int joy_id)
+ProxyJoystick Proxy::GetJoystick(int joy_id)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	ProxyJoystick value;
@@ -223,7 +228,7 @@ ProxyJoystick Proxy166::GetJoystick(int joy_id)
  * @param joy_id Which joystick to set the cached value for.
  * @param stick A Joystick object with the X, Y, and Z axes set, as well as each of the buttons.
  */
-void Proxy166::SetJoystick(int joy_id, Joystick & stick)
+void Proxy::SetJoystick(int joy_id, Joystick & stick)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	Joysticks[joy_id].X = stick.GetX();
@@ -241,7 +246,7 @@ void Proxy166::SetJoystick(int joy_id, Joystick & stick)
  * @param button_id Which button on the joystick to set the status for.
  * @param newval What to set the button's value to.
  */
-void Proxy166::SetButton(int joy_id, int button_id, bool newval)
+void Proxy::SetButton(int joy_id, int button_id, bool newval)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
 	Joysticks[joy_id].button[button_id] = newval;
@@ -254,7 +259,7 @@ void Proxy166::SetButton(int joy_id, int button_id, bool newval)
  * @param reset Whether to reset the button's value after being called.
  * @return The button's value
  */
-bool Proxy166::GetButton(int joy_id, int button_id, bool reset)
+bool Proxy::GetButton(int joy_id, int button_id, bool reset)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
 	bool button;
@@ -272,7 +277,7 @@ bool Proxy166::GetButton(int joy_id, int button_id, bool reset)
  * @param joy_id Which joystick to set the throttle status for.
  * @param newval What to set the value to.
  */
-void Proxy166::SetThrottle(int joy_id, float newval) {
+void Proxy::SetThrottle(int joy_id, float newval) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	Joysticks[joy_id].throttle=newval;
 }
@@ -282,7 +287,7 @@ void Proxy166::SetThrottle(int joy_id, float newval) {
  * @param joy_id Which joystick to retrieve the throttle status for.
  * @return The button's value
  */
-float Proxy166::GetThrottle(int joy_id) {
+float Proxy::GetThrottle(int joy_id) {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	return Joysticks[joy_id].throttle;
 }
@@ -292,7 +297,7 @@ float Proxy166::GetThrottle(int joy_id) {
  * @param joy_id Which joystick to set the trigger status for.
  * @param newval What to set the value to.
  */
-void Proxy166::SetTrigger(int joy_id, bool newval) { 
+void Proxy::SetTrigger(int joy_id, bool newval) { 
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	SetButton(joy_id, 1, newval); 
 }
@@ -302,7 +307,7 @@ void Proxy166::SetTrigger(int joy_id, bool newval) {
  * @param reset Whether to reset the button's value after being called.
  * @return The last read current value
  */
-bool Proxy166::GetTrigger(int joy_id, bool reset) { 
+bool Proxy::GetTrigger(int joy_id, bool reset) { 
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
 	bool bid = GetButton(joy_id,1); 
 	// reset the button so actions are triggered only once
@@ -315,7 +320,7 @@ bool Proxy166::GetTrigger(int joy_id, bool reset) {
  * @brief Gets the singleton instance of Proxy166.
  * @return The instance of Proxy166
  */
-Proxy166 *Proxy166::getInstance(void)
+Proxy *Proxy::getInstance(void)
 {
 	return ProxyHandle;
 }
@@ -327,7 +332,7 @@ Proxy166 *Proxy166::getInstance(void)
  * @param button_id Which button on the joystick to check
  * @return How many times the button was pressed and released since last call.
  */
-int Proxy166::GetPendingCount(int joystick_id, int button_id) {
+int Proxy::GetPendingCount(int joystick_id, int button_id) {
 	wpi_assert(joystick_id < NUMBER_OF_JOYSTICKS && joystick_id >= 0);
 	wpi_assert(button_id < NUMBER_OF_JOY_BUTTONS && button_id >= 0);
 	
@@ -350,7 +355,7 @@ int Proxy166::GetPendingCount(int joystick_id, int button_id) {
  * @param joystick_id Which joystick to track a button on
  * @param button_idd Which button on the joystick to track
  */
-void Proxy166::RegisterCounter(int joystick_id, int button_id) {
+void Proxy::RegisterCounter(int joystick_id, int button_id) {
 	wpi_assert(joystick_id < NUMBER_OF_JOYSTICKS && joystick_id >= 0);
 	wpi_assert(button_id < NUMBER_OF_JOY_BUTTONS && button_id >= 0);
 	
@@ -374,7 +379,7 @@ void Proxy166::RegisterCounter(int joystick_id, int button_id) {
  * @param joystick_id Which joystick to track a button on
  * @param button_idd Which button on the joystick to track
  */
-void Proxy166::UnregisterCounter(int joystick_id, int button_id) {
+void Proxy::UnregisterCounter(int joystick_id, int button_id) {
 	wpi_assert(joystick_id < NUMBER_OF_JOYSTICKS && joystick_id >= 0);
 	wpi_assert(button_id < NUMBER_OF_JOY_BUTTONS && button_id >= 0);
 	
@@ -395,7 +400,7 @@ void Proxy166::UnregisterCounter(int joystick_id, int button_id) {
  * @param button_id What button on the joystick to check.
  * @return Whether it is registered.
  */
-bool Proxy166::IsRegistered(int joystick_id, int button_id) {
+bool Proxy::IsRegistered(int joystick_id, int button_id) {
 	wpi_assert(joystick_id < NUMBER_OF_JOYSTICKS && joystick_id >= 0);
 	wpi_assert(button_id < NUMBER_OF_JOY_BUTTONS && button_id >= 0);
 	
@@ -412,10 +417,10 @@ bool Proxy166::IsRegistered(int joystick_id, int button_id) {
 	return false;
 }
 
-bool Proxy166::AreSettingJoysticks() {
+bool Proxy::AreSettingJoysticks() {
 	return areSettingJoysticks;
 }
-void Proxy166::ToggleSettingJoysticks(bool in) {
+void Proxy::ToggleSettingJoysticks(bool in) {
 	in = areSettingJoysticks;
 }
 

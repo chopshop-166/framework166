@@ -50,7 +50,7 @@ class ProxyJoystick {
  * access them like Drive, Autonomous, etc. 
  */
 
-class Proxy166 : public Team166Task {
+class Proxy : public Team166Task {
 	public:		
 		
 		// joystick axes
@@ -86,13 +86,13 @@ class Proxy166 : public Team166Task {
 		// internal representation of joystick as a whole
 		ProxyJoystick GetJoystick(int);
 		
-		Proxy166(void);
-		~Proxy166(void);
+		Proxy(void);
+		~Proxy(void);
 		
 		bool AreSettingJoysticks();
 		void ToggleSettingJoysticks(bool);
 		
-		static Proxy166 *getInstance(void);
+		static Proxy *getInstance(void);
 		
 		virtual int Main(int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10);
@@ -100,7 +100,7 @@ class Proxy166 : public Team166Task {
 		/**
 		 * @brief The single instance handle to Proxy166.
 		 */
-		static Proxy166* ProxyHandle;
+		static Proxy* ProxyHandle;
 		
 		// internal method to get values from real joystick
 		void SetJoystick(int,Joystick&);
