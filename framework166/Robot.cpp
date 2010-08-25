@@ -102,7 +102,6 @@ void Robot::OperatorControl(void)
 	RobotMode = T166_OPERATOR;
 	GetWatchdog().SetEnabled(true);
 	DriverStationDisplay("Teleoperated Enabled.");
-		dsHandleLCD->UpdateLCD();
 	while (IsOperatorControl())
 	{
 		if(debugTimer.HasPeriodPassed(ROBOT_WAIT_TIME))

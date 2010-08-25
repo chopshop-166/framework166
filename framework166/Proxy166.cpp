@@ -82,10 +82,10 @@ int Proxy166::Main(	int a2, int a3, int a4, int a5,
 			for(int x = 0;x<NUMBER_OF_JOYSTICKS;x++) {
 				old_sticks[x] = GetJoystick(x);
 			}
-			SetJoystick(1, stick1);
-			SetJoystick(2, stick2);
-			SetJoystick(3, stick3);
-			SetJoystick(4, stick4);
+			SetJoystick(0, stick1);
+			SetJoystick(1, stick2);
+			SetJoystick(2, stick3);
+			SetJoystick(3, stick4);
 			
 			if(tracker.size() > 0) {
 				vector<int>::iterator it = tracker.begin();
