@@ -14,6 +14,7 @@
 #include "Utility.h"
 #include "Team166Task.h"
 #include "FrcError.h"
+#include "ProxyBase.h"
 
 #define NUMBER_OF_JOYSTICKS (4)
 #define NUMBER_OF_SWITCHES (10)
@@ -50,7 +51,7 @@ class ProxyJoystick {
  * access them like Drive, Autonomous, etc. 
  */
 
-class Proxy : public Team166Task {
+class Proxy : public Team166Task, public ProxyBase {
 	public:		
 		
 		// joystick axes
