@@ -238,6 +238,12 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
 		Joysticks[joy_id].button[i] = stick.GetRawButton(i);
 	}
+	if(Joysticks[joy_id].newpress[button_id] || !stick.GetRawButton(i)) {
+		// Either there's an old "newpress", or the new value is "false"
+		Joysticks[joy_id].newpress[button_id] = false;
+	} else {
+		Joysticks[joy_id].newpress[button_id] = true;
+	}
 }
 
 /**
@@ -250,6 +256,12 @@ void Proxy::SetButton(int joy_id, int button_id, bool newval)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
 	Joysticks[joy_id].button[button_id] = newval;
+	if(Joysticks[joy_id].newpress[button_id] || !newval) {
+		// Either there's an old "newpress", or the new value is "false"
+		Joysticks[joy_id].newpress[button_id] = false;
+	} else {
+		Joysticks[joy_id].newpress[button_id] = true;
+	}
 }
 
 /**
@@ -270,6 +282,18 @@ bool Proxy::GetButton(int joy_id, int button_id, bool reset)
 		SetButton(joy_id, button_id, 0);
 	}
 	return button;
+}
+
+/**
+ * @brief Gets whether the button is newly pressed this loop 
+ * @param joy_id Which joystick to retrieve the button status for.
+ * @param button_id Which button on the joystick to retrieve the status for.
+ * @return The button's value
+ */
+bool Proxy::GetNewpress(int joy_id, int button_id)
+{
+	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
+	return Joysticks[joy_id].newpress[button_id];
 }
 
 /**
