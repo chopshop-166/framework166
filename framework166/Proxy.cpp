@@ -236,14 +236,14 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	Joysticks[joy_id].Z = stick.GetZ();
 	Joysticks[joy_id].throttle = stick.GetThrottle();
 	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
-		Joysticks[joy_id].button[i] = stick.GetRawButton(i);
-	}
-	if(Joysticks[joy_id].newpress[button_id] || !stick.GetRawButton(i)) {
-		// Either there's an old "newpress", or the new value is "false"
-		Joysticks[joy_id].newpress[button_id] = false;
-	} else {
-		Joysticks[joy_id].newpress[button_id] = true;
-	}
+			Joysticks[joy_id].button[i] = stick.GetRawButton(i);
+			if(Joysticks[joy_id].newpress[i] || !stick.GetRawButton(i)) {
+				// Either there's an old "newpress", or the new value is "false"
+				Joysticks[joy_id].newpress[i] = false;
+			} else {
+				Joysticks[joy_id].newpress[i] = true;
+			}
+		}
 }
 
 /**
