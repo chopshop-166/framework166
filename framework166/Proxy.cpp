@@ -114,11 +114,6 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	return 0;
 }
 
-/*
- * User defined functions are located in this file
- */
-#include "ProxyFunctions.h"
-
 /**
  * @brief Sets the cached X axis value of a joystick.
  * @param joy_id Which joystick to set the cached X axis value for.
