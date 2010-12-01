@@ -18,6 +18,8 @@
 // To locally enable debug printing: set true, to disable false
 #define DPRINTF if(false)dprintf
 
+map<string,pair<float, SEM_ID> > Proxy::data = map<string,pair<float, SEM_ID> >();
+
 /**
  * @brief Initializes the joystick axes to 0 and the buttons to unset.
  */
@@ -113,6 +115,55 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	
 	return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// This must be called to add values to the data field
+bool Proxy::add(string name)
+{
+	if(data.find(name) == data.end()) {
+		data[name] = make_pair(0.0,semBCreate(SEM_Q_PRIORITY, SEM_FULL));
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// This will get a Proxy value
+float Proxy::get(string name, bool reset)
+{
+	wpi_assert(data.find(name) != data.end());
+	semTake(data[name].second, WAIT_FOREVER);
+	float ret = data[name].first;
+	data[name].first = (reset)? 0 : data[name].first;
+	semGive(data[name].second);
+	return ret;
+}
+
+// Set a new proxy value
+float Proxy::set(string name, float val)
+{
+	wpi_assert(data.find(name) != data.end());
+	semTake(data[name].second, WAIT_FOREVER);
+	data[name].first = val;
+	semGive(data[name].second);
+	return val;
+}
+
+// Stop tracking a variable in Proxy
+bool Proxy::del(string name)
+{
+	if(data.find(name) != data.end()) {
+		semTake(data[name].second, WAIT_FOREVER);
+		semDelete(data[name].second);
+		data.erase(name);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief Sets the cached X axis value of a joystick.

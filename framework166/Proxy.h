@@ -15,6 +15,7 @@
 #include "Team166Task.h"
 #include "FrcError.h"
 #include "ProxyBase.h"
+#include <map>
 
 #define NUMBER_OF_JOYSTICKS (4)
 #define NUMBER_OF_SWITCHES (10)
@@ -53,7 +54,14 @@ class ProxyJoystick {
  */
 
 class Proxy : public Team166Task, public ProxyBase {
-	public:		
+	private:
+		static map<string,pair<float, SEM_ID> > data;
+	public:
+		// Proxy 2.0 functions
+		bool add(string);
+		float get(string, bool=false);
+		float set(string, float);
+		bool del(string);
 		
 		// joystick axes
 		void SetJoystickX(int, float);  
