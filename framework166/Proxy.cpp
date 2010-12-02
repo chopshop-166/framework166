@@ -11,6 +11,8 @@
 
 #include "wpilib.h"
 #include "Robot.h"
+#include <string>
+#include <sstream>
 
 // Enable proxy logging?
 #define LoggingProxy (0)
@@ -45,7 +47,36 @@ Proxy::Proxy(void):
 	for(unsigned i=0;i<NUMBER_OF_SWITCHES;i++) {
 		Switches[i] = 0;
 	}
-	
+	//
+	// Add the built in storage areas
+	//
+	static bool runonce = 0;
+	if (runonce == 0) {
+		// Lets do this the easy way:
+		for (int joyid=1; joyid <5; joyid++) {
+			//Define string for holding joyid
+			string joywid = "Joy";
+			std::stringstream numtochar;
+			numtochar << joyid;
+			joywid += numtochar.str();
+			add(joywid + "X");
+			add(joywid + "Y");
+			add(joywid + "Z");
+			add(joywid + "T");
+			add(joywid + "BT");
+			//Add Buttons, and newpress
+			for (int buttonid=1;buttonid<13;buttonid++) {
+				string butwid = "B";
+				stringstream buttochar;
+				buttochar << buttonid;
+				butwid += buttochar.str();
+				add(joywid + butwid);
+				add(joywid + butwid + "N");
+			}
+		}
+		//Make sure they're only added once
+		runonce = 1;
+	}
 	// Start the actual task
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
 }
@@ -164,6 +195,7 @@ bool Proxy::del(string name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * @brief Sets the cached X axis value of a joystick.
