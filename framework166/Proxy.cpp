@@ -90,6 +90,9 @@ Proxy::Proxy(void):
 
 Proxy::~Proxy(void)
 {
+	for(map<string,pair<float, SEM_ID> >::iterator it = data.begin();it != data.end();it = data.begin()) {
+		del(it->first);
+	}
 	return;
 }
 /**
