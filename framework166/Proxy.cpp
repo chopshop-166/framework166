@@ -309,17 +309,24 @@ ProxyJoystick Proxy::GetJoystick(int joy_id)
 void Proxy::SetJoystick(int joy_id, Joystick & stick)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	Joysticks[joy_id].X = stick.GetX();
-	Joysticks[joy_id].Y = stick.GetY();
-	Joysticks[joy_id].Z = stick.GetZ();
-	Joysticks[joy_id].throttle = stick.GetThrottle();
+	std::stringstream ss;
+	string name;
+	ss << "Joy" << joy_id+1;
+	ss >> name;
+	set(name + 'X', stick.GetX());
+	set(name + 'Y', stick.GetY());
+	set(name + 'Z', stick.GetZ());
+	set(name + 'T', stick.GetThrottle());
+	string bname;
 	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
-			Joysticks[joy_id].button[i] = stick.GetRawButton(i);
+			ss << name << "B" << i+1;
+			ss >> bname;
+			set(bname,stick.GetRawButton(i));
 			if(Joysticks[joy_id].newpress[i] || !stick.GetRawButton(i)) {
 				// Either there's an old "newpress", or the new value is "false"
-				Joysticks[joy_id].newpress[i] = false;
+				set(bname+"N",false);
 			} else {
-				Joysticks[joy_id].newpress[i] = true;
+				set(bname+"N",true);
 			}
 		}
 }
