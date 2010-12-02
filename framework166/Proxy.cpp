@@ -203,98 +203,6 @@ bool Proxy::del(string name)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-/**
- * @brief Sets the cached X axis value of a joystick.
- * @param joy_id Which joystick to set the cached X axis value for.
- * @param value What to set the cached value as.
- */
-
-void Proxy::SetJoystickX(int joy_id, float value) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	Joysticks[joy_id].X = value;
-}
-
-/**
- * @brief Sets the cached Y axis value of a joystick.
- * @param joy_id Which joystick to set the cached Y axis value for.
- * @param value What to set the cached value as.
- */
-void Proxy::SetJoystickY(int joy_id, float value) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	Joysticks[joy_id].Y = value;
-}
-
-/**
- * @brief Sets the cached Z axis value of a joystick.
- * @param joy_id Which joystick to set the cached Z axis value for.
- * @param value What to set the cached value as.
- */
-void Proxy::SetJoystickZ(int joy_id, float value) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	Joysticks[joy_id].Z = value;
-}
-
-
-/**
- * @brief Gets the cached X axis value of a joystick.
- * @param joy_id Which joystick to get the cached X axis value for.
- * @return Float equal to the cached X axis value.
- */
-float Proxy::GetJoystickX(int joy_id) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	float value = 0;
-	value = Joysticks[joy_id].X;
-	return value;
-}
-
-/**
- * @brief Gets the cached Y axis value of a joystick.
- * @param joy_id Which joystick to get the cached Y axis value for.
- * @return Float equal to the cached Y axis value.
- */
-float Proxy::GetJoystickY(int joy_id) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	float value = 0;
-	value = Joysticks[joy_id].Y;
-	return value;
-}
-
-/**
- * @brief Gets the cached Z axis value of a joystick.
- * @param joy_id Which joystick to get the cached Z axis value for.
- * @return Float equal to the cached Z axis value.
- */
-float Proxy::GetJoystickZ(int joy_id) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	float value = 0;
-	value = Joysticks[joy_id].Z;
-	return value;
-}
-
-
-/**
- * @brief Sets the cached value for a switch.
- * @param switch_id Which switch to cache the value for.
- * @param value The value to cache.
- */
-void Proxy::SetSwitch(int switch_id, int value) {
-	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
-	Switches[switch_id] = value;
-}
-
-/**
- * @brief Gets a cached switch value.
- * @param switch_id Which switch to retrieve the cached value of.
- * @return The int value of the cached switch value.
- */
-int Proxy::GetSwitch(int switch_id) {
-	wpi_assert(switch_id < NUMBER_OF_SWITCHES && switch_id >= 0);
-	int value = 0;
-	value = Switches[switch_id];
-	return value;
-}
-
 /**
  * @brief Gets a cached joystick value.
  * @param joy_id Which joystick to retrieve the cached value of.
@@ -355,27 +263,6 @@ void Proxy::SetButton(int joy_id, int button_id, bool newval)
 		Joysticks[joy_id].newpress[button_id] = true;
 	}
 }
-
-/**
- * @brief Gets the cache value of a button on a joystick. 
- * @param joy_id Which joystick to retrieve the button status for.
- * @param button_id Which button on the joystick to retrieve the status for.
- * @param reset Whether to reset the button's value after being called.
- * @return The button's value
- */
-bool Proxy::GetButton(int joy_id, int button_id, bool reset)
-{
-	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
-	bool button;
-	button = Joysticks[joy_id].button[button_id];
-	
-	// reset the button so actions are triggered only once
-	if (reset) {
-		SetButton(joy_id, button_id, 0);
-	}
-	return button;
-}
-
 /**
  * @brief Gets whether the button is newly pressed this loop 
  * @param joy_id Which joystick to retrieve the button status for.
