@@ -44,16 +44,23 @@ Proxy::Proxy(void):
 	areSettingJoysticks(true)
 {
 	ProxyHandle = this;
-	for(unsigned i=0;i<NUMBER_OF_SWITCHES;i++) {
-		Switches[i] = 0;
-	}
 	//
 	// Add the built in storage areas
 	//
 	static bool runonce = 0;
 	if (runonce == 0) {
+		for (int switchid=1; switchid < NUMBER_OF_SWITCHES+1; switchid++) {
+			string switchwid = "Switch";
+			stringstream switchtochar;
+			//turn the switch number into a string
+			switchtochar << switchid;
+			//concat the switch number with "switch"
+			switchwid += switchtochar.str();
+			//Add switches to storage
+			add(switchwid);
+		}
 		// Lets do this the easy way:
-		for (int joyid=1; joyid <5; joyid++) {
+		for (int joyid=1; joyid <NUMBER_OF_JOYSTICKS+1; joyid++) {
 			//Define string for holding joyid
 			string joywid = "Joy";
 			std::stringstream numtochar;
@@ -65,7 +72,7 @@ Proxy::Proxy(void):
 			add(joywid + "T");
 			add(joywid + "BT");
 			//Add Buttons, and newpress
-			for (int buttonid=1;buttonid<13;buttonid++) {
+			for (int buttonid=1;buttonid<NUMBER_OF_JOY_BUTTONS+1;buttonid++) {
 				string butwid = "B";
 				stringstream buttochar;
 				buttochar << buttonid;
