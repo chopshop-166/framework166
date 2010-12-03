@@ -74,6 +74,9 @@ class Proxy : public Team166Task{
 		virtual int Main(int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10);
 	private:
+		// Handle to the proxy
+		static Proxy *ProxyHandle;
+		
 		// internal method to get values from real joystick
 		void SetJoystick(int,Joystick&);
 		void setNewpress(void);

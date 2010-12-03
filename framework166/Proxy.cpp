@@ -22,6 +22,8 @@
 
 map<string,pair<float, SEM_ID> > Proxy::data = map<string,pair<float, SEM_ID> >();
 
+Proxy *Proxy::ProxyHandle = 0;
+
 /**
  * @brief Starts the Proxy166 task.
  */
@@ -34,6 +36,7 @@ Proxy::Proxy(void):
 	//
 	static bool runonce = 0;
 	if (runonce == 0) {
+		ProxyHandle = this;
 		for (int switchid=1; switchid < NUMBER_OF_SWITCHES+1; switchid++) {
 			string switchwid = "Switch";
 			stringstream switchtochar;
@@ -302,6 +305,11 @@ bool Proxy::IsRegistered(int joystick_id, int button_id) {
 		it+=3;
 	}
 	return false;
+}
+
+Proxy* Proxy::getInstance(void)
+{
+	return ProxyHandle;
 }
 
 bool Proxy::AreSettingJoysticks() {
