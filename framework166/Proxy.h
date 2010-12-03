@@ -98,6 +98,7 @@ class Proxy : public Team166Task, public ProxyBase {
 	private:
 		// internal method to get values from real joystick
 		void SetJoystick(int,Joystick&);
+		void setNewpress(void);
 		
 		/**
 		 * A tuple of ints. For every tracked button, there is three

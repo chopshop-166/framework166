@@ -117,6 +117,7 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	ProxyJoystick old_sticks[NUMBER_OF_JOYSTICKS+1];
 	
 	while(MyTaskInitialized) {
+		setNewpress();
 		if(lHandle->IsOperatorControl() && true == AreSettingJoysticks()) {
 			for(int x = 0;x<NUMBER_OF_JOYSTICKS;x++) {
 				old_sticks[x] = GetJoystick(x);
@@ -151,6 +152,24 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	}
 	
 	return 0;
+}
+
+void Proxy::setNewpress()
+{
+	for(unsigned joy_id=1;joy_id < NUMBER_OF_JOYSTICKS+1; joy_id++) {
+		for(unsigned btn_id=1;btn_id < NUMBER_OF_JOY_BUTTONS+1; btn_id++) {
+			string name;
+			stringstream ss;
+			ss << "Joy" << joy_id << "B" << btn_id;
+			ss >> name;
+			if(get(name+"N") || !get(name)) {
+				// Either there's an old "newpress", or the new value is "false"
+				set(name+"N",false);
+			} else {
+				set(name+"N",true);
+			}
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -219,35 +238,11 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	set(name + 'Z', stick.GetZ());
 	set(name + 'T', stick.GetThrottle());
 	string bname;
-	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
-			ss << name << "B" << i+1;
+	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
+			ss << name << "B" << i;
 			ss >> bname;
 			set(bname,stick.GetRawButton(i));
-			if(get(bname+"N") || !stick.GetRawButton(i)) {
-				// Either there's an old "newpress", or the new value is "false"
-				set(bname+"N",false);
-			} else {
-				set(bname+"N",true);
-			}
 		}
-}
-
-/**
- * @brief Sets the cache value of a button on a joystick.
- * @param joy_id Which joystick to set the button status for.
- * @param button_id Which button on the joystick to set the status for.
- * @param newval What to set the button's value to.
- */
-void Proxy::SetButton(int joy_id, int button_id, bool newval)
-{
-	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
-	Joysticks[joy_id].button[button_id] = newval;
-	if(Joysticks[joy_id].newpress[button_id] || !newval) {
-		// Either there's an old "newpress", or the new value is "false"
-		Joysticks[joy_id].newpress[button_id] = false;
-	} else {
-		Joysticks[joy_id].newpress[button_id] = true;
-	}
 }
 
 /**
