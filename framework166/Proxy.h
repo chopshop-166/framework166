@@ -14,7 +14,6 @@
 #include "Utility.h"
 #include "Team166Task.h"
 #include "FrcError.h"
-#include "ProxyBase.h"
 #include <map>
 
 #define NUMBER_OF_JOYSTICKS (4)
@@ -28,24 +27,6 @@
 #define PROXY_CYCLE_TIME (25) // 25ms
 
 /**
- * @brief Proxy Joystick class that will be returned if a full cached joystick is requested.
- * 
- * If Proxy1666::GetJoystick is called, then a full joystick should be returned. 
- */
-class ProxyJoystick {
-	public:
-		float X;
-		float Y;
-		float Z;
-		float throttle;
-		bool button[NUMBER_OF_JOY_BUTTONS];
-		bool newpress[NUMBER_OF_JOY_BUTTONS];
-		
-		ProxyJoystick(void);
-		static ProxyJoystick Copy(Joystick input);
-};
-
-/**
  * @brief Proxy class to store cached values for joysticks and switches.
  * 
  * This class will store the cached values for joysticks and switches. It will also
@@ -53,7 +34,7 @@ class ProxyJoystick {
  * access them like Drive, Autonomous, etc. 
  */
 
-class Proxy : public Team166Task, public ProxyBase {
+class Proxy : public Team166Task{
 	private:
 		static map<string,pair<float, SEM_ID> > data;
 	public:
@@ -81,9 +62,6 @@ class Proxy : public Team166Task, public ProxyBase {
 		void UnregisterCounter(int,int);
 		int GetPendingCount(int,int);
 		bool IsRegistered(int,int);
-
-		// internal representation of joystick as a whole
-		ProxyJoystick GetJoystick(int);
 		
 		Proxy(void);
 		~Proxy(void);

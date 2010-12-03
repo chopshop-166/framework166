@@ -23,17 +23,6 @@
 map<string,pair<float, SEM_ID> > Proxy::data = map<string,pair<float, SEM_ID> >();
 
 /**
- * @brief Initializes the joystick axes to 0 and the buttons to unset.
- */
-ProxyJoystick::ProxyJoystick(void)
-{
-	X=Y=Z=0;
-	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
-		button[i]=false;
-	}
-}
-
-/**
  * @brief Starts the Proxy166 task.
  */
 Proxy::Proxy(void):
@@ -114,35 +103,14 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	Timer debugTimer;
 	debugTimer.Start();
 	
-	ProxyJoystick old_sticks[NUMBER_OF_JOYSTICKS+1];
-	
 	while(MyTaskInitialized) {
 		setNewpress();
 		if(lHandle->IsOperatorControl() && true == AreSettingJoysticks()) {
-			for(int x = 0;x<NUMBER_OF_JOYSTICKS;x++) {
-				old_sticks[x] = GetJoystick(x);
-			}
 			SetJoystick(0, stick1);
 			SetJoystick(1, stick2);
 			SetJoystick(2, stick3);
 			SetJoystick(3, stick4);
 			
-			if(tracker.size() > 0) {
-				vector<int>::iterator it = tracker.begin();
-				while(it != tracker.end()) {
-					int joy_id = *it;
-					int button_id = *(it+1);
-					
-					bool old_button = old_sticks[joy_id].button[button_id];
-					bool new_button = GetButton(joy_id, button_id);
-					
-					if(old_button == 1 && new_button == 0) {
-						// The button was previously pressed, but is now released
-						(*(it+2))++; // Increase the counter
-					}
-					it += 3;
-				}
-			}
 			if(debugTimer.HasPeriodPassed(1.0)) {
 				// Debug info
 			}
@@ -341,11 +309,4 @@ bool Proxy::AreSettingJoysticks() {
 }
 void Proxy::ToggleSettingJoysticks(bool in) {
 	in = areSettingJoysticks;
-}
-
-void DumpJoystick(ProxyJoystick j) {
-	for(int x = 0;x<=NUMBER_OF_JOY_BUTTONS;x++) {
-		printf("[%d=%d] ", x, j.button[x]);
-	}
-	printf("\n");
 }
