@@ -33,9 +33,6 @@ ProxyJoystick::ProxyJoystick(void)
 	}
 }
 
-// Initialiezs the ProxyHandle. 
-Proxy *Proxy::ProxyHandle = 0;
-
 /**
  * @brief Starts the Proxy166 task.
  */
@@ -43,7 +40,6 @@ Proxy::Proxy(void):
 	stick1(0), stick2(1), stick3(2), stick4(3),
 	areSettingJoysticks(true)
 {
-	ProxyHandle = this;
 	//
 	// Add the built in storage areas
 	//
@@ -207,19 +203,6 @@ bool Proxy::del(string name)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Gets a cached joystick value.
- * @param joy_id Which joystick to retrieve the cached value of.
- * @return ProxyJoystick object with the joystick axes values and buttons set.
- */
-ProxyJoystick Proxy::GetJoystick(int joy_id)
-{
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	ProxyJoystick value;
-	value = Joysticks[joy_id];
-	return value;
-}
-
-/**
  * @brief Sets a cached joystick value.
  * @param joy_id Which joystick to set the cached value for.
  * @param stick A Joystick object with the X, Y, and Z axes set, as well as each of the buttons.
@@ -240,7 +223,7 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 			ss << name << "B" << i+1;
 			ss >> bname;
 			set(bname,stick.GetRawButton(i));
-			if(Joysticks[joy_id].newpress[i] || !stick.GetRawButton(i)) {
+			if(get(bname+"N") || !stick.GetRawButton(i)) {
 				// Either there's an old "newpress", or the new value is "false"
 				set(bname+"N",false);
 			} else {
@@ -266,71 +249,6 @@ void Proxy::SetButton(int joy_id, int button_id, bool newval)
 		Joysticks[joy_id].newpress[button_id] = true;
 	}
 }
-/**
- * @brief Gets whether the button is newly pressed this loop 
- * @param joy_id Which joystick to retrieve the button status for.
- * @param button_id Which button on the joystick to retrieve the status for.
- * @return The button's value
- */
-bool Proxy::GetNewpress(int joy_id, int button_id)
-{
-	wpi_assert(joy_id < NUMBER_OF_JOY_BUTTONS && joy_id >= 0);
-	return Joysticks[joy_id].newpress[button_id];
-}
-
-/**
- * @brief Sets the cache value of a joystick throttle.
- * @param joy_id Which joystick to set the throttle status for.
- * @param newval What to set the value to.
- */
-void Proxy::SetThrottle(int joy_id, float newval) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	Joysticks[joy_id].throttle=newval;
-}
-
-/**
- * @brief Gets the cache value of a throttle on a joystick. 
- * @param joy_id Which joystick to retrieve the throttle status for.
- * @return The button's value
- */
-float Proxy::GetThrottle(int joy_id) {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	return Joysticks[joy_id].throttle;
-}
-
-/**
- * @brief Sets the cache value of the trigger (button 1) on a joystick.
- * @param joy_id Which joystick to set the trigger status for.
- * @param newval What to set the value to.
- */
-void Proxy::SetTrigger(int joy_id, bool newval) { 
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	SetButton(joy_id, 1, newval); 
-}
-/**
- * @brief Gets the cache value of the trigger (button 1) of a joystick. 
- * @param joy_id Which joystick to retrieve the trigger status for.
- * @param reset Whether to reset the button's value after being called.
- * @return The last read current value
- */
-bool Proxy::GetTrigger(int joy_id, bool reset) { 
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	bool bid = GetButton(joy_id,1); 
-	// reset the button so actions are triggered only once
-	if (reset) {
-		SetButton(joy_id, 1, 0);
-	}
-	return bid;
-}
-/**
- * @brief Gets the singleton instance of Proxy166.
- * @return The instance of Proxy166
- */
-Proxy *Proxy::getInstance(void)
-{
-	return ProxyHandle;
-}
-
 
 /**
  * @brief Gets the pending amount of times a button was pressed and released since last call.

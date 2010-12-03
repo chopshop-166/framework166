@@ -72,10 +72,6 @@ class Proxy : public Team166Task, public ProxyBase {
 		float GetJoystickY(int);
 		float GetJoystickZ(int);
 		
-		// driver station switches
-		void SetSwitch(int, int);
-		int GetSwitch(int);
-		
 		// joystick buttons
 		void SetButton(int,int,bool);
 		bool GetButton(int,int,bool=false);
@@ -85,14 +81,6 @@ class Proxy : public Team166Task, public ProxyBase {
 		void UnregisterCounter(int,int);
 		int GetPendingCount(int,int);
 		bool IsRegistered(int,int);
-		
-		// joystick throttle
-		void SetThrottle(int,float);
-		float GetThrottle(int);
-
-		// joystick trigger (same as switch #1)
-		void SetTrigger(int,bool);
-		bool GetTrigger(int,bool=false);
 
 		// internal representation of joystick as a whole
 		ProxyJoystick GetJoystick(int);
@@ -108,19 +96,8 @@ class Proxy : public Team166Task, public ProxyBase {
 		virtual int Main(int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10);
 	private:
-		/**
-		 * @brief The single instance handle to Proxy166.
-		 */
-		static Proxy* ProxyHandle;
-		
 		// internal method to get values from real joystick
 		void SetJoystick(int,Joystick&);
-
-		// proxy storage for driver station switches
-		int Switches[NUMBER_OF_SWITCHES];
-		
-		// proxy storage for driver station joysticks
-		ProxyJoystick Joysticks[NUMBER_OF_JOYSTICKS];
 		
 		/**
 		 * A tuple of ints. For every tracked button, there is three
@@ -139,7 +116,4 @@ class Proxy : public Team166Task, public ProxyBase {
 		float Battery;
 				
 		bool areSettingJoysticks;
-		
-		// <<CHANGEME>>
-		// Insert your own things into the proxy here
 };
