@@ -28,7 +28,7 @@ Proxy *Proxy::ProxyHandle = 0;
  * @brief Starts the Proxy166 task.
  */
 Proxy::Proxy(void):
-	stick1(0), stick2(1), stick3(2), stick4(3),
+	stick1(1), stick2(2), stick3(3), stick4(4),
 	areSettingJoysticks(true)
 {
 	//
@@ -209,11 +209,12 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	set(name + 'Z', stick.GetZ());
 	set(name + 'T', stick.GetThrottle());
 	string bname;
-	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
-			ss << name << "B" << i;
-			ss >> bname;
-			set(bname,stick.GetRawButton(i));
-		}
+	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
+		ss << name << "B" << i+1;
+		ss >> bname;
+		set(bname,stick.GetRawButton(i));
+	}
+	set(name+"BT", stick.GetTrigger());
 }
 
 /**

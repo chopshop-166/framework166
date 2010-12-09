@@ -44,20 +44,6 @@ class Proxy : public Team166Task{
 		float set(string, float);
 		bool del(string);
 		
-		// joystick axes
-		void SetJoystickX(int, float);  
-		void SetJoystickY(int, float);
-		void SetJoystickZ(int, float);
-		
-		float GetJoystickX(int);
-		float GetJoystickY(int);
-		float GetJoystickZ(int);
-		
-		// joystick buttons
-		void SetButton(int,int,bool);
-		bool GetButton(int,int,bool=false);
-		bool GetNewpress(int,int);
-		
 		void RegisterCounter(int,int);
 		void UnregisterCounter(int,int);
 		int GetPendingCount(int,int);
