@@ -310,6 +310,9 @@ bool Proxy::IsRegistered(int joystick_id, int button_id) {
 
 Proxy* Proxy::getInstance(void)
 {
+	if(ProxyHandle == 0) {
+		ProxyHandle = new Proxy;
+	}
 	return ProxyHandle;
 }
 

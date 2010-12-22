@@ -49,7 +49,6 @@ class Proxy : public Team166Task{
 		int GetPendingCount(int,int);
 		bool IsRegistered(int,int);
 		
-		Proxy(void);
 		~Proxy(void);
 		
 		bool AreSettingJoysticks();
@@ -60,6 +59,7 @@ class Proxy : public Team166Task{
 		virtual int Main(int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10);
 	private:
+		Proxy(void);
 		// Handle to the proxy
 		static Proxy *ProxyHandle;
 		

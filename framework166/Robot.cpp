@@ -29,8 +29,6 @@ Team166Task *Team166Task::ActiveTasks[T166_MAXTASK + 1] = {0};
 // Create the robot handle that's used by all the other classes
 Robot *Robot::RobotHandle = NULL;
 
-// This task has to always be started first or the system will crash
-Proxy Team166ProxyObject;
 // Declare external tasks inside Tasks.h
 #include "Tasks.h"
 
