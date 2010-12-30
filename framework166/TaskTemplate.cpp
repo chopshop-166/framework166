@@ -9,6 +9,12 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
+/*------------------------------------------------------------------------------*/
+/* Find & Replace "Template" with the name you would like to give this task     */
+/* Find & Replace "Testing" with the name you would like to give this task      */
+/* Find & Replace "TaskTemplate" with the name you would like to give this task */
+/*------------------------------------------------------------------------------*/
+
 #include "WPILib.h"
 #include "TaskTemplate.h"
 
@@ -16,7 +22,7 @@
 #define DPRINTF if(false)dprintf
 
 // Sample in memory buffer
-struct abuf166
+struct abuf
 {
 	struct timespec tp;               // Time of snapshot
 	// Any values that need to be logged go here
@@ -25,11 +31,11 @@ struct abuf166
 
 //  Memory Log
 // <<CHANGEME>>
-class TemplateLog : public MemoryLog166
+class TemplateLog : public MemoryLog
 {
 public:
-	TemplateLog() : MemoryLog166(
-			sizeof(struct abuf166), TEMPLATE_CYCLE_TIME, "template",
+	TemplateLog() : MemoryLog(
+			sizeof(struct abuf), TEMPLATE_CYCLE_TIME, "template",
 			"Seconds,Nanoseconds,Elapsed Time\n" // Put the names of the values in here, comma-seperated
 			) {
 		return;
@@ -46,16 +52,16 @@ public:
 // <<CHANGEME>>
 unsigned int TemplateLog::PutOne(void)
 {
-	struct abuf166 *ob;               // Output buffer
+	struct abuf *ob;               // Output buffer
 	
 	// Get output buffer
-	if ((ob = (struct abuf166 *)GetNextBuffer(sizeof(struct abuf166)))) {
+	if ((ob = (struct abuf *)GetNextBuffer(sizeof(struct abuf)))) {
 		
 		// Fill it in.
 		clock_gettime(CLOCK_REALTIME, &ob->tp);
 		// Add any values to be logged here
 		// <<CHANGEME>>
-		return (sizeof(struct abuf166));
+		return (sizeof(struct abuf));
 	}
 	
 	// Did not get a buffer. Return a zero length
@@ -65,7 +71,7 @@ unsigned int TemplateLog::PutOne(void)
 // Format the next buffer for file output
 unsigned int TemplateLog::DumpBuffer(char *nptr, FILE *ofile)
 {
-	struct abuf166 *ab = (struct abuf166 *)nptr;
+	struct abuf *ab = (struct abuf *)nptr;
 	
 	// Output the data into the file
 	fprintf(ofile, "%u,%u,%4.5f\n",
@@ -76,7 +82,7 @@ unsigned int TemplateLog::DumpBuffer(char *nptr, FILE *ofile)
 	);
 	
 	// Done
-	return (sizeof(struct abuf166));
+	return (sizeof(struct abuf));
 }
 
 

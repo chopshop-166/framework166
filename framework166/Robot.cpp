@@ -144,7 +144,7 @@ Robot *Robot::getInstance(void)
 /**
  * Register a log object
  */
-void Robot::RegisterLogger(MemoryLog166 *ml)
+void Robot::RegisterLogger(MemoryLog *ml)
 {
 	
 	// Has this handler been registered already?
@@ -163,7 +163,7 @@ void Robot::RegisterLogger(MemoryLog166 *ml)
  */
 void Robot::DumpLoggers(int dnum)
 {
-	MemoryLog166 *ml;
+	MemoryLog *ml;
 	
 	// Iterate through the list of loggers
 	ml = mlHead;

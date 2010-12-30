@@ -21,10 +21,9 @@
 #define NUMBER_OF_JOY_BUTTONS (12)
 
 //
-// This constant defines how often we want this task to run in the form
-// of miliseconds. Max allowed time is 999 miliseconds.
+//This is how often the Driver Station sends back data.
 //
-#define PROXY_CYCLE_TIME (25) // 25ms
+#define PROXY_CYCLE_TIME (20) // 20ms
 
 /**
  * @brief Proxy class to store cached values for joysticks and switches.
