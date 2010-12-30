@@ -18,14 +18,14 @@ using std::string;
 //
 // This class defines an interface to logging to memory and then into a .csv file
 //
-class MemoryLog166
+class MemoryLog
 {
 
 // Methods	
 public:
 	struct timespec starttime;					// Time the task started at
-	MemoryLog166(unsigned int msize, unsigned int ltime, char *f, char *titles);
-	virtual ~MemoryLog166(void);
+	MemoryLog(unsigned int msize, unsigned int ltime, char *f, char *titles);
+	virtual ~MemoryLog(void);
 	char *GetNextBuffer(unsigned int bsize);	// Get next buffer to write
 	int DumpToFile(void);						// Dump the data into a file
 	virtual unsigned int DumpBuffer(			// Dump the next buffer into the file
@@ -35,14 +35,14 @@ public:
 // Members
 public:
 	int Registered;								// This handler has been registered with Robot166
-	MemoryLog166 *mlNext;						// Link to the next block
+	MemoryLog *mlNext;						// Link to the next block
 
 private:
 	unsigned int MemorySize;					// Size of the memory we have allocated
 	char *MemoryBase;							// Base pointer to memory just allocated
 	char *MemoryEnd;							// End of allocated memory
 	char *MemoryNext;							// Next
-	MemoryLog166 *Next;					// Link to next log structure
+	MemoryLog *Next;					// Link to next log structure
 	string FileName;								// Filename
 	string Titles;								// Titles at the top of the csv
 	int BuffersRequested;						// Buffers requested

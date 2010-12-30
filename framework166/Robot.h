@@ -15,7 +15,7 @@
 #include "BaeUtilities.h"
 #include "Team166Task.h"
 #include "Autonomous.h"
-#include "MemoryLog166.h"
+#include "MemoryLog.h"
 #include "Proxy.h"
 #include "Defines.h"
 
@@ -43,7 +43,7 @@ public:
 private:
     DriverStation *dsHandle;					// Driver Station handle
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
-    MemoryLog166 *mlHead;						// Memory log head
+    MemoryLog *mlHead;						// Memory log head
     int maxLogId;								// Max log file id
     static Robot* RobotHandle;					// Singleton instance reference
 public:
@@ -52,7 +52,7 @@ public:
 	void OperatorControl(void);					// Method called by WPI when we're in operator control mode
 	void Disabled(void);						// Method called by WPI when we're disabled
 	static Robot *getInstance(void);			// Get pointer to our Robot166 instance
-	void RegisterLogger(MemoryLog166 *ml);		// Register memory logger
+	void RegisterLogger(MemoryLog *ml);		// Register memory logger
 	void DumpLoggers(int dnum);					// Dump all logs
 	int DriverStationDisplay (const char*, ...);			// Display text on DS
 };
