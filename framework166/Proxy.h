@@ -43,10 +43,10 @@ class Proxy : public Team166Task{
 		float set(string, float);
 		bool del(string);
 		
-		void RegisterCounter(int,int);
-		void UnregisterCounter(int,int);
-		int GetPendingCount(int,int);
-		bool IsRegistered(int,int);
+		void RegisterCounter(string);
+		void UnregisterCounter(string);
+		int GetPendingCount(string);
+		bool IsRegistered(string);
 		
 		~Proxy(void);
 		
@@ -71,7 +71,8 @@ class Proxy : public Team166Task{
 		 * ints in this tuple: first, the joystick number, second, the button number,
 		 * and third, the number of times it has been pressed.
 		*/
-		vector<int> tracker;
+		//vector<int> tracker;
+		map<string,int> tracker;
 
 		// The physical joysticks
 		Joystick stick1;
