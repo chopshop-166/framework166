@@ -267,6 +267,7 @@ void Team166Task::PrintStats(void) {
 	if(printed)
 		printf("\n");
 }
+
 /**
  * Prints out a list of tasks that have not initialized.
  */
@@ -281,6 +282,24 @@ void Team166Task::PrintInactive(void) {
 	for(int x = 0;x<T166_MAXTASK;x++) {
 		if ((ActiveTasks[x]) &&
 					 (!ActiveTasks[x]->MyTaskInitialized)) {
+			printf("%s%c",  ActiveTasks[x]->MyName, (x == last_id ? '\0' : ' '));
+		}
+	}
+}
+
+/**
+ * Prints out a list of all the Framework-based tasks.
+ */
+void Team166Task::PrintAllTasks(void) {
+	int last_id = 0;
+	for(int x = 0;x<T166_MAXTASK;x++) {
+		if(ActiveTasks[x])
+			last_id = x;
+		else
+			break;
+	}
+	for(int x = 0;x<T166_MAXTASK;x++) {
+		if (ActiveTasks[x]) {
 			printf("%s%c",  ActiveTasks[x]->MyName, (x == last_id ? '\0' : ' '));
 		}
 	}
