@@ -148,6 +148,9 @@ void Proxy::setNewpress()
 // This must be called to add values to the data field
 bool Proxy::add(string name)
 {
+	for(unsigned i=0;i<name.size();i++) {
+		name[i] = toupper(name[i]);
+	}
 	if(data.find(name) == data.end()) {
 		data[name] = make_pair(0.0,semBCreate(SEM_Q_PRIORITY, SEM_FULL));
 		return true;
@@ -159,6 +162,9 @@ bool Proxy::add(string name)
 // This will get a Proxy value
 float Proxy::get(string name, bool reset)
 {
+	for(unsigned i=0;i<name.size();i++) {
+		name[i] = toupper(name[i]);
+	}
 	wpi_assert(data.find(name) != data.end());
 	semTake(data[name].second, WAIT_FOREVER);
 	float ret = data[name].first;
@@ -170,6 +176,9 @@ float Proxy::get(string name, bool reset)
 // Set a new proxy value
 float Proxy::set(string name, float val)
 {
+	for(unsigned i=0;i<name.size();i++) {
+		name[i] = toupper(name[i]);
+	}
 	wpi_assert(data.find(name) != data.end());
 	semTake(data[name].second, WAIT_FOREVER);
 	data[name].first = val;
@@ -180,6 +189,9 @@ float Proxy::set(string name, float val)
 // Stop tracking a variable in Proxy
 bool Proxy::del(string name)
 {
+	for(unsigned i=0;i<name.size();i++) {
+		name[i] = toupper(name[i]);
+	}
 	if(data.find(name) != data.end()) {
 		semTake(data[name].second, WAIT_FOREVER);
 		semDelete(data[name].second);
@@ -222,6 +234,9 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
  * @return How many times the button was pressed and released since last call.
  */
 int Proxy::GetPendingCount(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
 	wpi_assertWithMessage(tracker.size() == 0, "Tried to fetch pending count for a non-registered button.");
 	map<string,int>::iterator it = tracker.find(JoyButton);
 	wpi_assertWithMessage(it != tracker.end(), "Tried to fetch pending count for a non-registered button.");
@@ -234,6 +249,9 @@ int Proxy::GetPendingCount(string JoyButton) {
  * @param button_idd Which button on the joystick to track
  */
 bool Proxy::RegisterCounter(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
 	if(tracker.find(JoyButton) == tracker.end()) {
 		tracker[JoyButton] = 0;
 		return true;
@@ -248,6 +266,9 @@ bool Proxy::RegisterCounter(string JoyButton) {
  * @param button_idd Which button on the joystick to track
  */
 bool Proxy::UnregisterCounter(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
 	return tracker.erase(JoyButton);
 }
 /**
@@ -256,6 +277,9 @@ bool Proxy::UnregisterCounter(string JoyButton) {
  * @return Whether it is registered.
  */
 bool Proxy::IsRegistered(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
 	return (tracker.find(JoyButton) != tracker.end());
 }
 

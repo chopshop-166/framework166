@@ -86,6 +86,7 @@ public:
 	static int FeedWatchDog(void);
 	
 	static void PrintInactive(void);
+	static void PrintAllTasks(void);
 	
 	
 
