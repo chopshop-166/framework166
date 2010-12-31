@@ -122,16 +122,28 @@ void Proxy::setNewpress()
 {
 	for(unsigned joy_id=1;joy_id < NUMBER_OF_JOYSTICKS+1; joy_id++) {
 		for(unsigned btn_id=1;btn_id < NUMBER_OF_JOY_BUTTONS+1; btn_id++) {
-			string name;
 			char tmp[32];
 			sprintf(tmp, "Joy%dB%d", joy_id, btn_id);
-			name = tmp;
-			if(get(name+"N") || !get(name)) {
-				// Either there's an old "newpress", or the new value is "false"
-				set(name+"N",false);
-			} else {
-				set(name+"N",true);
+			string name = tmp;
+			bool lastvalue[4][12];
+			bool buttonval = (bool)get(name);
+			if (lastvalue[joy_id-1][btn_id-1] == buttonval){
+				if(name == "Joy1B1") {
+					printf("First");
+				}
+			} else if(buttonval == 0) {
+				if(name == "Joy1B1") {
+					printf("Second\n");
+				}
+				set(name + "N", 0.0);
+			} else if(buttonval == 1) {
+				if(name == "Joy1B1") {
+					printf("Third  ");
+					printf("Last: %d Cur: %d\n", lastvalue[joy_id-1][btn_id-1], buttonval);
+				}
+				set(name + "N", 1.0);
 			}
+			lastvalue[joy_id-1][btn_id-1] = buttonval;
 		}
 	}
 }
