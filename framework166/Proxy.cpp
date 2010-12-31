@@ -12,7 +12,6 @@
 #include "wpilib.h"
 #include "Robot.h"
 #include <string>
-#include <sstream>
 
 // Enable proxy logging?
 #define LoggingProxy (0)
@@ -38,22 +37,17 @@ Proxy::Proxy(void):
 	if (runonce == 0) {
 		ProxyHandle = this;
 		for (int switchid=1; switchid < NUMBER_OF_SWITCHES+1; switchid++) {
-			string switchwid = "Switch";
-			stringstream switchtochar;
-			//turn the switch number into a string
-			switchtochar << switchid;
-			//concat the switch number with "switch"
-			switchwid += switchtochar.str();
+			char tmp[32];
+			sprintf(tmp, "Switch%d", switchid);
+			string switchwid = tmp;
 			//Add switches to storage
 			add(switchwid);
 		}
 		// Lets do this the easy way:
 		for (int joyid=1; joyid <NUMBER_OF_JOYSTICKS+1; joyid++) {
-			//Define string for holding joyid
-			string joywid = "Joy";
-			std::stringstream numtochar;
-			numtochar << joyid;
-			joywid += numtochar.str();
+			char tmp[32];
+			sprintf(tmp, "Joy%d", joyid);
+			string joywid = tmp;
 			add(joywid + "X");
 			add(joywid + "Y");
 			add(joywid + "Z");
@@ -61,12 +55,11 @@ Proxy::Proxy(void):
 			add(joywid + "BT");
 			//Add Buttons, and newpress
 			for (int buttonid=1;buttonid<NUMBER_OF_JOY_BUTTONS+1;buttonid++) {
-				string butwid = "B";
-				stringstream buttochar;
-				buttochar << buttonid;
-				butwid += buttochar.str();
-				add(joywid + butwid);
-				add(joywid + butwid + "N");
+				char tmp[32];
+				sprintf(tmp, "%sB%d", joywid.c_str(), buttonid);
+				string butwid = tmp;
+				add(butwid);
+				add(butwid + "N");
 			}
 		}
 		//Make sure they're only added once
@@ -109,10 +102,10 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	while(MyTaskInitialized) {
 		setNewpress();
 		if(lHandle->IsOperatorControl() && true == AreSettingJoysticks()) {
-			SetJoystick(0, stick1);
-			SetJoystick(1, stick2);
-			SetJoystick(2, stick3);
-			SetJoystick(3, stick4);
+			SetJoystick(1, stick1);
+			SetJoystick(2, stick2);
+			SetJoystick(3, stick3);
+			SetJoystick(4, stick4);
 			
 			if(debugTimer.HasPeriodPassed(1.0)) {
 				// Debug info
@@ -130,9 +123,9 @@ void Proxy::setNewpress()
 	for(unsigned joy_id=1;joy_id < NUMBER_OF_JOYSTICKS+1; joy_id++) {
 		for(unsigned btn_id=1;btn_id < NUMBER_OF_JOY_BUTTONS+1; btn_id++) {
 			string name;
-			stringstream ss;
-			ss << "Joy" << joy_id << "B" << btn_id;
-			ss >> name;
+			char tmp[32];
+			sprintf(tmp, "Joy%dB%d", joy_id, btn_id);
+			name = tmp;
 			if(get(name+"N") || !get(name)) {
 				// Either there's an old "newpress", or the new value is "false"
 				set(name+"N",false);
@@ -209,20 +202,22 @@ bool Proxy::del(string name)
  */
 void Proxy::SetJoystick(int joy_id, Joystick & stick)
 {
-	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS && joy_id >= 0);
-	std::stringstream ss;
+	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS+1 && joy_id >= 0);
 	string name;
-	ss << "Joy" << joy_id+1;
-	ss >> name;
+	char tmp[32];
+	sprintf(tmp, "Joy%d", joy_id);
+	name = tmp;
 	set(name + 'X', stick.GetX());
 	set(name + 'Y', stick.GetY());
 	set(name + 'Z', stick.GetZ());
 	set(name + 'T', stick.GetThrottle());
 	string bname;
-	for(unsigned i=0;i<NUMBER_OF_JOY_BUTTONS;i++) {
-		ss << name << "B" << i+1;
-		ss >> bname;
+	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
+		char tmp1[32];
+		sprintf(tmp1, "%sB%d", name.c_str(), i);
+		bname = tmp1;
 		set(bname,stick.GetRawButton(i));
+		
 	}
 	set(name+"BT", stick.GetTrigger());
 }
