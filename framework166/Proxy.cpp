@@ -190,8 +190,6 @@ bool Proxy::del(string name)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * @brief Sets a cached joystick value.
  * @param joy_id Which joystick to set the cached value for.
@@ -224,18 +222,10 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
  * @return How many times the button was pressed and released since last call.
  */
 int Proxy::GetPendingCount(string JoyButton) {
-	if(tracker.size() == 0)
-		wpi_assertWithMessage(false, "Tried to fetch pending count for a non-registered button.");
-	map<string,int>::iterator it = tracker.begin();
-	while(it != tracker.end())
-	{
-		if(it->first == JoyButton) {
-			return (it->second);
-		}
-		it++;
-	}
-	wpi_assertWithMessage(false, "Tried to fetch pending count for a non-registered button.");
-	return 0;
+	wpi_assertWithMessage(tracker.size() == 0, "Tried to fetch pending count for a non-registered button.");
+	map<string,int>::iterator it = tracker.find(JoyButton);
+	wpi_assertWithMessage(it != tracker.end(), "Tried to fetch pending count for a non-registered button.");
+	return (it->second);
 }
 
 /**
@@ -243,17 +233,13 @@ int Proxy::GetPendingCount(string JoyButton) {
  * @param joystick_id Which joystick to track a button on
  * @param button_idd Which button on the joystick to track
  */
-void Proxy::RegisterCounter(string JoyButton) {
-	if(tracker.size() != 0) {
-		map<string,int>::iterator it = tracker.begin();
-		while(it == tracker.end())
-		{
-			if(it->first == JoyButton) {
-				return;
-			}
-		}
+bool Proxy::RegisterCounter(string JoyButton) {
+	if(tracker.find(JoyButton) == tracker.end()) {
+		tracker[JoyButton] = 0;
+		return true;
+	} else {
+		return false;
 	}
-	tracker.insert(pair<string,int>(JoyButton, 0) );
 }
 
 /**
@@ -261,17 +247,8 @@ void Proxy::RegisterCounter(string JoyButton) {
  * @param joystick_id Which joystick to track a button on
  * @param button_idd Which button on the joystick to track
  */
-void Proxy::UnregisterCounter(string JoyButton) {
-	if(tracker.size() == 0)
-		return;
-	map<string,int>::iterator it = tracker.begin();
-	while(it == tracker.end())
-	{
-		if(it->first == JoyButton) {
-			tracker.erase(it);
-		}
-		it++;
-	}
+bool Proxy::UnregisterCounter(string JoyButton) {
+	return tracker.erase(JoyButton);
 }
 /**
  * @brief Whether a joystick is registered for tracking
@@ -279,17 +256,7 @@ void Proxy::UnregisterCounter(string JoyButton) {
  * @return Whether it is registered.
  */
 bool Proxy::IsRegistered(string JoyButton) {
-	if(tracker.size() == 0)
-		return false;
-	map<string,int>::iterator it = tracker.begin();
-	while(it == tracker.end())
-	{
-		if(it->first == JoyButton) {
-			return true;
-		}
-		it++;
-	}
-	return false;
+	return (tracker.find(JoyButton) != tracker.end());
 }
 
 Proxy* Proxy::getInstance(void)

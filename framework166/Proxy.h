@@ -43,8 +43,8 @@ class Proxy : public Team166Task{
 		float set(string, float);
 		bool del(string);
 		
-		void RegisterCounter(string);
-		void UnregisterCounter(string);
+		bool RegisterCounter(string);
+		bool UnregisterCounter(string);
 		int GetPendingCount(string);
 		bool IsRegistered(string);
 		
