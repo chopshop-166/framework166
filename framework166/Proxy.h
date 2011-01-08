@@ -72,7 +72,8 @@ class Proxy : public Team166Task{
 		 * and third, the number of times it has been pressed.
 		*/
 		//vector<int> tracker;
-		map<string,int> tracker;
+		static map<string,int> tracker;
+		static short newpress_values[NUMBER_OF_JOYSTICKS][NUMBER_OF_JOY_BUTTONS];
 
 		// The physical joysticks
 		Joystick stick1;

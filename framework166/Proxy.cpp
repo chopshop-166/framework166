@@ -20,6 +20,8 @@
 #define DPRINTF if(false)dprintf
 
 map<string,pair<float, SEM_ID> > Proxy::data = map<string,pair<float, SEM_ID> >();
+map<string,int> Proxy::tracker = map<string,int>();
+short Proxy::newpress_values[NUMBER_OF_JOYSTICKS][NUMBER_OF_JOY_BUTTONS];
 
 Proxy *Proxy::ProxyHandle = 0;
 
@@ -86,15 +88,9 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10) {
 
 	Robot *lHandle = NULL;
-#if LoggingProxy
-	ProxyLog sl;
-#endif
 	WaitForGoAhead();
 	
 	lHandle = Robot::getInstance();
-#if LoggingProxy
-	lHandle->RegisterLogger(&sl);
-#endif
 	
 	Timer debugTimer;
 	debugTimer.Start();
@@ -125,25 +121,23 @@ void Proxy::setNewpress()
 			char tmp[32];
 			sprintf(tmp, "Joy%dB%d", joy_id, btn_id);
 			string name = tmp;
-			bool lastvalue[4][12];
 			bool buttonval = (bool)get(name);
-			if (lastvalue[joy_id-1][btn_id-1] == buttonval){
-				if(name == "Joy1B1") {
-					printf("First");
-				}
-			} else if(buttonval == 0) {
-				if(name == "Joy1B1") {
-					printf("Second\n");
-				}
-				set(name + "N", 0.0);
-			} else if(buttonval == 1) {
-				if(name == "Joy1B1") {
-					printf("Third  ");
-					printf("Last: %d Cur: %d\n", lastvalue[joy_id-1][btn_id-1], buttonval);
-				}
-				set(name + "N", 1.0);
+			if(buttonval) {
+				newpress_values[joy_id-1][btn_id-1]++;
+			} else {
+				newpress_values[joy_id-1][btn_id-1] = 0;
 			}
-			lastvalue[joy_id-1][btn_id-1] = buttonval;
+			if(newpress_values[joy_id-1][btn_id-1]==1) {
+				set(name + "N", 1.0);
+				if(tracker.find(name) != tracker.end()) {
+					tracker[name]++;
+				}
+			} else {
+				set(name + "N", 0.0);
+			}
+			if(newpress_values[joy_id-1][btn_id-1]>1) {
+				newpress_values[joy_id-1][btn_id-1] = 2;
+			}
 		}
 	}
 }
@@ -247,7 +241,9 @@ int Proxy::GetPendingCount(string JoyButton) {
 	wpi_assertWithMessage(tracker.size() == 0, "Tried to fetch pending count for a non-registered button.");
 	map<string,int>::iterator it = tracker.find(JoyButton);
 	wpi_assertWithMessage(it != tracker.end(), "Tried to fetch pending count for a non-registered button.");
-	return (it->second);
+	int tmp=(it->second);
+	it->second = 0;
+	return (tmp);
 }
 
 /**
