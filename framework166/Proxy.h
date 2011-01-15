@@ -80,9 +80,6 @@ class Proxy : public Team166Task{
 		Joystick stick2;
 		Joystick stick3;
 		Joystick stick4;
-		
-		// Battery level
-		float Battery;
 				
 		bool areSettingJoysticks;
 };

@@ -53,6 +53,7 @@ Proxy::Proxy(void):
 			add(joywid + "X");
 			add(joywid + "Y");
 			add(joywid + "Z");
+			add(joywid + "R");
 			add(joywid + "T");
 			add(joywid + "BT");
 			//Add Buttons, and newpress
@@ -216,6 +217,7 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	set(name + 'X', stick.GetX());
 	set(name + 'Y', stick.GetY());
 	set(name + 'Z', stick.GetZ());
+	set(name + 'R', stick.GetTwist());
 	set(name + 'T', stick.GetThrottle());
 	string bname;
 	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
