@@ -25,11 +25,6 @@
 // Robot166 wait time
 #define ROBOT_WAIT_TIME (0.5)
 
-//
-// Robot modes
-//
-typedef enum {T166_UNKNOWN=0, T166_CONSTRUCTOR, T166_AUTONOMOUS, T166_OPERATOR, T166_DISABLED} t_RobotMode;
-
 /**
  * This is a demo program showing the use of the RobotBase class.
  * The SimpleRobot class is the base of a robot application that will automatically call your
@@ -38,12 +33,10 @@ typedef enum {T166_UNKNOWN=0, T166_CONSTRUCTOR, T166_AUTONOMOUS, T166_OPERATOR, 
  */ 
 class Robot : public SimpleRobot
 {
-public:
-    t_RobotMode RobotMode;						// Robot mode
 private:
     DriverStation *dsHandle;					// Driver Station handle
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
-    MemoryLog *mlHead;						// Memory log head
+    MemoryLog *mlHead;							// Memory log head
     int maxLogId;								// Max log file id
     static Robot* RobotHandle;					// Singleton instance reference
 public:
@@ -52,7 +45,7 @@ public:
 	void OperatorControl(void);					// Method called by WPI when we're in operator control mode
 	void Disabled(void);						// Method called by WPI when we're disabled
 	static Robot *getInstance(void);			// Get pointer to our Robot166 instance
-	void RegisterLogger(MemoryLog *ml);		// Register memory logger
+	void RegisterLogger(MemoryLog *ml);			// Register memory logger
 	void DumpLoggers(int dnum);					// Dump all logs
 	int DriverStationDisplay (const char*, ...);			// Display text on DS
 };
