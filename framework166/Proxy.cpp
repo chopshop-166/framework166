@@ -122,9 +122,9 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 			set("matchtimer",0);
 		} else if(wasEnabled) {
 			if(lHandle->IsAutonomous()) {
-				set("matchtimer", 15 - matchTimer.Get());
+				set("matchtimer",min( 15 - matchTimer.Get(),0));
 			} else {
-				set("matchtimer",120 - matchTimer.Get());
+				set("matchtimer",min(120 - matchTimer.Get(),0));
 			}
 		}
 		// The task ends if it's not initialized
