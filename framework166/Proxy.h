@@ -82,4 +82,5 @@ class Proxy : public Team166Task{
 		Joystick stick4;
 				
 		bool areSettingJoysticks;
+		bool wasEnabled;
 };

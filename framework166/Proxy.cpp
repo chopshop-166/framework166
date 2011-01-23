@@ -68,6 +68,7 @@ Proxy::Proxy(void):
 		//Make sure they're only added once
 		runonce = 1;
 	}
+	add("matchtimer");
 	// Start the actual task
 	Start((char *)"166ProxyTask", PROXY_CYCLE_TIME);
 }
@@ -95,6 +96,7 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	
 	Timer debugTimer;
 	debugTimer.Start();
+	Timer matchTimer;
 	
 	while(MyTaskInitialized) {
 		setNewpress();
@@ -108,10 +110,26 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 				// Debug info
 			}
 		}
+		if(wasEnabled != lHandle->IsEnabled()) {
+			matchTimer.Reset();
+			if(wasEnabled=lHandle->IsEnabled()) {
+				// It became enabled
+				matchTimer.Start();
+			} else {
+				// It became disabled
+				matchTimer.Stop();
+			}
+			set("matchtimer",0);
+		} else if(wasEnabled) {
+			if(lHandle->IsAutonomous()) {
+				set("matchtimer", 15 - matchTimer.Get());
+			} else {
+				set("matchtimer",120 - matchTimer.Get());
+			}
+		}
 		// The task ends if it's not initialized
 		WaitForNextLoop();
 	}
-	
 	return 0;
 }
 
