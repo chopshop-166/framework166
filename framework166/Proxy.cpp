@@ -56,6 +56,7 @@ Proxy::Proxy(void):
 			add(joywid + "R");
 			add(joywid + "T");
 			add(joywid + "BT");
+			add(joywid + "BTN");
 			//Add Buttons, and newpress
 			for (int buttonid=1;buttonid<NUMBER_OF_JOY_BUTTONS+1;buttonid++) {
 				char tmp[32];
@@ -158,6 +159,11 @@ void Proxy::setNewpress()
 				newpress_values[joy_id-1][btn_id-1] = 2;
 			}
 		}
+		char tmp[32];
+		sprintf(tmp, "Joy%dBTN", joy_id);
+		string bn = tmp;
+		sprintf(tmp, "Joy%dB1N", joy_id);
+		set(bn,get((string)tmp));
 	}
 }
 
