@@ -99,16 +99,16 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	while(MyTaskInitialized) {
 		setNewpress();
 		if(lHandle->IsOperatorControl() && true) {
-			if(manualJoystick[1]) {
+			if(manualJoystick[0]) {
 				SetJoystick(1, stick1);
 			}
-			if(manualJoystick[2]) {
+			if(manualJoystick[1]) {
 				SetJoystick(2, stick2);
 			}
-			if(manualJoystick[3]) {
+			if(manualJoystick[2]) {
 				SetJoystick(3, stick3);
 			}
-			if(manualJoystick[4]) {
+			if(manualJoystick[3]) {
 				SetJoystick(4, stick4);
 			}
 		}
