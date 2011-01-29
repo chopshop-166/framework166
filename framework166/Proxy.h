@@ -52,6 +52,8 @@ class Proxy : public Team166Task{
 		
 		bool AreSettingJoysticks();
 		void ToggleSettingJoysticks(bool);
+		void OverrideJoystick(int,bool);
+		bool IsSettingJoystick(int);
 		
 		static Proxy *getInstance(void);
 		
@@ -80,7 +82,7 @@ class Proxy : public Team166Task{
 		Joystick stick2;
 		Joystick stick3;
 		Joystick stick4;
-				
-		bool areSettingJoysticks;
+		
 		bool wasEnabled;
+		bool manualJoystick[4];
 };

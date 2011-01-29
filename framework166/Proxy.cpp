@@ -29,12 +29,12 @@ Proxy *Proxy::ProxyHandle = 0;
  * @brief Starts the Proxy166 task.
  */
 Proxy::Proxy(void):
-	stick1(1), stick2(2), stick3(3), stick4(4),
-	areSettingJoysticks(true)
+	stick1(1), stick2(2), stick3(3), stick4(4)
 {
 	//
 	// Add the built in storage areas
 	//
+	manualJoystick[0]=manualJoystick[1]=manualJoystick[2]=manualJoystick[3]=false;
 	static bool runonce = 0;
 	if (runonce == 0) {
 		ProxyHandle = this;
@@ -94,21 +94,22 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	WaitForGoAhead();
 	
 	lHandle = Robot::getInstance();
-	
-	Timer debugTimer;
-	debugTimer.Start();
 	Timer matchTimer;
 	
 	while(MyTaskInitialized) {
 		setNewpress();
-		if(lHandle->IsOperatorControl() && true == AreSettingJoysticks()) {
-			SetJoystick(1, stick1);
-			SetJoystick(2, stick2);
-			SetJoystick(3, stick3);
-			SetJoystick(4, stick4);
-			
-			if(debugTimer.HasPeriodPassed(1.0)) {
-				// Debug info
+		if(lHandle->IsOperatorControl() && true) {
+			if(manualJoystick[1]) {
+				SetJoystick(1, stick1);
+			}
+			if(manualJoystick[2]) {
+				SetJoystick(2, stick2);
+			}
+			if(manualJoystick[3]) {
+				SetJoystick(3, stick3);
+			}
+			if(manualJoystick[4]) {
+				SetJoystick(4, stick4);
 			}
 		}
 		if(wasEnabled != lHandle->IsEnabled()) {
@@ -320,9 +321,14 @@ Proxy* Proxy::getInstance(void)
 	return ProxyHandle;
 }
 
+void Proxy::OverrideJoystick(int stick, bool manual) {
+	wpi_assert(stick >= 1 && stick <= 4);
+	manualJoystick[stick-1] = manual;
+}
+
 bool Proxy::AreSettingJoysticks() {
-	return areSettingJoysticks;
+	return (manualJoystick[0]|manualJoystick[1]|manualJoystick[2]|manualJoystick[3]);
 }
 void Proxy::ToggleSettingJoysticks(bool in) {
-	in = areSettingJoysticks;
+	manualJoystick[0]=manualJoystick[1]=manualJoystick[2]=manualJoystick[3]=in;
 }

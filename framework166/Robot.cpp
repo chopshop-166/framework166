@@ -17,6 +17,7 @@
 #include "WPILib.h"
 #include "Autonomous.h"
 #include "Robot.h"
+#include "SimpleTask.h"
 #include "Includes.h"
 #include <stdarg.h>
 
@@ -73,6 +74,7 @@ Robot::Robot(void)
 void Robot::Autonomous(void)
 {
 	GetWatchdog().SetEnabled(false);
+	Proxy::getInstance()->ToggleSettingJoysticks(false);
 	AutonomousTask();
 }
 
@@ -98,6 +100,7 @@ void Robot::OperatorControl(void)
 {
 	Timer debugTimer;
 	debugTimer.Start();
+	Proxy::getInstance()->ToggleSettingJoysticks(true);
 	
 	printf("Operator control\n");
 	GetWatchdog().SetEnabled(true);
