@@ -330,7 +330,7 @@ Proxy* Proxy::getInstance(void)
 	return ProxyHandle;
 }
 
-void Proxy::OverrideJoystick(int stick, bool manual) {
+void Proxy::UseUserJoystick(int stick, bool manual) {
 	wpi_assert(stick >= 1 && stick <= 4);
 	manualJoystick[stick-1] = manual;
 }
