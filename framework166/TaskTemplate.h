@@ -39,6 +39,10 @@ public:
 			int a6, int a7, int a8, int a9, int a10);
 	
 private:
+	//Declare Proxy and Robot handles
+	Proxy *proxy;				// Handle to proxy
+	Robot *lHandle;            // Local handle
+	
 	// Any variables that the task has as members go here
 	// <<CHANGEME>>
 };

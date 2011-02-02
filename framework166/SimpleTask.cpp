@@ -29,6 +29,8 @@ SimpleTask::SimpleTask(string n,SimpleTask::MainPtr tM, unsigned speed)
 	Start((char*)taskName.c_str(), speed);
 	// ^^^ Rename those ^^^
 	// <<CHANGEME>>
+	// Register the proxy
+	proxy = Proxy::getInstance();
 	return;
 };
 	
@@ -45,8 +47,6 @@ int SimpleTask::Main(int a2, int a3, int a4, int a5,
 	if(taskMain == NULL) {
 		return(0);
 	}
-	Proxy *proxy;				// Handle to proxy
-	Robot *lHandle;            // Local handle
 	
 	// Let the world know we're in
 	DPRINTF(LOG_DEBUG,"SimpleTask started: %s\n", taskName.c_str());
@@ -56,9 +56,6 @@ int SimpleTask::Main(int a2, int a3, int a4, int a5,
 	
 	// Register our logger
 	lHandle = Robot::getInstance();
-	
-	// Register the proxy
-	proxy = Proxy::getInstance();
 		
     // Call the "main" function
 	while(!taskMain(proxy,lHandle)) {
