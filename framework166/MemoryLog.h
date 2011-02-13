@@ -13,17 +13,17 @@
 #include <cstdio>
 #include <ctime>
 #include <string>
+#include "FrameworkLogger.h"
 using std::string;
 
 //
 // This class defines an interface to logging to memory and then into a .csv file
 //
-class MemoryLog
+class MemoryLog : public FrameworkLogger
 {
 
 // Methods	
 public:
-	struct timespec starttime;					// Time the task started at
 	MemoryLog(unsigned int msize, unsigned int ltime, char *f, char *titles);
 	virtual ~MemoryLog(void);
 	char *GetNextBuffer(unsigned int bsize);	// Get next buffer to write
@@ -31,12 +31,6 @@ public:
 	virtual unsigned int DumpBuffer(			// Dump the next buffer into the file
 			char *nptr,							// Buffer that needs to be formatted
 			FILE *outputFile) = 0;				// and then stored in this file
-	
-// Members
-public:
-	int Registered;								// This handler has been registered with Robot166
-	MemoryLog *mlNext;						// Link to the next block
-
 private:
 	unsigned int MemorySize;					// Size of the memory we have allocated
 	char *MemoryBase;							// Base pointer to memory just allocated
