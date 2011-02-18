@@ -34,7 +34,6 @@
 class Robot : public SimpleRobot
 {
 private:
-    DriverStation *dsHandle;					// Driver Station handle
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
     MemoryLog *mlHead;							// Memory log head
     int maxLogId;								// Max log file id
@@ -48,4 +47,5 @@ public:
 	void RegisterLogger(MemoryLog *ml);			// Register memory logger
 	void DumpLoggers(int dnum);					// Dump all logs
 	int DriverStationDisplay (const char*, ...);			// Display text on DS
+	DriverStation *dsHandle;					// Driver Station handle
 };

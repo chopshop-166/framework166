@@ -39,11 +39,11 @@ Proxy::Proxy(void):
 	if (runonce == 0) {
 		ProxyHandle = this;
 		for (int switchid=1; switchid < NUMBER_OF_SWITCHES+1; switchid++) {
-			char tmp[32];
-			sprintf(tmp, "Switch%d", switchid);
-			string switchwid = tmp;
 			//Add switches to storage
-			add(switchwid);
+			add("Switch" + switchid);
+		}
+		for (int analoginid=1; analoginid < NUMBER_OF_ANALOG_IN; analoginid++) {
+			add("AnalogIn" + analoginid);
 		}
 		// Lets do this the easy way:
 		for (int joyid=1; joyid <NUMBER_OF_JOYSTICKS+1; joyid++) {
@@ -89,7 +89,7 @@ Proxy::~Proxy(void)
  */
 int Proxy::Main(	int a2, int a3, int a4, int a5,
 					int a6, int a7, int a8, int a9, int a10) {
-
+	
 	Robot *lHandle = NULL;
 	WaitForGoAhead();
 	
@@ -133,6 +133,23 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 		WaitForNextLoop();
 	}
 	return 0;
+}
+
+void Proxy::SetEnhancedIO()
+{
+	Robot *lHandle = Robot::getInstance();
+	for(int i=1; i<NUMBER_OF_SWITCHES+1; i++) {
+		char tmp[32];
+		sprintf(tmp, "Switch%d", i);
+		add(tmp);
+		set(tmp, lHandle->dsHandle->GetDigitalIn(i));
+	}
+	for(int i=1; i<NUMBER_OF_ANALOG_IN+1; i++) {
+		char tmp[32];
+		sprintf(tmp, "AnalogIn%d", i);
+		add(tmp);
+		set(tmp, lHandle->dsHandle->GetAnalogIn(i));
+	}
 }
 
 void Proxy::setNewpress()
