@@ -27,8 +27,12 @@ def parse_robolog(filename):
         for keyname in names:
             ln[keyname] = float(ln[keyname])
         #Remove extraneous values that we're not using
-        del ln['Seconds']
-        del ln['Nanoseconds']
+		try:
+		    del ln['Seconds']
+		except: pass
+		try:
+            del ln['Nanoseconds']
+		except: pass
     return linelist
 
 def lod2dol(lod):

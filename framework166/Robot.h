@@ -16,6 +16,7 @@
 #include "Team166Task.h"
 #include "Autonomous.h"
 #include "MemoryLog.h"
+#include "SimpleLog.h"
 #include "Proxy.h"
 #include "Defines.h"
 
@@ -35,7 +36,7 @@ class Robot : public SimpleRobot
 {
 private:
     DriverStationLCD *dsHandleLCD;				// Driver Station display handle
-    MemoryLog *mlHead;							// Memory log head
+    FrameworkLogger *mlHead;					// Memory log head
     int maxLogId;								// Max log file id
     static Robot* RobotHandle;					// Singleton instance reference
 public:
@@ -44,7 +45,7 @@ public:
 	void OperatorControl(void);					// Method called by WPI when we're in operator control mode
 	void Disabled(void);						// Method called by WPI when we're disabled
 	static Robot *getInstance(void);			// Get pointer to our Robot166 instance
-	void RegisterLogger(MemoryLog *ml);			// Register memory logger
+	void RegisterLogger(FrameworkLogger *ml);			// Register memory logger
 	void DumpLoggers(int dnum);					// Dump all logs
 	int DriverStationDisplay (const char*, ...);			// Display text on DS
 	DriverStation *dsHandle;					// Driver Station handle

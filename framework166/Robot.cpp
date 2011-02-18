@@ -85,12 +85,6 @@ void Robot::Disabled(void)
 {
 	DriverStationDisplay(FRAMEWORK_VERSION);
 	printf("%s\n", FRAMEWORK_VERSION);
-	
-	DriverStationDisplay("Dumping Memory Log...");
-	printf("Dumping log files...\n");
-	DumpLoggers(maxLogId);
-	printf("Logfiles dumped!\n");
-	maxLogId++;
 }
 
 /** 
@@ -114,6 +108,14 @@ void Robot::OperatorControl(void)
 		if (Team166Task::FeedWatchDog()) {
 		    GetWatchdog().Feed();
 		}
+		if(IsDisabled()) {
+			DriverStationDisplay("Dumping Memory Log...");
+			printf("Dumping log files...\n");
+			DumpLoggers(maxLogId);
+			printf("Logfiles dumped!\n");
+			maxLogId++;
+			break;
+		}
 		
 		Wait (ROBOT_WAIT_TIME);
 	}
@@ -131,14 +133,14 @@ Robot *Robot::getInstance(void)
 /**
  * Register a log object
  */
-void Robot::RegisterLogger(MemoryLog *ml)
+void Robot::RegisterLogger(FrameworkLogger *ml)
 {
 	
 	// Has this handler been registered already?
 	if (!ml->Registered) {
 		
 		// No. Insert it at the head
-		ml->mlNext = mlHead;
+		ml->nextLog = mlHead;
 		mlHead = ml;
 		ml->Registered = 1;
 		clock_gettime(CLOCK_REALTIME, &(ml->starttime));
@@ -150,7 +152,7 @@ void Robot::RegisterLogger(MemoryLog *ml)
  */
 void Robot::DumpLoggers(int dnum)
 {
-	MemoryLog *ml;
+	FrameworkLogger *ml;
 	
 	// Iterate through the list of loggers
 	ml = mlHead;
@@ -160,7 +162,7 @@ void Robot::DumpLoggers(int dnum)
 		ml->DumpToFile();
 		
 		// Advance to the next log
-		ml = ml->mlNext;
+		ml = ml->nextLog;
 	}
 }
 

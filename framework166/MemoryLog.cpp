@@ -1,6 +1,6 @@
 /*******************************************************************************
 *  Project   		: Framework
-*  File Name  		: MemoryLog166.cpp    
+*  File Name  		: MemoryLog.cpp    
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
 *  File Description	: General memory logger on chopshop robot
@@ -52,7 +52,8 @@ MemoryLog::MemoryLog(unsigned int msize, unsigned int ltime, char *filename_, ch
 	
 	// Not yet registered
 	Registered = 0;
-	mlNext = 0;
+	nextLog = 0;
+	clock_gettime(CLOCK_REALTIME, &starttime);
 	
 	// Done
 	return;
@@ -122,6 +123,7 @@ int MemoryLog::DumpToFile(void)
 			BuffersRequested, BuffersObtained);
 	BuffersRequested = 0;
 	BuffersObtained = 0;
+	clock_gettime(CLOCK_REALTIME, &starttime);
 	
 	// Back to caller
 	return (0);

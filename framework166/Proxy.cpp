@@ -1,6 +1,6 @@
 /*******************************************************************************
 *  Project   		: Framework
-*  File Name  		: Proxy166.cpp     
+*  File Name  		: Proxy.cpp     
 *  Owner		   	: Software Group (FIRST Chopshop Team 166)
 *  Creation Date	: January 18, 2010
 *  File Description	: Code for Proxy class to hold shared variables
@@ -112,21 +112,18 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 				SetJoystick(4, stick4);
 			}
 		}
-		if(wasEnabled != lHandle->IsEnabled()) {
+		if(!lHandle->IsEnabled()) {
 			matchTimer.Reset();
-			if(wasEnabled=lHandle->IsEnabled()) {
-				// It became enabled
-				matchTimer.Start();
-			} else {
-				// It became disabled
-				matchTimer.Stop();
-			}
+			// It became disabled
+			matchTimer.Stop();
 			set("matchtimer",0);
-		} else if(wasEnabled) {
+		} else {
+			// It became enabled
+			matchTimer.Start();
 			if(lHandle->IsAutonomous()) {
-				set("matchtimer",min( 15 - matchTimer.Get(),0));
+				set("matchtimer",max( 15 - matchTimer.Get(),0));
 			} else {
-				set("matchtimer",min(120 - matchTimer.Get(),0));
+				set("matchtimer",max(120 - matchTimer.Get(),0));
 			}
 		}
 		// The task ends if it's not initialized
@@ -207,7 +204,14 @@ float Proxy::get(string name, bool reset)
 	for(unsigned i=0;i<name.size();i++) {
 		name[i] = toupper(name[i]);
 	}
-	wpi_assert(data.find(name) != data.end());
+	if(data.find(name) == data.end()) {
+		Robot::getInstance()->DriverStationDisplay("Proxy ERR: %s", name.c_str());
+		printf("Proxy::get cannot find variable: `%s`\n", name.c_str());
+		TASK_DESC errtask;
+		taskInfoGet(taskIdSelf(),&errtask);
+		printf("\tFrom task: %s\n",errtask.td_name);
+		return 0;
+	}
 	semTake(data[name].second, WAIT_FOREVER);
 	float ret = data[name].first;
 	data[name].first = (reset)? 0 : data[name].first;
@@ -221,7 +225,14 @@ float Proxy::set(string name, float val)
 	for(unsigned i=0;i<name.size();i++) {
 		name[i] = toupper(name[i]);
 	}
-	wpi_assert(data.find(name) != data.end());
+	if(data.find(name) == data.end()) {
+		Robot::getInstance()->DriverStationDisplay("Proxy ERR: %s", name.c_str());
+		printf("Proxy::set cannot find variable: `%s`\n", name.c_str());
+		TASK_DESC errtask;
+		taskInfoGet(taskIdSelf(),&errtask);
+		printf("\tFrom task: %s\n",errtask.td_name);
+		return 0;
+	}
 	semTake(data[name].second, WAIT_FOREVER);
 	data[name].first = val;
 	semGive(data[name].second);
