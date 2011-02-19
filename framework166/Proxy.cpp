@@ -57,6 +57,11 @@ Proxy::Proxy(void):
 			add(joywid + "T");
 			add(joywid + "BT");
 			add(joywid + "BTN");
+			for(int AxisId=1; AxisId<6; AxisId++) {
+				char tmp[32];
+				sprintf(tmp, "%sA%d", joywid.c_str(), AxisId);
+				add(tmp);
+			}
 			//Add Buttons, and newpress
 			for (int buttonid=1;buttonid<NUMBER_OF_JOY_BUTTONS+1;buttonid++) {
 				char tmp[32];
@@ -98,7 +103,8 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	
 	while(MyTaskInitialized) {
 		setNewpress();
-		if(lHandle->IsOperatorControl() && true) {
+		SetEnhancedIO();
+		if(lHandle->IsOperatorControl()) {
 			if(manualJoystick[0]) {
 				SetJoystick(1, stick1);
 			}
@@ -272,24 +278,27 @@ bool Proxy::exists(string name)
 void Proxy::SetJoystick(int joy_id, Joystick & stick)
 {
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS+1 && joy_id >= 0);
-	string name;
 	char tmp[32];
 	sprintf(tmp, "Joy%d", joy_id);
-	name = tmp;
-	set(name + 'X', stick.GetX());
-	set(name + 'Y', stick.GetY());
-	set(name + 'Z', stick.GetZ());
-	set(name + 'R', stick.GetTwist());
-	set(name + 'T', stick.GetThrottle());
-	string bname;
+	set(tmp + 'X', stick.GetX());
+	set(tmp + 'Y', stick.GetY());
+	set(tmp + 'Z', stick.GetZ());
+	set(tmp + 'R', stick.GetTwist());
+	set(tmp + 'T', stick.GetThrottle());
+	for(int AxisId=1; AxisId<6; AxisId++) {
+		char tmp[32];
+		sprintf(tmp, "%sA%d", tmp, AxisId);
+		set(tmp, stick.GetRawAxis(AxisId));
+	}
 	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
 		char tmp1[32];
-		sprintf(tmp1, "%sB%d", name.c_str(), i);
-		bname = tmp1;
-		set(bname,stick.GetRawButton(i));
+		sprintf(tmp1, "%sB%d", tmp, i);
+		set(tmp1,stick.GetRawButton(i));
 		
 	}
-	set(name+"BT", stick.GetTrigger());
+	char ButTrig[32];
+	sprintf(ButTrig, "%sBT", tmp);
+	set(ButTrig, stick.GetTrigger());
 }
 
 /**
