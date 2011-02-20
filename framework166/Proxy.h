@@ -17,8 +17,8 @@
 #include <map>
 
 #define NUMBER_OF_JOYSTICKS (4)
-#define NUMBER_OF_SWITCHES (16)
-#define NUMBER_OF_ANALOG_IN (8)
+#define NUMBER_OF_SWITCHES (8)
+#define NUMBER_OF_ANALOG_IN (4)
 #define NUMBER_OF_JOY_BUTTONS (12)
 
 //

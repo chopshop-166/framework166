@@ -57,7 +57,7 @@ Proxy::Proxy(void):
 			add(joywid + "T");
 			add(joywid + "BT");
 			add(joywid + "BTN");
-			for(int AxisId=1; AxisId<6; AxisId++) {
+			for(int AxisId=1; AxisId<7; AxisId++) {
 				char tmp[32];
 				sprintf(tmp, "%sA%d", joywid.c_str(), AxisId);
 				add(tmp);
@@ -70,6 +70,16 @@ Proxy::Proxy(void):
 				add(butwid);
 				add(butwid + "N");
 			}
+		}
+		for(int i=1; i<NUMBER_OF_SWITCHES+1; i++) {
+			char tmp[32];
+			sprintf(tmp, "Switch%d", i);
+			add(tmp);
+		}
+		for(int i=1; i<NUMBER_OF_ANALOG_IN+1; i++) {
+			char tmp[32];
+			sprintf(tmp, "AnalogIn%d", i);
+			add(tmp);
 		}
 		//Make sure they're only added once
 		runonce = 1;
@@ -103,8 +113,8 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	
 	while(MyTaskInitialized) {
 		setNewpress();
-		SetEnhancedIO();
 		if(lHandle->IsOperatorControl()) {
+			SetEnhancedIO();
 			if(manualJoystick[0]) {
 				SetJoystick(1, stick1);
 			}
@@ -141,16 +151,14 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 void Proxy::SetEnhancedIO()
 {
 	Robot *lHandle = Robot::getInstance();
-	for(int i=1; i<NUMBER_OF_SWITCHES+1; i++) {
+	for(int i=1; i<=NUMBER_OF_SWITCHES; i++) {
 		char tmp[32];
 		sprintf(tmp, "Switch%d", i);
-		add(tmp);
 		set(tmp, lHandle->dsHandle->GetDigitalIn(i));
 	}
-	for(int i=1; i<NUMBER_OF_ANALOG_IN+1; i++) {
+	for(int i=1; i<+NUMBER_OF_ANALOG_IN; i++) {
 		char tmp[32];
 		sprintf(tmp, "AnalogIn%d", i);
-		add(tmp);
 		set(tmp, lHandle->dsHandle->GetAnalogIn(i));
 	}
 }
@@ -280,25 +288,24 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	wpi_assert(joy_id < NUMBER_OF_JOYSTICKS+1 && joy_id >= 0);
 	char tmp[32];
 	sprintf(tmp, "Joy%d", joy_id);
-	set(tmp + 'X', stick.GetX());
-	set(tmp + 'Y', stick.GetY());
-	set(tmp + 'Z', stick.GetZ());
-	set(tmp + 'R', stick.GetTwist());
-	set(tmp + 'T', stick.GetThrottle());
-	for(int AxisId=1; AxisId<6; AxisId++) {
+	string name = tmp;
+	set(name + 'X', stick.GetX());
+	set(name + 'Y', stick.GetY());
+	set(name + 'Z', stick.GetZ());
+	set(name + 'R', stick.GetTwist());
+	set(name + 'T', stick.GetThrottle());
+	for(int AxisId=1; AxisId<7; AxisId++) {
 		char tmp[32];
-		sprintf(tmp, "%sA%d", tmp, AxisId);
+		sprintf(tmp, "%sA%d", name.c_str(), AxisId);
 		set(tmp, stick.GetRawAxis(AxisId));
 	}
 	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
 		char tmp1[32];
-		sprintf(tmp1, "%sB%d", tmp, i);
+		sprintf(tmp1, "%sB%d", name.c_str(), i);
 		set(tmp1,stick.GetRawButton(i));
 		
 	}
-	char ButTrig[32];
-	sprintf(ButTrig, "%sBT", tmp);
-	set(ButTrig, stick.GetTrigger());
+	set(name + "BT", stick.GetTrigger());
 }
 
 /**
