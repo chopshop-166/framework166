@@ -57,6 +57,9 @@ class Proxy : public Team166Task{
 		void UseUserJoystick(int,bool);
 		bool IsSettingJoystick(int);
 		
+		void DisableJoystickButtonsByButton(int,int);
+		void DisableJoystickAxesByButton(int,int);
+		
 		static Proxy *getInstance(void);
 		
 		virtual int Main(int a2, int a3, int a4, int a5,
@@ -90,4 +93,6 @@ class Proxy : public Team166Task{
 		
 		bool wasEnabled;
 		bool manualJoystick[4];
+		int disableButtons[NUMBER_OF_JOYSTICKS];
+		int disableAxes[NUMBER_OF_JOYSTICKS];
 };

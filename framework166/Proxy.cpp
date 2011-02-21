@@ -289,23 +289,45 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	char tmp[32];
 	sprintf(tmp, "Joy%d", joy_id);
 	string name = tmp;
-	set(name + 'X', stick.GetX());
-	set(name + 'Y', stick.GetY());
-	set(name + 'Z', stick.GetZ());
-	set(name + 'R', stick.GetTwist());
-	set(name + 'T', stick.GetThrottle());
-	for(int AxisId=1; AxisId<7; AxisId++) {
-		char tmp[32];
-		sprintf(tmp, "%sA%d", name.c_str(), AxisId);
-		set(tmp, stick.GetRawAxis(AxisId));
+	if(!disableAxes[joy_id-1]) {
+		set(name + 'X', stick.GetX());
+		set(name + 'Y', stick.GetY());
+		set(name + 'Z', stick.GetZ());
+		set(name + 'R', stick.GetTwist());
+		set(name + 'T', stick.GetThrottle());
+		for(int AxisId=1; AxisId<=6; AxisId++) {
+			sprintf(tmp, "%sA%d", name.c_str(), AxisId);
+			set(tmp, stick.GetRawAxis(AxisId));
+		}
+	} else {
+		if(!stick.GetRawButton(disableAxes[joy_id-1])) {
+			set(name + 'X', stick.GetX());
+			set(name + 'Y', stick.GetY());
+			set(name + 'Z', stick.GetZ());
+			set(name + 'R', stick.GetTwist());
+			set(name + 'T', stick.GetThrottle());
+			for(int AxisId=1; AxisId<=6; AxisId++) {
+				sprintf(tmp, "%sA%d", name.c_str(), AxisId);
+				set(tmp, stick.GetRawAxis(AxisId));
+			}
+		}
 	}
-	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
-		char tmp1[32];
-		sprintf(tmp1, "%sB%d", name.c_str(), i);
-		set(tmp1,stick.GetRawButton(i));
-		
+	
+	if(!disableButtons[joy_id-1]) {
+		for(unsigned i=1;i<=NUMBER_OF_JOY_BUTTONS;i++) {
+			sprintf(tmp, "%sB%d", name.c_str(), i);
+			set(tmp,stick.GetRawButton(i));
+		}
+		set(name + "BT", stick.GetTrigger());
+	} else {
+		if(!stick.GetRawButton(disableButtons[joy_id-1])) {
+			for(unsigned i=1;i<=NUMBER_OF_JOY_BUTTONS;i++) {
+				sprintf(tmp, "%sB%d", name.c_str(), i);
+				set(tmp,stick.GetRawButton(i));
+			}
+			set(name + "BT", stick.GetTrigger());
+		}
 	}
-	set(name + "BT", stick.GetTrigger());
 }
 
 /**
@@ -384,4 +406,16 @@ bool Proxy::AreSettingJoysticks() {
 }
 void Proxy::ToggleSettingJoysticks(bool in) {
 	manualJoystick[0]=manualJoystick[1]=manualJoystick[2]=manualJoystick[3]=in;
+}
+
+void Proxy::DisableJoystickButtonsByButton(int stick, int button_id) {
+	wpi_assert(stick >= 1 && stick <= 4);
+	wpi_assert(button_id >= 0 && button_id <= 12);
+	disableButtons[stick-1] = button_id;
+}
+
+void Proxy::DisableJoystickAxesByButton(int stick, int button_id) {
+	wpi_assert(stick >= 1 && stick <= 4);
+	wpi_assert(button_id >= 0 && button_id <= 12);
+	disableAxes[stick-1] = button_id;
 }
