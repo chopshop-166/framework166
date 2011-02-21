@@ -289,28 +289,23 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	char tmp[32];
 	sprintf(tmp, "Joy%d", joy_id);
 	string name = tmp;
-	if (manualAxesJoystick[joy_id-1]) {
-			set(name + 'X', stick.GetX());
-		set(name + 'Y', stick.GetY());
-		set(name + 'Z', stick.GetZ());
-		set(name + 'R', stick.GetTwist());
-		set(name + 'T', stick.GetThrottle());
-		for(int AxisId=1; AxisId<7; AxisId++) {
-			char tmp[32];
-			sprintf(tmp, "%sA%d", name.c_str(), AxisId);
-			set(tmp, stick.GetRawAxis(AxisId));
-		}
+	set(name + 'X', stick.GetX());
+	set(name + 'Y', stick.GetY());
+	set(name + 'Z', stick.GetZ());
+	set(name + 'R', stick.GetTwist());
+	set(name + 'T', stick.GetThrottle());
+	for(int AxisId=1; AxisId<7; AxisId++) {
+		char tmp[32];
+		sprintf(tmp, "%sA%d", name.c_str(), AxisId);
+		set(tmp, stick.GetRawAxis(AxisId));
 	}
-	if (manualButtonsJoystick[joy_id-1]) {
-		for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
-			char tmp1[32];
-			sprintf(tmp1, "%sB%d", name.c_str(), i);
-			set(tmp1,stick.GetRawButton(i));
-			
-		}
-		set(name + "BT", stick.GetTrigger());
+	for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
+		char tmp1[32];
+		sprintf(tmp1, "%sB%d", name.c_str(), i);
+		set(tmp1,stick.GetRawButton(i));
+		
 	}
-
+	set(name + "BT", stick.GetTrigger());
 }
 
 /**
@@ -382,14 +377,6 @@ Proxy* Proxy::getInstance(void)
 void Proxy::UseUserJoystick(int stick, bool manual) {
 	wpi_assert(stick >= 1 && stick <= 4);
 	manualJoystick[stick-1] = manual;
-}
-void Proxy::UseUserButtonsJoystick(int stick, bool manual) {
-	wpi_assert(stick>= 1 && stick <= 4);
-	manualButtonsJoystick[stick-1] = manual;
-}
-void Proxy::UseUserAxesJoystick(int stick, bool manual) {
-	wpi_assert(stick>=1 && stick <= 4);
-	manualAxesJoystick[stick-1] = manual;
 }
 
 bool Proxy::AreSettingJoysticks() {
