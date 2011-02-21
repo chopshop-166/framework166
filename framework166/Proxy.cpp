@@ -289,8 +289,8 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 	char tmp[32];
 	sprintf(tmp, "Joy%d", joy_id);
 	string name = tmp;
-	if (manualAxesJoystick[joy_id-1]==0) {
-		set(name + 'X', stick.GetX());
+	if (manualAxesJoystick[joy_id-1]) {
+			set(name + 'X', stick.GetX());
 		set(name + 'Y', stick.GetY());
 		set(name + 'Z', stick.GetZ());
 		set(name + 'R', stick.GetTwist());
@@ -301,7 +301,7 @@ void Proxy::SetJoystick(int joy_id, Joystick & stick)
 			set(tmp, stick.GetRawAxis(AxisId));
 		}
 	}
-	if (manualButtonsJoystick[joy_id-1]==0) {
+	if (manualButtonsJoystick[joy_id-1]) {
 		for(unsigned i=1;i<NUMBER_OF_JOY_BUTTONS+1;i++) {
 			char tmp1[32];
 			sprintf(tmp1, "%sB%d", name.c_str(), i);
