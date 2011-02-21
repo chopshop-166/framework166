@@ -59,6 +59,8 @@ class Proxy : public Team166Task{
 		
 		void DisableJoystickButtonsByButton(int,int);
 		void DisableJoystickAxesByButton(int,int);
+		bool JoystickAxesDisabled(int);
+		bool JoystickButtonsDisabled(int);
 		
 		static Proxy *getInstance(void);
 		

@@ -419,3 +419,15 @@ void Proxy::DisableJoystickAxesByButton(int stick, int button_id) {
 	wpi_assert(button_id >= 0 && button_id <= 12);
 	disableAxes[stick-1] = button_id;
 }
+
+bool Proxy::JoystickAxesDisabled(int stick) {
+	wpi_assert(stick >= 1 && stick <= 4);
+	if(disableAxes[stick-1]==0) return false;
+	return Joystick(stick-1).GetRawButton(disableAxes[stick-1]);
+}
+
+bool Proxy::JoystickButtonsDisabled(int stick) {
+	wpi_assert(stick >= 1 && stick <= 4);
+	if(disableAxes[stick-1]==0) return false;
+	return Joystick(stick-1).GetRawButton(disableButtons[stick-1]);
+}
