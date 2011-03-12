@@ -170,13 +170,9 @@ void Proxy::setNewpress()
 			char tmp[32];
 			sprintf(tmp, "Joy%dB%d", joy_id, btn_id);
 			string name = tmp;
-			bool buttonval = (bool)get(name);
-			if(buttonval) {
-				newpress_values[joy_id-1][btn_id-1]++;
-			} else {
-				newpress_values[joy_id-1][btn_id-1] = 0;
-			}
-			if(newpress_values[joy_id-1][btn_id-1]==1) {
+			bool currval = (bool)get(name);
+			bool oldval = newpress_values[joy_id-1][btn_id-1];
+			if(currval != oldval && currval == true) {
 				set(name + "N", 1.0);
 				if(tracker.find(name) != tracker.end()) {
 					tracker[name]++;
@@ -184,9 +180,7 @@ void Proxy::setNewpress()
 			} else {
 				set(name + "N", 0.0);
 			}
-			if(newpress_values[joy_id-1][btn_id-1]>1) {
-				newpress_values[joy_id-1][btn_id-1] = 2;
-			}
+			newpress_values[joy_id-1][btn_id-1] = currval;
 		}
 		char tmp[32];
 		sprintf(tmp, "Joy%dBTN", joy_id);
