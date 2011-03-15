@@ -24,7 +24,7 @@
 //
 //This is how often the Driver Station sends back data.
 //
-#define PROXY_CYCLE_TIME (20) // 20ms
+#define PROXY_CYCLE_TIME (50) // 50ms
 
 /**
  * @brief Proxy class to store cached values for joysticks and switches.
