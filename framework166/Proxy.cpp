@@ -20,8 +20,8 @@
 #define DPRINTF if(false)dprintf
 
 map<string,pair<float, SEM_ID> > Proxy::data = map<string,pair<float, SEM_ID> >();
+map<string,bool> Proxy::newpress_list = map<string,bool>();
 map<string,int> Proxy::tracker = map<string,int>();
-short Proxy::newpress_values[NUMBER_OF_JOYSTICKS][NUMBER_OF_JOY_BUTTONS];
 
 Proxy *Proxy::ProxyHandle = 0;
 
@@ -165,28 +165,23 @@ void Proxy::SetEnhancedIO()
 
 void Proxy::setNewpress()
 {
-	for(unsigned joy_id=1;joy_id < NUMBER_OF_JOYSTICKS+1; joy_id++) {
-		for(unsigned btn_id=1;btn_id < NUMBER_OF_JOY_BUTTONS+1; btn_id++) {
-			char tmp[32];
-			sprintf(tmp, "Joy%dB%d", joy_id, btn_id);
-			string name = tmp;
-			bool currval = (bool)get(name);
-			bool oldval = newpress_values[joy_id-1][btn_id-1];
-			if(currval != oldval && currval == true) {
-				set(name + "N", 1.0);
-				if(tracker.find(name) != tracker.end()) {
-					tracker[name]++;
-				}
-			} else {
-				set(name + "N", 0.0);
+	// For each value we want to track newpress for
+	for(map<string,bool>::iterator it = newpress_list.begin();it != newpress_list.end();it++) {
+		string name = it->first;
+		bool currval = (bool)get(name);
+		bool oldval = it->second;
+		if(currval != oldval && currval == true) {
+			// It's a new press
+			set(name + "N", 1.0);
+			if(tracker.find(name) != tracker.end()) {
+				// We currently have newpress implicitly defined for the tracker. Fix?
+				tracker[name]++;
 			}
-			newpress_values[joy_id-1][btn_id-1] = currval;
+		} else {
+			// It's held, but not a new press
+			set(name + "N", 0.0);
 		}
-		char tmp[32];
-		sprintf(tmp, "Joy%dBTN", joy_id);
-		string bn = tmp;
-		sprintf(tmp, "Joy%dB1N", joy_id);
-		set(bn,get((string)tmp));
+		it->second = currval;
 	}
 }
 
@@ -343,6 +338,31 @@ int Proxy::GetPendingCount(string JoyButton) {
 }
 
 /**
+ * Start tracking newpress for a joystick button
+ */
+bool Proxy::TrackNewpress(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
+	if(newpress_list.find(JoyButton) == newpress_list.end()) {
+		tracker[JoyButton] = 0;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * Stop tracking newpress for a joystick button
+ */
+bool Proxy::NoTrackNewpress(string JoyButton) {
+	for(unsigned i=0;i<JoyButton.size();i++) {
+		JoyButton[i] = toupper(JoyButton[i]);
+	}
+	return newpress_list.erase(JoyButton);
+}
+
+/**
  * @brief Register a button to track the number of times it was pressed.
  * @param joystick_id Which joystick to track a button on
  * @param button_idd Which button on the joystick to track
@@ -353,6 +373,7 @@ bool Proxy::RegisterCounter(string JoyButton) {
 	}
 	if(tracker.find(JoyButton) == tracker.end()) {
 		tracker[JoyButton] = 0;
+		newpress_list[JoyButton] = false; // For now, tracker relies on newpress
 		return true;
 	} else {
 		return false;
@@ -361,8 +382,7 @@ bool Proxy::RegisterCounter(string JoyButton) {
 
 /**
  * @brief Unregister a button being tracked.
- * @param joystick_id Which joystick to track a button on
- * @param button_idd Which button on the joystick to track
+ * @param JoyButton Joystick and Button
  */
 bool Proxy::UnregisterCounter(string JoyButton) {
 	for(unsigned i=0;i<JoyButton.size();i++) {

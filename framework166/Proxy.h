@@ -50,6 +50,9 @@ class Proxy : public Team166Task{
 		int GetPendingCount(string);
 		bool IsRegistered(string);
 		
+		bool TrackNewpress(string);
+		bool NoTrackNewpress(string);
+		
 		~Proxy(void);
 		
 		bool AreSettingJoysticks();
@@ -79,15 +82,12 @@ class Proxy : public Team166Task{
 		void setNewpress(void);
 		
 		/**
-		 * A tuple of ints. For every tracked button, there is three
-		 * ints in this tuple: first, the joystick number, second, the button number,
-		 * and third, the number of times it has been pressed.
+		 * A list of all tracked variables and newpresses
 		*/
-		//vector<int> tracker;
 		static map<string,int> tracker;
-		static short newpress_values[NUMBER_OF_JOYSTICKS][NUMBER_OF_JOY_BUTTONS];
+		static map<string,bool> newpress_list;
 
-		// The physical joysticks
+		// Refernces to the physical joysticks
 		Joystick stick1;
 		Joystick stick2;
 		Joystick stick3;
