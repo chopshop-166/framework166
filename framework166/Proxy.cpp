@@ -355,7 +355,7 @@ bool Proxy::TrackNewpress(string JoyButton) {
 /**
  * Stop tracking newpress for a joystick button
  */
-bool Proxy::NoTrackNewpress(string JoyButton) {
+bool Proxy::StopTrackingNewpress(string JoyButton) {
 	for(unsigned i=0;i<JoyButton.size();i++) {
 		JoyButton[i] = toupper(JoyButton[i]);
 	}

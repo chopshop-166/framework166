@@ -51,7 +51,7 @@ class Proxy : public Team166Task{
 		bool IsRegistered(string);
 		
 		bool TrackNewpress(string);
-		bool NoTrackNewpress(string);
+		bool StopTrackingNewpress(string);
 		
 		~Proxy(void);
 		
