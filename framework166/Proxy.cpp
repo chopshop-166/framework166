@@ -345,7 +345,7 @@ bool Proxy::TrackNewpress(string JoyButton) {
 		JoyButton[i] = toupper(JoyButton[i]);
 	}
 	if(newpress_list.find(JoyButton) == newpress_list.end()) {
-		tracker[JoyButton] = 0;
+		newpress_list[JoyButton] = 0;
 		return true;
 	} else {
 		return false;
