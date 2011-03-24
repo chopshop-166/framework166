@@ -23,9 +23,10 @@ class SimpleLog : public FrameworkLogger
 {
 	FILE *file;
 public:
-	SimpleLog(string name);
+	SimpleLog(string name, string values);		// Format string
 	~SimpleLog();
-	bool PutOne(double data);					// Add some data to the log
+	bool PutOne(string frmtstr, ...);				// Add some data to the log
+	bool operator()(string frmtstr, ...);
 	int DumpToFile(void);						// Dump the log into a file
 	string name;
 };
