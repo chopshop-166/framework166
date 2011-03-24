@@ -34,7 +34,8 @@ Proxy::Proxy(void):
 	//
 	// Add the built in storage areas
 	//
-	manualJoystick[0]=manualJoystick[1]=manualJoystick[2]=manualJoystick[3]=false;
+	manualDSIO = false;
+	manualJoystick[0]=manualJoystick[1]=manualJoystick[2]=manualJoystick[3]=true;
 	static bool runonce = 0;
 	if (runonce == 0) {
 		ProxyHandle = this;
@@ -113,8 +114,10 @@ int Proxy::Main(	int a2, int a3, int a4, int a5,
 	
 	while(MyTaskInitialized) {
 		setNewpress();
-		if(lHandle->IsOperatorControl()) {
-			SetEnhancedIO();
+		if(lHandle->IsOperatorControl() && lHandle->IsEnabled()) {
+			if(manualDSIO) {
+				SetEnhancedIO();	
+			} 
 			if(manualJoystick[0]) {
 				SetJoystick(1, stick1);
 			}
@@ -444,4 +447,12 @@ bool Proxy::JoystickButtonsDisabled(int stick) {
 	wpi_assert(stick >= 1 && stick <= 4);
 	if(disableAxes[stick-1]==0) return false;
 	return Joystick(stick).GetRawButton(disableButtons[stick-1]);
+}
+
+void Proxy::DisableDSIO(bool value) {
+	manualDSIO=value;
+}
+
+bool Proxy::AreSettingDSIO() {
+	return manualDSIO;
 }
