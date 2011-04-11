@@ -270,6 +270,16 @@ bool Proxy::exists(string name)
 	return(data.find(name) != data.end());
 }
 
+bool Proxy::reset(void)
+{
+	for(map<string,pair<float, SEM_ID> >::iterator it = data.begin(); it != data.end(); it++) {
+		semTake(it->second.second, WAIT_FOREVER);
+		it->second.first = 0;
+		semGive(it->second.second);
+	}
+	return true;
+}
+
 /**
  * @brief Sets a cached joystick value.
  * @param joy_id Which joystick to set the cached value for.

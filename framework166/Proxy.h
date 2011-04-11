@@ -44,6 +44,7 @@ class Proxy : public Team166Task{
 		float set(string, float);
 		bool del(string);
 		bool exists(string);
+		bool reset(void);
 		
 		bool RegisterCounter(string);
 		bool UnregisterCounter(string);

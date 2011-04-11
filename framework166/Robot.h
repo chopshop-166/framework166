@@ -14,7 +14,6 @@
 #include "WPILib.h"
 #include "BaeUtilities.h"
 #include "Team166Task.h"
-#include "Autonomous.h"
 #include "MemoryLog.h"
 #include "SimpleLog.h"
 #include "Proxy.h"
