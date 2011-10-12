@@ -9,12 +9,6 @@
 /*  Copyright (c) MHS Chopshop Team 166, 2010.  All Rights Reserved.          */
 /*----------------------------------------------------------------------------*/
 
-/*------------------------------------------------------------------------------*/
-/* Find & Replace "Template" with the name you would like to give this task     */
-/* Find & Replace "Testing" with the name you would like to give this task      */
-/* Find & Replace "TaskTemplate" with the name you would like to give this task */
-/*------------------------------------------------------------------------------*/
-
 #include "WPILib.h"
 #include "SimpleTask.h"
 
@@ -27,8 +21,6 @@ SimpleTask::SimpleTask(string n,SimpleTask::MainPtr tM, unsigned speed)
 	taskMain = tM;
 	taskName = n;
 	Start((char*)taskName.c_str(), speed);
-	// ^^^ Rename those ^^^
-	// <<CHANGEME>>
 	// Register the proxy
 	proxy = Proxy::getInstance();
 	return;
@@ -57,10 +49,9 @@ int SimpleTask::Main(int a2, int a3, int a4, int a5,
 	// Register our logger
 	lHandle = Robot::getInstance();
 		
-    // Call the "main" function
+  // Call the "main" function
 	while(!taskMain(proxy,lHandle)) {
 		WaitForNextLoop();
 	}
 	return (0);
-	
 };
